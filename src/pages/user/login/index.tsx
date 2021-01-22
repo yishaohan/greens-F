@@ -9,19 +9,21 @@ import {
   GoogleOutlined,
   GithubOutlined,
 } from '@ant-design/icons';
-import {Alert, Space, message, Tabs} from 'antd';
-import React, {useState} from 'react';
-import ProForm, {ProFormCaptcha, ProFormCheckbox, ProFormText} from '@ant-design/pro-form';
-import {useIntl, Link, history, FormattedMessage, SelectLang, useModel} from 'umi';
+import { Alert, Space, message, Tabs } from 'antd';
+import React, { useState } from 'react';
+import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
+import { useIntl, Link, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import type {LoginParamsType} from './services/login';
-import {doLogin, getSmsCaptcha} from './services/login';
+import type { LoginParamsType } from './services/login';
+import { doLogin, getSmsCaptcha } from './services/login';
+import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
 import styles from './index.less';
 
 const LoginMessage: React.FC<{
   content: string;
-}> = ({content}) => (
+}> = ({ content }) => (
   <Alert
     style={{
       marginBottom: 24,
@@ -38,8 +40,8 @@ const LoginMessage: React.FC<{
 const goto = () => {
   if (!history) return;
   setTimeout(() => {
-    const {query} = history.location;
-    const {redirect} = query as { redirect: string };
+    const { query } = history.location;
+    const { redirect } = query as { redirect: string };
     history.push(redirect || '/welcome');
   }, 10);
 };
@@ -51,30 +53,39 @@ const Login: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [userLoginState, setUserLoginState] = useState<API.LoginStateType>({});
   const [type, setType] = useState<string>('account');
-  // const {initialState, setInitialState} = useModel('@@initialState');
+  const { initialState, setInitialState } = useModel('@@initialState');
 
   const intl = useIntl();
   const [form] = ProForm.useForm();
 
-  // const fetchUserInfo = async () => {
-  //   const userInfo = await initialState?.fetchUserInfo?.();
-  //   if (userInfo) {
-  //     setInitialState({
-  //       ...initialState,
-  //       currentUser: userInfo,
-  //     });
-  //   }
-  // };
+  const fetchUserInfo = async () => {
+    const userInfo = await initialState?.fetchUserInfo?.();
+    if (userInfo) {
+      setInitialState({
+        ...initialState,
+        currentUser: userInfo,
+      });
+    }
+  };
+
+  useEffect(() => {
+    const autoLogin = Cookies.get('autoLogin');
+    console.log('autoLogin', autoLogin);
+    if (autoLogin) {
+      goto();
+    }
+  }, []);
 
   // 提交登录表单
   const handleSubmit = async (values: LoginParamsType) => {
     setSubmitting(true);
     try {
       // 登录
-      const msg = await doLogin({...values, type});
+      const msg = await doLogin({ ...values, type });
       if (msg.status === 200) {
         message.success('登录成功！');
-        // await fetchUserInfo();
+        await fetchUserInfo();
+        Cookies.set('autoLogin', `${values.autoLogin}`, { expires: 7 });
         goto(); // 登录成功后跳转
         return;
       }
@@ -83,20 +94,20 @@ const Login: React.FC = () => {
       // 如果失败去设置用户错误信息
       setUserLoginState(msg);
     } catch (error) {
-      message.error('登录失败，请重试！');
+      message.error(`登录失败，请重试!${error}`);
     }
     setSubmitting(false);
   };
-  const {status, type: loginType} = userLoginState;
+  const { status, type: loginType } = userLoginState;
 
   return (
     <div className={styles.container}>
-      <div className={styles.lang}>{SelectLang && <SelectLang/>}</div>
+      <div className={styles.lang}>{SelectLang && <SelectLang />}</div>
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.header}>
             <Link to="/">
-              <img alt="logo" className={styles.logo} src={"/logo.png"}/>
+              <img alt="logo" className={styles.logo} src={'/logo.png'} />
               <span className={styles.title}>Project Y</span>
             </Link>
           </div>
@@ -126,7 +137,7 @@ const Login: React.FC = () => {
               },
             }}
             onFinish={async (values) => {
-              handleSubmit(values as LoginParamsType);
+              await handleSubmit(values as LoginParamsType);
             }}
           >
             <Tabs activeKey={type} onChange={setType}>
@@ -160,7 +171,7 @@ const Login: React.FC = () => {
                   name="username"
                   fieldProps={{
                     size: 'large',
-                    prefix: <UserOutlined className={styles.prefixIcon}/>,
+                    prefix: <UserOutlined className={styles.prefixIcon} />,
                   }}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.username.placeholder',
@@ -182,7 +193,7 @@ const Login: React.FC = () => {
                   name="password"
                   fieldProps={{
                     size: 'large',
-                    prefix: <LockTwoTone className={styles.prefixIcon}/>,
+                    prefix: <LockTwoTone className={styles.prefixIcon} />,
                   }}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.password.placeholder',
@@ -203,13 +214,13 @@ const Login: React.FC = () => {
               </>
             )}
 
-            {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误"/>}
+            {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误" />}
             {type === 'mobile' && (
               <>
                 <ProFormText
                   fieldProps={{
                     size: 'large',
-                    prefix: <MobileTwoTone className={styles.prefixIcon}/>,
+                    prefix: <MobileTwoTone className={styles.prefixIcon} />,
                   }}
                   name="mobilePhone"
                   placeholder={intl.formatMessage({
@@ -240,7 +251,7 @@ const Login: React.FC = () => {
                 <ProFormCaptcha
                   fieldProps={{
                     size: 'large',
-                    prefix: <MailTwoTone className={styles.prefixIcon}/>,
+                    prefix: <MailTwoTone className={styles.prefixIcon} />,
                   }}
                   captchaProps={{
                     size: 'large',
@@ -274,23 +285,18 @@ const Login: React.FC = () => {
                     },
                   ]}
                   onGetCaptcha={async (mobilePhone) => {
-                    console.log("1. *********************************");
-                    // console.log("mobilePhone", mobilePhone);
-                    const tempMobilePhone=form.getFieldValue('mobilePhone');
+                    console.log('mobilePhone', mobilePhone);
+                    const tempMobilePhone = form.getFieldValue('mobilePhone');
                     if (!tempMobilePhone) {
-                      message.error("请输入手机号码!", 10);
-                      console.log("2. *********************************");
+                      message.error('请输入手机号码!', 10);
                       return;
                     }
-                    console.log("3. *********************************");
                     const m = form.getFieldsError(['mobilePhone']);
                     if (m[0].errors.length > 0) {
-                      message.error("手机号码格式有错误!", 10);
-                      console.log("4. *********************************");
+                      message.error('手机号码格式有错误!', 10);
                       return;
                     }
-                    console.log("1. *********************************");
-                    const result = await getSmsCaptcha(mobilePhone);
+                    const result = await getSmsCaptcha(tempMobilePhone);
                     console.log(result);
                     if (result.status !== 201) {
                       message.error('获取验证码失败!!!!!!!');
@@ -308,28 +314,28 @@ const Login: React.FC = () => {
               }}
             >
               <ProFormCheckbox noStyle name="autoLogin">
-                <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录"/>
+                <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
               </ProFormCheckbox>
               <a
                 style={{
                   float: 'right',
                 }}
               >
-                <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码"/>
+                <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
               </a>
             </div>
           </ProForm>
           <Space className={styles.other}>
-            <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式"/>
+            <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式" />
             {/* <TaobaoCircleOutlined className={styles.icon}/> */}
             {/* <WeiboCircleOutlined className={styles.icon}/> */}
-            <GoogleOutlined className={styles.icon}/>
-            <GithubOutlined className={styles.icon}/>
-            <AlipayCircleOutlined className={styles.icon}/>
+            <GoogleOutlined className={styles.icon} />
+            <GithubOutlined className={styles.icon} />
+            <AlipayCircleOutlined className={styles.icon} />
           </Space>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
