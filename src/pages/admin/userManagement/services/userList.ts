@@ -1,8 +1,11 @@
 import request from '@/utils/request';
 
-interface searchType {
+export interface searchType {
   current?: number;
   pageSize?: number;
+  nickname?: string;
+  username?: string;
+  mobilePhone?: string;
 }
 
 export async function getUsers(params: searchType) {

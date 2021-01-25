@@ -1,6 +1,8 @@
 import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
+import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
+import type { searchType } from './services/userList';
 import { getUsers } from './services/userList';
 import { Switch, Avatar, Space, Button } from 'antd';
 import {
@@ -12,11 +14,52 @@ import {
   SettingOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
+import { useState, useEffect, useRef } from 'react';
+import type { FormInstance } from 'antd/lib/form';
+
+interface UserListItem {
+  id: number;
+  avatarURL: string;
+  nickname: string;
+  username: string;
+  mobilePhone: string;
+  createDateTime: Date;
+  enabled: boolean;
+  locked: boolean;
+}
 
 export default (): React.ReactNode => {
-  const columns = [
+  const ref = useRef<FormInstance>();
+  const [users, setUsers] = useState<UserListItem[]>([]);
+  const [total, setTotal] = useState<number>(0);
+
+  const handleUsers = (params: searchType) => {
+    getUsers(params)
+      .then((response) => {
+        return response.data;
+      })
+      .then((data) => {
+        setUsers(data.content);
+        setTotal(data.totalElements);
+      });
+  };
+
+  useEffect(() => {
+    handleUsers({});
+  }, []);
+
+  const handleUserState = (check: boolean, user: UserListItem, index: number) => {
+    // eslint-disable-next-line no-param-reassign
+    user.enabled = check;
+    const data = [...users];
+    data[index] = user;
+    setUsers(data);
+  };
+
+  const columns: ProColumns<UserListItem>[] = [
     {
       align: 'center',
+      title: '序号',
       dataIndex: 'index',
       valueType: 'indexBorder',
       width: 48,
@@ -56,8 +99,17 @@ export default (): React.ReactNode => {
       title: '启用',
       dataIndex: 'enabled',
       search: false,
-      render: (text: any) => {
-        return <Switch checkedChildren="启用" unCheckedChildren="禁用" checked={text} />;
+      render: (text: any, record: UserListItem, index: number) => {
+        return (
+          <Switch
+            checkedChildren="启用"
+            unCheckedChildren="禁用"
+            checked={text}
+            onChange={(check: boolean) => {
+              handleUserState(check, record, index);
+            }}
+          />
+        );
       },
     },
     {
@@ -89,6 +141,7 @@ export default (): React.ReactNode => {
       },
     },
   ];
+
   return (
     /*
     PageContainer会根据当前的路由填入title和breadcrumb
@@ -99,8 +152,44 @@ export default (): React.ReactNode => {
       <ProTable
         rowKey={'id'}
         columns={columns}
+        formRef={ref}
         pagination={{
+          current: 1,
           pageSize: 6,
+          total,
+          onChange: (page, pageSize) => {
+            const nickname = ref.current!.getFieldValue('nickname');
+            const username = ref.current!.getFieldValue('username');
+            const mobilePhone = ref.current!.getFieldValue('mobilePhone');
+            const params = {};
+            if (nickname) {
+              params.nickname = nickname;
+            }
+            if (username) {
+              params.username = username;
+            }
+            if (mobilePhone) {
+              params.mobilePhone = mobilePhone;
+            }
+            handleUsers({
+              current: page,
+              pageSize,
+              ...params,
+            });
+          },
+        }}
+        onSubmit={(params) => {
+          handleUsers({
+            current: 1,
+            pageSize: 6,
+            ...params,
+          });
+        }}
+        onReset={() => {
+          handleUsers({
+            current: 1,
+            pageSize: 6,
+          });
         }}
         toolBarRender={() => [
           <Button key="button" icon={<PlusOutlined />} type="primary">
@@ -116,12 +205,14 @@ export default (): React.ReactNode => {
             导出
           </Button>,
         ]}
+        // 默认情况下通过request获取到的数据并不是双向绑定的
         // request={async (params, sort, filter)
+        /*
         request={async (params) => {
           const result = await getUsers({
-            current: params.current,
-            pageSize: params.pageSize,
+            ...params
           });
+
           console.log(result);
           return {
             data: result.data.content, // 需要渲染的数据
@@ -129,6 +220,8 @@ export default (): React.ReactNode => {
             total: result.data.totalElements, // 总共有多少行数据,以便分页
           };
         }}
+        */
+        dataSource={users}
       ></ProTable>
     </PageContainer>
   );
