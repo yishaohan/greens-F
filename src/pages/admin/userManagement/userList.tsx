@@ -2,9 +2,9 @@ import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import type { searchType } from './services/userList';
-import { getUsers } from './services/userList';
-import { Switch, Avatar, Space, Button } from 'antd';
+import type { searchType, UserListItem } from './services/userList';
+import { getUsers, updateUser } from './services/userList';
+import { Switch, Avatar, Space, Button, message } from 'antd';
 import {
   PlusOutlined,
   MinusOutlined,
@@ -17,17 +17,6 @@ import {
 import { useState, useEffect, useRef } from 'react';
 import type { FormInstance } from 'antd/lib/form';
 
-interface UserListItem {
-  id: number;
-  avatarURL: string;
-  nickname: string;
-  username: string;
-  mobilePhone: string;
-  createDateTime: Date;
-  enabled: boolean;
-  locked: boolean;
-}
-
 export default (): React.ReactNode => {
   const ref = useRef<FormInstance>();
   const [users, setUsers] = useState<UserListItem[]>([]);
@@ -36,11 +25,17 @@ export default (): React.ReactNode => {
   const handleUsers = (params: searchType) => {
     getUsers(params)
       .then((response) => {
+        if (response.status !== 200) {
+          throw new Error('出错了!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        }
         return response.data;
       })
       .then((data) => {
         setUsers(data.content);
         setTotal(data.totalElements);
+      })
+      .catch((e) => {
+        message.error(`获取用户信息出错!${e}`);
       });
   };
 
@@ -48,12 +43,48 @@ export default (): React.ReactNode => {
     handleUsers({});
   }, []);
 
-  const handleUserState = (check: boolean, user: UserListItem, index: number) => {
+  const handleUserEnabledState = (check: boolean, user: UserListItem, index: number) => {
     // eslint-disable-next-line no-param-reassign
     user.enabled = check;
-    const data = [...users];
-    data[index] = user;
-    setUsers(data);
+
+    // 修改服务器中的状态
+    updateUser(user)
+      .then((response) => {
+        if (response.status === 201) {
+          message.success('更新用户[启用 | 禁用]状态成功!');
+          // 修改本地状态
+          const data = [...users];
+          data[index] = user;
+          setUsers(data);
+        } else {
+          message.error(`更新用户[启用 | 禁用]状态失败: ${response.msg}`);
+        }
+      })
+      .catch((e) => {
+        message.error(`更新用户[启用 | 禁用]状态失败: ${e}`);
+      });
+  };
+
+  const handleUserLockedState = (check: boolean, user: UserListItem, index: number) => {
+    // eslint-disable-next-line no-param-reassign
+    user.locked = check;
+
+    // 修改服务器中的状态
+    updateUser(user)
+      .then((response) => {
+        if (response.status === 201) {
+          message.success('更新用户[锁定]状态成功!');
+          // 修改本地状态
+          const data = [...users];
+          data[index] = user;
+          setUsers(data);
+        } else {
+          message.error(`更新用户[锁定]状态失败: ${response.msg}`);
+        }
+      })
+      .catch((e) => {
+        message.error(`更新用户[锁定]状态失败: ${e}`);
+      });
   };
 
   const columns: ProColumns<UserListItem>[] = [
@@ -99,14 +130,14 @@ export default (): React.ReactNode => {
       title: '启用',
       dataIndex: 'enabled',
       search: false,
-      render: (text: any, record: UserListItem, index: number) => {
+      render: (text: any, record, index) => {
         return (
           <Switch
             checkedChildren="启用"
             unCheckedChildren="禁用"
             checked={text}
-            onChange={(check: boolean) => {
-              handleUserState(check, record, index);
+            onChange={(check) => {
+              handleUserEnabledState(check, record, index);
             }}
           />
         );
@@ -117,8 +148,17 @@ export default (): React.ReactNode => {
       title: '锁定',
       dataIndex: 'locked',
       search: false,
-      render: (text: any) => {
-        return <Switch checkedChildren="是" unCheckedChildren="否" checked={text} />;
+      render: (text: any, record, index) => {
+        return (
+          <Switch
+            checkedChildren="是"
+            unCheckedChildren="否"
+            checked={text}
+            onChange={(checked) => {
+              handleUserLockedState(checked, record, index);
+            }}
+          />
+        );
       },
     },
     {
@@ -163,12 +203,15 @@ export default (): React.ReactNode => {
             const mobilePhone = ref.current!.getFieldValue('mobilePhone');
             const params = {};
             if (nickname) {
+              // @ts-ignore
               params.nickname = nickname;
             }
             if (username) {
+              // @ts-ignore
               params.username = username;
             }
             if (mobilePhone) {
+              // @ts-ignore
               params.mobilePhone = mobilePhone;
             }
             handleUsers({
