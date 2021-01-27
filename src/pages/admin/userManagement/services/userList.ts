@@ -33,3 +33,9 @@ export async function updateUser(user: UserListItem) {
     data: user,
   });
 }
+
+export async function deleteUser(user: UserListItem) {
+  return request(`/admin/users/${user.id}`, {
+    method: 'DELETE',
+  });
+}

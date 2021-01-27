@@ -3,7 +3,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import type { searchType, UserListItem } from './services/userList';
-import { getUsers, updateUser } from './services/userList';
+import { getUsers, updateUser, deleteUser } from './services/userList';
 import { Switch, Avatar, Space, Button, message } from 'antd';
 import {
   PlusOutlined,
@@ -18,6 +18,9 @@ import { useState, useEffect, useRef } from 'react';
 import type { FormInstance } from 'antd/lib/form';
 
 export default (): React.ReactNode => {
+  const current = 1;
+  const pageSize = 5;
+
   const ref = useRef<FormInstance>();
   const [users, setUsers] = useState<UserListItem[]>([]);
   const [total, setTotal] = useState<number>(0);
@@ -39,53 +42,86 @@ export default (): React.ReactNode => {
       });
   };
 
-  useEffect(() => {
-    handleUsers({});
-  }, []);
+  const handleUpdateUser = (user: UserListItem, index: number) => {
+    // 修改服务器中的状态
+    updateUser(user)
+      .then((response) => {
+        if (response.status === 201) {
+          message.success('更新用户状态成功!');
+          // 修改本地状态
+          const data = [...users];
+          data[index] = user;
+          setUsers(data);
+        } else {
+          message.error(`更新用户状态失败: ${response.msg}`);
+        }
+      })
+      .catch((e) => {
+        message.error(`更新用户状态失败: ${e}`);
+      });
+  };
 
-  const handleUserEnabledState = (check: boolean, user: UserListItem, index: number) => {
+  const handleDeleteUser = (user: UserListItem) => {
+    deleteUser(user)
+      .then((response) => {
+        if (response.status === 204) {
+          message.success('删除用户成功!');
+          // 修改本地状态
+          // const data = [...users];
+          // data[index] = user;
+          // setUsers(data);
+          console.log('删除用户成功!');
+        } else {
+          message.error(`删除用户失败-1: ${response.msg}`);
+          console.log(`删除用户失败-1: ${response.msg}`);
+        }
+      })
+      .catch((e) => {
+        message.error(`删除用户失败-2: ${e}`);
+        console.log(`删除用户失败-2: ${e}`);
+      });
+  };
+
+  const handleUserEnabledStateChange = (check: boolean, user: UserListItem, index: number) => {
     // eslint-disable-next-line no-param-reassign
     user.enabled = check;
-
-    // 修改服务器中的状态
-    updateUser(user)
-      .then((response) => {
-        if (response.status === 201) {
-          message.success('更新用户[启用 | 禁用]状态成功!');
-          // 修改本地状态
-          const data = [...users];
-          data[index] = user;
-          setUsers(data);
-        } else {
-          message.error(`更新用户[启用 | 禁用]状态失败: ${response.msg}`);
-        }
-      })
-      .catch((e) => {
-        message.error(`更新用户[启用 | 禁用]状态失败: ${e}`);
-      });
+    handleUpdateUser(user, index);
   };
 
-  const handleUserLockedState = (check: boolean, user: UserListItem, index: number) => {
+  const handleUserLockedStateChange = (check: boolean, user: UserListItem, index: number) => {
     // eslint-disable-next-line no-param-reassign
     user.locked = check;
-
-    // 修改服务器中的状态
-    updateUser(user)
-      .then((response) => {
-        if (response.status === 201) {
-          message.success('更新用户[锁定]状态成功!');
-          // 修改本地状态
-          const data = [...users];
-          data[index] = user;
-          setUsers(data);
-        } else {
-          message.error(`更新用户[锁定]状态失败: ${response.msg}`);
-        }
-      })
-      .catch((e) => {
-        message.error(`更新用户[锁定]状态失败: ${e}`);
-      });
+    handleUpdateUser(user, index);
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const handlePagination = (page: number, pageSize: number | undefined) => {
+    const nickname = ref.current!.getFieldValue('nickname');
+    const username = ref.current!.getFieldValue('username');
+    const mobilePhone = ref.current!.getFieldValue('mobilePhone');
+    const params = {};
+    if (nickname) {
+      // @ts-ignore
+      params.nickname = nickname;
+    }
+    if (username) {
+      // @ts-ignore
+      params.username = username;
+    }
+    if (mobilePhone) {
+      // @ts-ignore
+      params.mobilePhone = mobilePhone;
+    }
+    handleUsers({
+      current: page,
+      pageSize,
+      ...params,
+    });
+  };
+
+  useEffect(() => {
+    handleUsers({ current, pageSize });
+  }, []);
 
   const columns: ProColumns<UserListItem>[] = [
     {
@@ -137,7 +173,7 @@ export default (): React.ReactNode => {
             unCheckedChildren="禁用"
             checked={text}
             onChange={(check) => {
-              handleUserEnabledState(check, record, index);
+              handleUserEnabledStateChange(check, record, index);
             }}
           />
         );
@@ -155,7 +191,7 @@ export default (): React.ReactNode => {
             unCheckedChildren="否"
             checked={text}
             onChange={(checked) => {
-              handleUserLockedState(checked, record, index);
+              handleUserLockedStateChange(checked, record, index);
             }}
           />
         );
@@ -164,7 +200,7 @@ export default (): React.ReactNode => {
     {
       align: 'center',
       title: '操作',
-      render: () => {
+      render: (text: any, record) => {
         return (
           <Space>
             <Button type="primary" icon={<EditOutlined />}>
@@ -173,7 +209,14 @@ export default (): React.ReactNode => {
             <Button type="primary" icon={<SettingOutlined />}>
               设置
             </Button>
-            <Button type="primary" danger={true} icon={<DeleteOutlined />}>
+            <Button
+              type="primary"
+              danger={true}
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                handleDeleteUser(record);
+              }}
+            >
               删除
             </Button>
           </Space>
@@ -193,47 +236,6 @@ export default (): React.ReactNode => {
         rowKey={'id'}
         columns={columns}
         formRef={ref}
-        pagination={{
-          current: 1,
-          pageSize: 6,
-          total,
-          onChange: (page, pageSize) => {
-            const nickname = ref.current!.getFieldValue('nickname');
-            const username = ref.current!.getFieldValue('username');
-            const mobilePhone = ref.current!.getFieldValue('mobilePhone');
-            const params = {};
-            if (nickname) {
-              // @ts-ignore
-              params.nickname = nickname;
-            }
-            if (username) {
-              // @ts-ignore
-              params.username = username;
-            }
-            if (mobilePhone) {
-              // @ts-ignore
-              params.mobilePhone = mobilePhone;
-            }
-            handleUsers({
-              current: page,
-              pageSize,
-              ...params,
-            });
-          },
-        }}
-        onSubmit={(params) => {
-          handleUsers({
-            current: 1,
-            pageSize: 6,
-            ...params,
-          });
-        }}
-        onReset={() => {
-          handleUsers({
-            current: 1,
-            pageSize: 6,
-          });
-        }}
         toolBarRender={() => [
           <Button key="button" icon={<PlusOutlined />} type="primary">
             新建
@@ -248,6 +250,28 @@ export default (): React.ReactNode => {
             导出
           </Button>,
         ]}
+        pagination={{
+          current,
+          pageSize,
+          total,
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          onChange: (page, pageSize) => {
+            handlePagination(page, pageSize);
+          },
+        }}
+        onSubmit={(params) => {
+          handleUsers({
+            current,
+            pageSize,
+            ...params,
+          });
+        }}
+        onReset={() => {
+          handleUsers({
+            current,
+            pageSize,
+          });
+        }}
         // 默认情况下通过request获取到的数据并不是双向绑定的
         // request={async (params, sort, filter)
         /*
