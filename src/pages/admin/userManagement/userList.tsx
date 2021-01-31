@@ -2,9 +2,16 @@ import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import type { SearchCondition, UserListItem, DeleteIds } from './services/userList';
-import { getUsers, updateUser, deleteUser, deleteUsers } from './services/userList';
-import { Switch, Avatar, Space, Button, message } from 'antd';
+import type { SearchCondition, UserListItem } from './services/userList';
+import {
+  getUsers,
+  updateUser,
+  deleteUser,
+  deleteUsers,
+  importUsers,
+  exportUsers,
+} from './services/userList';
+import { Switch, Avatar, Space, Button, message, Upload } from 'antd';
 import {
   PlusOutlined,
   MinusOutlined,
@@ -16,6 +23,8 @@ import {
 } from '@ant-design/icons';
 import { useState, useEffect, useRef } from 'react';
 import type { FormInstance } from 'antd/lib/form';
+import type { UploadChangeParam } from 'antd/lib/upload';
+import AddUserForm from './components/addUserForm';
 
 // 定义函数式组件
 export default (): React.ReactNode => {
@@ -30,6 +39,7 @@ export default (): React.ReactNode => {
   const [users, setUsers] = useState<UserListItem[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [currentSelectedRowKeys, setCurrentSelectedRowKeys] = useState<React.ReactText[]>([]);
+  const [addUserModalVisible, setAddUserModalVisible] = useState<boolean>(false);
 
   // 根据页码和搜索参数获取用户
   const handleUsers = (params: SearchCondition) => {
@@ -91,10 +101,14 @@ export default (): React.ReactNode => {
 
   // 批量删除用户
   const handleDeleteUsers = () => {
-    const ids: DeleteIds[] = [];
-    currentSelectedRowKeys.forEach((id) => {
-      ids.push({ id });
-    });
+    const ids: (string | number | undefined)[] = [];
+    const values = currentSelectedRowKeys.values();
+    let i = 0;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const value of values) {
+      // eslint-disable-next-line no-plusplus
+      ids[i++] = value;
+    }
     deleteUsers(ids)
       .then((response) => {
         if (response.status === 204) {
@@ -103,6 +117,7 @@ export default (): React.ReactNode => {
           // const data = [...users];
           // data[index] = user;
           // setUsers(data);
+          setCurrentSelectedRowKeys([]);
           handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
         } else {
           message.error(`批量删除用户失败: ${response.msg}`).then(() => {});
@@ -157,6 +172,10 @@ export default (): React.ReactNode => {
     handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
   }, []);
 
+  // 新建用户弹窗, 关闭或新建时触发
+  useEffect(() => {
+    handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
+  }, [addUserModalVisible]);
   // 定义界面上ProTable的列信息
   const columns: ProColumns<UserListItem>[] = [
     // {
@@ -261,11 +280,20 @@ export default (): React.ReactNode => {
   ];
 
   // 组件的界面定义
+  // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
   return (
     /*
     PageContainer会根据当前的路由填入title和breadcrumb
      */
     <PageContainer>
+      {addUserModalVisible && (
+        <AddUserForm
+          onCancel={() => setAddUserModalVisible(false)}
+          modalVisible={addUserModalVisible}
+        />
+      )}
       {/* ProTable支持Antd Table所有的API, 并且新增了一些API */}
       {/* 默认情况下, request并不会发送请求, */}
       <ProTable
@@ -276,11 +304,18 @@ export default (): React.ReactNode => {
         formRef={ref}
         // 工具栏
         toolBarRender={() => [
-          <Button key="button" icon={<PlusOutlined />} type="primary">
+          <Button
+            key="new"
+            icon={<PlusOutlined />}
+            type="primary"
+            onClick={() => {
+              setAddUserModalVisible(true);
+            }}
+          >
             新建
           </Button>,
           <Button
-            key="button"
+            key="delete"
             icon={<MinusOutlined />}
             type="primary"
             danger={true}
@@ -290,10 +325,37 @@ export default (): React.ReactNode => {
           >
             删除
           </Button>,
-          <Button key="button" icon={<ImportOutlined />} type="primary">
-            导入
-          </Button>,
-          <Button key="button" icon={<ExportOutlined />} type="primary">
+          <Upload
+            key="upload"
+            name="file"
+            accept=".xls, .xlsx"
+            showUploadList={false}
+            action={importUsers()}
+            onChange={(info: UploadChangeParam) => {
+              if (info.file.status !== 'uploading') {
+                console.log(info.file, info.fileList);
+              }
+              if (info.file.status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully!`).then();
+                currentPage.current = 1;
+                handleUsers({});
+              } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed!`).then();
+              }
+            }}
+          >
+            <Button key="import" icon={<ImportOutlined />} type="primary">
+              导入
+            </Button>
+          </Upload>,
+          <Button
+            key="export"
+            icon={<ExportOutlined />}
+            type="primary"
+            onClick={() => {
+              exportUsers().then(() => {});
+            }}
+          >
             导出
           </Button>,
         ]}
@@ -322,7 +384,9 @@ export default (): React.ReactNode => {
             // pageSize: sizePerPage.current,
           });
         }}
+        // 行选择处理器
         rowSelection={{
+          selectedRowKeys: currentSelectedRowKeys,
           onChange: (selectedRowKeys) => {
             setCurrentSelectedRowKeys([...selectedRowKeys]);
           },
