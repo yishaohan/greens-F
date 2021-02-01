@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, message, Modal, Popover, Progress, Select, Upload } from 'antd';
 import styles from '@/pages/user/register/style.less';
 import { FormattedMessage, useIntl } from 'umi';
@@ -38,7 +38,7 @@ const passwordProgressMap: {
   poor: 'exception',
 };
 
-// export type AddUserParams = {
+// export type EditUserParams = {
 //   username: string;
 //   password: string;
 //   confirmPassword: string;
@@ -47,13 +47,14 @@ const passwordProgressMap: {
 //   mobilePhonePrefix: string;
 // };
 
-interface AddUserFormProps {
+interface EditUserFormProps {
   modalVisible: boolean;
   onCancel: () => void;
+  currentEditUser: UserListItem;
 }
 
-const AddUserForm: React.FC<AddUserFormProps> = (props) => {
-  const { modalVisible, onCancel } = props;
+const EditUserForm: React.FC<EditUserFormProps> = (props) => {
+  const { modalVisible, onCancel, currentEditUser } = props;
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [visible, setvisible]: [boolean, any] = useState(false);
   const [prefix, setprefix]: [string, any] = useState('1');
@@ -157,6 +158,9 @@ const AddUserForm: React.FC<AddUserFormProps> = (props) => {
   // const {loading, imageUrl} = this.state;  // 类组件使用此方式, 因为这里是函数式组件, 所以使用以下的方式
   const [loading, setLoading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>('');
+  useEffect(() => {
+    setImageUrl(currentEditUser.avatarURL);
+  }, []);
 
   const uploadButton = (
     <div>
@@ -192,7 +196,7 @@ const AddUserForm: React.FC<AddUserFormProps> = (props) => {
       onOk={handleOk}
       confirmLoading={confirmLoading}
     >
-      <Form form={form} name="AddUser">
+      <Form form={form} name="EditUser" initialValues={currentEditUser}>
         <FormItem name={'avatarURL'}>
           <ImgCrop rotate={true}>
             <Upload
@@ -334,4 +338,4 @@ const AddUserForm: React.FC<AddUserFormProps> = (props) => {
   );
 };
 
-export default AddUserForm;
+export default EditUserForm;

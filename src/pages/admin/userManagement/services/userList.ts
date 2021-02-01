@@ -10,11 +10,11 @@ export interface SearchCondition {
 
 export interface UserListItem {
   id: number;
-  avatarURL: string;
   nickname: string;
   username: string;
   mobilePhone: string;
   password: string;
+  avatarURL: string;
   createDateTime: Date;
   enabled: boolean;
   locked: boolean;
@@ -73,5 +73,5 @@ export async function createUser(user: UserListItem) {
 
 // 上传头像
 export function uploadUserAvatarURL() {
-  return 'https://xclass.highspeed.vip:50443/api/v1/user/avatar';
+  return 'https://xclass.highspeed.vip:50443/api/v1/admin/users/avatar';
 }

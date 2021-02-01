@@ -25,6 +25,7 @@ import { useState, useEffect, useRef } from 'react';
 import type { FormInstance } from 'antd/lib/form';
 import type { UploadChangeParam } from 'antd/lib/upload';
 import AddUserForm from './components/addUserForm';
+import EditUserForm from './components/editUserForm';
 
 // 定义函数式组件
 export default (): React.ReactNode => {
@@ -40,6 +41,8 @@ export default (): React.ReactNode => {
   const [total, setTotal] = useState<number>(0);
   const [currentSelectedRowKeys, setCurrentSelectedRowKeys] = useState<React.ReactText[]>([]);
   const [addUserModalVisible, setAddUserModalVisible] = useState<boolean>(false);
+  const [editUserModalVisible, setEditUserModalVisible] = useState<boolean>(false);
+  const [currentEditUser, setCurrentEditUser] = useState<UserListItem>();
 
   // 根据页码和搜索参数获取用户
   const handleUsers = (params: SearchCondition) => {
@@ -257,7 +260,14 @@ export default (): React.ReactNode => {
       render: (text: any, record) => {
         return (
           <Space>
-            <Button type="primary" icon={<EditOutlined />}>
+            <Button
+              type="primary"
+              icon={<EditOutlined />}
+              onClick={() => {
+                setEditUserModalVisible(true);
+                setCurrentEditUser(record);
+              }}
+            >
               编辑
             </Button>
             <Button type="primary" icon={<SettingOutlined />}>
@@ -292,6 +302,13 @@ export default (): React.ReactNode => {
         <AddUserForm
           onCancel={() => setAddUserModalVisible(false)}
           modalVisible={addUserModalVisible}
+        />
+      )}
+      {editUserModalVisible && (
+        <EditUserForm
+          onCancel={() => setEditUserModalVisible(false)}
+          modalVisible={editUserModalVisible}
+          currentEditUser={currentEditUser!}
         />
       )}
       {/* ProTable支持Antd Table所有的API, 并且新增了一些API */}

@@ -11,4 +11,9 @@ export default {
   'createuser.phone-number.required': '请输入手机号!!!',
   'createuser.phone-number.wrong-format': '手机号格式错误!!!',
   'createuser.phone-number.placeholder': '手机号',
+  'createuser.strength.strong': '强度：强',
+  'createuser.strength.medium': '强度：中',
+  'createuser.strength.short': '强度：太短',
+  'createuser.password.twice': '两次输入的密码不匹配!',
+  'createuser.password.required': '请输入密码！',
 };
