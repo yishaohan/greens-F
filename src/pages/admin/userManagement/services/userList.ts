@@ -1,27 +1,7 @@
 import request from '@/utils/request';
 
-export interface SearchCondition {
-  current?: number;
-  pageSize?: number;
-  nickname?: string;
-  username?: string;
-  mobilePhone?: string;
-}
-
-export interface UserListItem {
-  id: number;
-  nickname: string;
-  username: string;
-  mobilePhone: string;
-  password: string;
-  avatarURL: string;
-  createDateTime: Date;
-  enabled: boolean;
-  locked: boolean;
-}
-
 // 根据指定条件获取用户信息
-export async function getUsers(params: SearchCondition) {
+export async function getUsers(params: API.UserSearchParams) {
   return request('/admin/users', {
     method: 'GET',
     params,
@@ -29,7 +9,7 @@ export async function getUsers(params: SearchCondition) {
 }
 
 // 更新用户信息
-export async function updateUser(user: UserListItem) {
+export async function updateUser(user: API.UserListItem) {
   return request('/admin/users', {
     method: 'PUT',
     data: user,
@@ -37,7 +17,7 @@ export async function updateUser(user: UserListItem) {
 }
 
 // 删除单个用户
-export async function deleteUser(user: UserListItem) {
+export async function deleteUser(user: API.UserListItem) {
   return request(`/admin/users/${user.id}`, {
     method: 'DELETE',
   });
@@ -64,7 +44,7 @@ export async function exportUsers() {
 }
 
 // 创建用户
-export async function createUser(user: UserListItem) {
+export async function createUser(user: API.UserListItem) {
   return request('/admin/users', {
     method: 'POST',
     data: user,

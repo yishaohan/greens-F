@@ -49,7 +49,7 @@ const goto = () => {
 // 在TS中如何定义常量/变量
 // const 常量名称: 数据类型 = 值 ;
 // React.FC === React.FunctionComponent === 函数式组件
-const Index: React.FC = () => {
+const Login: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [userLoginState, setUserLoginState] = useState<API.LoginStateType>({});
   const [type, setType] = useState<string>('account');
@@ -340,4 +340,4 @@ const Index: React.FC = () => {
   );
 };
 
-export default Index;
+export default Login;

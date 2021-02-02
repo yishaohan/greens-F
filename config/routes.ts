@@ -10,12 +10,12 @@ export default [
           {
             name: 'login', // 当前路由名称
             path: '/user/login', // 子路由地址
-            component: './user/login', // 路由对应的组件
+            component: './user/login/login', // 路由对应的组件
           },
           {
             name: 'register',
             path: '/user/register',
-            component: './user/register',
+            component: './user/register/register',
           },
         ],
       },

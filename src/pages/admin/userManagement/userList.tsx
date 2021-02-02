@@ -2,7 +2,6 @@ import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import type { SearchCondition, UserListItem } from './services/userList';
 import {
   getUsers,
   updateUser,
@@ -37,15 +36,15 @@ export default (): React.ReactNode => {
   const ref = useRef<FormInstance>();
 
   // 双向数据绑定(响应式数据)
-  const [users, setUsers] = useState<UserListItem[]>([]);
+  const [users, setUsers] = useState<API.UserListItem[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [currentSelectedRowKeys, setCurrentSelectedRowKeys] = useState<React.ReactText[]>([]);
   const [addUserModalVisible, setAddUserModalVisible] = useState<boolean>(false);
   const [editUserModalVisible, setEditUserModalVisible] = useState<boolean>(false);
-  const [currentEditUser, setCurrentEditUser] = useState<UserListItem>();
+  const [currentEditUser, setCurrentEditUser] = useState<API.UserListItem>();
 
   // 根据页码和搜索参数获取用户
-  const handleUsers = (params: SearchCondition) => {
+  const handleUsers = (params: API.UserSearchParams) => {
     getUsers(params)
       .then((response) => {
         if (response.status !== 200) {
@@ -63,7 +62,7 @@ export default (): React.ReactNode => {
   };
 
   // 更新用户信息
-  const handleUpdateUser = (user: UserListItem, index: number) => {
+  const handleUpdateUser = (user: API.UserListItem, index: number) => {
     // 修改服务器中的状态
     updateUser(user)
       .then((response) => {
@@ -83,7 +82,7 @@ export default (): React.ReactNode => {
   };
 
   // 删除单个用户
-  const handleDeleteUser = (user: UserListItem) => {
+  const handleDeleteUser = (user: API.UserListItem) => {
     deleteUser(user)
       .then((response) => {
         if (response.status === 204) {
@@ -132,14 +131,14 @@ export default (): React.ReactNode => {
   };
 
   // 更新用户[enabled]属性
-  const handleUserEnabledStateChange = (check: boolean, user: UserListItem, index: number) => {
+  const handleUserEnabledStateChange = (check: boolean, user: API.UserListItem, index: number) => {
     // eslint-disable-next-line no-param-reassign
     user.enabled = check;
     handleUpdateUser(user, index);
   };
 
   // 更新用户[locked]属性
-  const handleUserLockedStateChange = (check: boolean, user: UserListItem, index: number) => {
+  const handleUserLockedStateChange = (check: boolean, user: API.UserListItem, index: number) => {
     // eslint-disable-next-line no-param-reassign
     user.locked = check;
     handleUpdateUser(user, index);
@@ -175,19 +174,18 @@ export default (): React.ReactNode => {
     handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
   }, []);
 
-  // 新建用户弹窗, 关闭或新建时触发
+  // 新建用户弹窗 | 编辑用户弹窗, 关闭或新建时触发
   useEffect(() => {
     handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
-  }, [addUserModalVisible]);
+  }, [addUserModalVisible, editUserModalVisible]);
+
   // 定义界面上ProTable的列信息
-  const columns: ProColumns<UserListItem>[] = [
-    // {
-    //   align: 'center',
-    //   title: '序号',
-    //   dataIndex: 'index',
-    //   valueType: 'indexBorder',
-    //   width: 48,
-    // },
+  const columns: ProColumns<API.UserListItem>[] = [
+    {
+      align: 'center',
+      title: 'ID',
+      dataIndex: 'id',
+    },
     {
       align: 'center',
       title: '头像',
@@ -227,7 +225,7 @@ export default (): React.ReactNode => {
         return (
           <Switch
             checkedChildren="启用"
-            unCheckedChildren="禁用"
+            unCheckedChildren="启用"
             checked={text}
             onChange={(check) => {
               handleUserEnabledStateChange(check, record, index);
@@ -244,8 +242,8 @@ export default (): React.ReactNode => {
       render: (text: any, record, index) => {
         return (
           <Switch
-            checkedChildren="是"
-            unCheckedChildren="否"
+            checkedChildren="锁定"
+            unCheckedChildren="锁定"
             checked={text}
             onChange={(checked) => {
               handleUserLockedStateChange(checked, record, index);

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, message, Modal, Popover, Progress, Select, Upload } from 'antd';
 import styles from '@/pages/user/register/style.less';
 import { FormattedMessage, useIntl } from 'umi';
-import type { UserListItem } from '../services/userList';
-import { createUser, uploadUserAvatarURL } from '../services/userList';
+import { updateUser, uploadUserAvatarURL } from '../services/userList';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import type { UploadChangeParam } from 'antd/lib/upload/interface';
 import ImgCrop from 'antd-img-crop';
@@ -38,19 +37,10 @@ const passwordProgressMap: {
   poor: 'exception',
 };
 
-// export type EditUserParams = {
-//   username: string;
-//   password: string;
-//   confirmPassword: string;
-//   mobilePhone: string;
-//   smsCaptcha: string;
-//   mobilePhonePrefix: string;
-// };
-
 interface EditUserFormProps {
   modalVisible: boolean;
   onCancel: () => void;
-  currentEditUser: UserListItem;
+  currentEditUser: API.UserListItem;
 }
 
 const EditUserForm: React.FC<EditUserFormProps> = (props) => {
@@ -76,7 +66,7 @@ const EditUserForm: React.FC<EditUserFormProps> = (props) => {
 
   const checkConfirm = (_: any, value: string) => {
     const promise = Promise;
-    if (value && value !== form.getFieldValue('password')) {
+    if (value !== form.getFieldValue('password')) {
       return promise.reject(intl.formatMessage({ id: 'createuser.password.twice' }));
     }
     return promise.resolve();
@@ -86,8 +76,9 @@ const EditUserForm: React.FC<EditUserFormProps> = (props) => {
     const promise = Promise;
     // 没有值的情况
     if (!value) {
-      setvisible(!!value);
-      return promise.reject(intl.formatMessage({ id: 'createuser.password.required' }));
+      // setvisible(!!value);
+      // return promise.reject(intl.formatMessage({id: 'createuser.password.required'}));
+      return promise.resolve();
     }
     // 有值的情况
     if (!visible) {
@@ -128,25 +119,24 @@ const EditUserForm: React.FC<EditUserFormProps> = (props) => {
     form
       .validateFields()
       .then((values) => {
+        // eslint-disable-next-line no-param-reassign
+        values.id = currentEditUser.id;
         // form.resetFields();
         // 提交数据到远程服务器
-        createUser(values as UserListItem)
+        updateUser(values as API.UserListItem)
           .then((response) => {
             if (response.status === 201) {
-              message.success('新建用户成功!').then(() => {
-                setConfirmLoading(false);
-                onCancel();
-              });
+              setConfirmLoading(false);
+              onCancel();
+              message.success('编辑用户成功!').then(() => {});
             } else {
-              message.error(`新建用户失败-1: ${response.msg}`).then(() => {
-                setConfirmLoading(false);
-              });
+              setConfirmLoading(false);
+              message.error(`编辑用户失败-1: ${response.msg}`).then(() => {});
             }
           })
           .catch((e) => {
-            message.error(`新建用户失败-2: ${e}`).then(() => {
-              setConfirmLoading(false);
-            });
+            setConfirmLoading(false);
+            message.error(`编辑用户失败-2: ${e}`).then(() => {});
           });
       })
       .catch((info) => {
@@ -190,7 +180,7 @@ const EditUserForm: React.FC<EditUserFormProps> = (props) => {
   return (
     <Modal
       destroyOnClose
-      title="新建用户"
+      title="编辑用户"
       visible={modalVisible}
       onCancel={() => onCancel()}
       onOk={handleOk}
@@ -293,10 +283,6 @@ const EditUserForm: React.FC<EditUserFormProps> = (props) => {
         <FormItem
           name="confirmPassword" // confirm ??????????????????????????????????????????????
           rules={[
-            {
-              required: true,
-              message: intl.formatMessage({ id: 'createuser.confirm-password.required' }),
-            },
             {
               validator: checkConfirm,
             },

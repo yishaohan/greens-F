@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Form, Input, message, Modal, Popover, Progress, Select, Upload } from 'antd';
 import styles from '@/pages/user/register/style.less';
 import { FormattedMessage, useIntl } from 'umi';
-import type { UserListItem } from '../services/userList';
 import { createUser, uploadUserAvatarURL } from '../services/userList';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import type { UploadChangeParam } from 'antd/lib/upload/interface';
@@ -37,15 +36,6 @@ const passwordProgressMap: {
   pass: 'normal',
   poor: 'exception',
 };
-
-// export type AddUserParams = {
-//   username: string;
-//   password: string;
-//   confirmPassword: string;
-//   mobilePhone: string;
-//   smsCaptcha: string;
-//   mobilePhonePrefix: string;
-// };
 
 interface AddUserFormProps {
   modalVisible: boolean;
@@ -129,23 +119,20 @@ const AddUserForm: React.FC<AddUserFormProps> = (props) => {
       .then((values) => {
         // form.resetFields();
         // 提交数据到远程服务器
-        createUser(values as UserListItem)
+        createUser(values as API.UserListItem)
           .then((response) => {
             if (response.status === 201) {
-              message.success('新建用户成功!').then(() => {
-                setConfirmLoading(false);
-                onCancel();
-              });
+              setConfirmLoading(false);
+              onCancel();
+              message.success('新建用户成功!').then(() => {});
             } else {
-              message.error(`新建用户失败-1: ${response.msg}`).then(() => {
-                setConfirmLoading(false);
-              });
+              setConfirmLoading(false);
+              message.error(`新建用户失败-1: ${response.msg}`).then(() => {});
             }
           })
           .catch((e) => {
-            message.error(`新建用户失败-2: ${e}`).then(() => {
-              setConfirmLoading(false);
-            });
+            setConfirmLoading(false);
+            message.error(`新建用户失败-2: ${e}`).then(() => {});
           });
       })
       .catch((info) => {

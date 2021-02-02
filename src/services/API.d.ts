@@ -1,4 +1,25 @@
 declare namespace API {
+  export interface UserSearchParams {
+    current?: number;
+    pageSize?: number;
+    nickname?: string;
+    username?: string;
+    mobilePhone?: string;
+  }
+
+  export interface UserListItem {
+    id: number;
+    nickname: string;
+    username: string;
+    mobilePhone: string;
+    password: string;
+    avatarURL: string;
+    createDateTime: Date;
+    enabled: boolean;
+    locked: boolean;
+  }
+
+  // 以下为AntD默认的
   export type CurrentUser = {
     avatar?: string;
     name?: string;
