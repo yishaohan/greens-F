@@ -61,6 +61,16 @@ export default (): React.ReactNode => {
       });
   };
 
+  // 生命周期钩子, 页面加载时, 自动触发获取用户列表
+  useEffect(() => {
+    handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
+  }, []);
+
+  // 新建用户弹窗 | 编辑用户弹窗, 关闭或新建时触发
+  useEffect(() => {
+    handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
+  }, [addUserModalVisible, editUserModalVisible]);
+
   // 更新用户信息
   const handleUpdateUser = (user: API.UserListItem, index: number) => {
     // 修改服务器中的状态
@@ -79,6 +89,20 @@ export default (): React.ReactNode => {
       .catch((e) => {
         message.error(`更新用户状态失败: ${e}`).then(() => {});
       });
+  };
+
+  // 更新用户[enabled]属性
+  const handleUserEnabledStateChange = (check: boolean, user: API.UserListItem, index: number) => {
+    // eslint-disable-next-line no-param-reassign
+    user.enabled = check;
+    handleUpdateUser(user, index);
+  };
+
+  // 更新用户[locked]属性
+  const handleUserLockedStateChange = (check: boolean, user: API.UserListItem, index: number) => {
+    // eslint-disable-next-line no-param-reassign
+    user.locked = check;
+    handleUpdateUser(user, index);
   };
 
   // 删除单个用户
@@ -101,89 +125,12 @@ export default (): React.ReactNode => {
       });
   };
 
-  // 批量删除用户
-  const handleDeleteUsers = () => {
-    const ids: (string | number | undefined)[] = [];
-    const values = currentSelectedRowKeys.values();
-    let i = 0;
-    // eslint-disable-next-line no-restricted-syntax
-    for (const value of values) {
-      // eslint-disable-next-line no-plusplus
-      ids[i++] = value;
-    }
-    deleteUsers(ids)
-      .then((response) => {
-        if (response.status === 204) {
-          message.success('批量删除用户成功!').then(() => {});
-          // 修改本地状态
-          // const data = [...users];
-          // data[index] = user;
-          // setUsers(data);
-          setCurrentSelectedRowKeys([]);
-          handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
-        } else {
-          message.error(`批量删除用户失败: ${response.msg}`).then(() => {});
-        }
-      })
-      .catch((e) => {
-        message.error(`批量删除用户失败: ${e}`).then(() => {});
-      });
-  };
-
-  // 更新用户[enabled]属性
-  const handleUserEnabledStateChange = (check: boolean, user: API.UserListItem, index: number) => {
-    // eslint-disable-next-line no-param-reassign
-    user.enabled = check;
-    handleUpdateUser(user, index);
-  };
-
-  // 更新用户[locked]属性
-  const handleUserLockedStateChange = (check: boolean, user: API.UserListItem, index: number) => {
-    // eslint-disable-next-line no-param-reassign
-    user.locked = check;
-    handleUpdateUser(user, index);
-  };
-
-  // 处理分页请求
-  const handlePagination = (page: number, pageSize: number | undefined) => {
-    const nickname = ref.current!.getFieldValue('nickname');
-    const username = ref.current!.getFieldValue('username');
-    const mobilePhone = ref.current!.getFieldValue('mobilePhone');
-    const params = {};
-    if (nickname) {
-      params['nickname'] = nickname;
-    }
-    if (username) {
-      params['username'] = username;
-    }
-    if (mobilePhone) {
-      params['mobilePhone'] = mobilePhone;
-    }
-    currentPage.current = page;
-    sizePerPage.current = pageSize;
-    // 根据条件获取数据
-    handleUsers({
-      current: currentPage.current,
-      pageSize: sizePerPage.current,
-      ...params,
-    });
-  };
-
-  // 生命周期钩子
-  useEffect(() => {
-    handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
-  }, []);
-
-  // 新建用户弹窗 | 编辑用户弹窗, 关闭或新建时触发
-  useEffect(() => {
-    handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
-  }, [addUserModalVisible, editUserModalVisible]);
-
   // 定义界面上ProTable的列信息
   const columns: ProColumns<API.UserListItem>[] = [
     {
       align: 'center',
       title: 'ID',
+      search: false,
       dataIndex: 'id',
     },
     {
@@ -287,10 +234,61 @@ export default (): React.ReactNode => {
     },
   ];
 
+  // 批量删除用户
+  const handleDeleteUsers = () => {
+    const ids: (string | number | undefined)[] = [];
+    const values = currentSelectedRowKeys.values();
+    let i = 0;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const value of values) {
+      // eslint-disable-next-line no-plusplus
+      ids[i++] = value;
+    }
+    deleteUsers(ids)
+      .then((response) => {
+        if (response.status === 204) {
+          message.success('批量删除用户成功!').then(() => {});
+          // 修改本地状态
+          // const data = [...users];
+          // data[index] = user;
+          // setUsers(data);
+          setCurrentSelectedRowKeys([]);
+          handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
+        } else {
+          message.error(`批量删除用户失败: ${response.msg}`).then(() => {});
+        }
+      })
+      .catch((e) => {
+        message.error(`批量删除用户失败: ${e}`).then(() => {});
+      });
+  };
+
+  // 处理分页请求
+  const handlePagination = (page: number, pageSize: number | undefined) => {
+    const nickname = ref.current!.getFieldValue('nickname');
+    const username = ref.current!.getFieldValue('username');
+    const mobilePhone = ref.current!.getFieldValue('mobilePhone');
+    const params = {};
+    if (nickname) {
+      params['nickname'] = nickname;
+    }
+    if (username) {
+      params['username'] = username;
+    }
+    if (mobilePhone) {
+      params['mobilePhone'] = mobilePhone;
+    }
+    currentPage.current = page;
+    sizePerPage.current = pageSize;
+    // 根据条件获取数据
+    handleUsers({
+      current: currentPage.current,
+      pageSize: sizePerPage.current,
+      ...params,
+    });
+  };
+
   // 组件的界面定义
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
   return (
     /*
     PageContainer会根据当前的路由填入title和breadcrumb

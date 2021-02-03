@@ -1,4 +1,5 @@
 declare namespace API {
+  // 用户相关
   export interface UserSearchParams {
     current?: number;
     pageSize?: number;
@@ -17,6 +18,21 @@ declare namespace API {
     createDateTime: Date;
     enabled: boolean;
     locked: boolean;
+  }
+
+  // 角色相关
+  export interface RoleSearchParams {
+    current?: number;
+    pageSize?: number;
+    roleName?: string;
+    roleDescript?: string;
+  }
+
+  export interface RoleListItem {
+    id: number;
+    roleName: string;
+    roleDescript: string;
+    enabled: boolean;
   }
 
   // 以下为AntD默认的

@@ -29,14 +29,19 @@ export default [
     component: './Welcome',
   },
   {
-    path: '/userManagement',
+    path: '/admin',
     name: 'user-management',
     icon: 'TeamOutlined',
     routes: [
       {
-        path: '/userManagement/userList',
+        path: '/admin/userList',
         name: 'user-list',
         component: './admin/userManagement/userList',
+      },
+      {
+        path: '/admin/roleList',
+        name: 'role-list',
+        component: './admin/userManagement/roleList',
       },
     ],
   },
