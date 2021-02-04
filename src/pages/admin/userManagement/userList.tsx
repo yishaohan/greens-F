@@ -10,7 +10,8 @@ import {
   importUsers,
   exportUsers,
 } from './services/userList';
-import { Switch, Avatar, Space, Button, message, Upload } from 'antd';
+import { getRoles } from './services/roleList';
+import { Switch, Avatar, Space, Button, message, Upload, Tag } from 'antd';
 import {
   PlusOutlined,
   MinusOutlined,
@@ -25,6 +26,7 @@ import type { FormInstance } from 'antd/lib/form';
 import type { UploadChangeParam } from 'antd/lib/upload';
 import AddUserForm from './components/addUserForm';
 import EditUserForm from './components/editUserForm';
+import SetUserRoleForm from './components/setUserRoleForm';
 
 // 定义函数式组件
 export default (): React.ReactNode => {
@@ -37,14 +39,16 @@ export default (): React.ReactNode => {
 
   // 双向数据绑定(响应式数据)
   const [users, setUsers] = useState<API.UserListItem[]>([]);
+  const [roles, setRoles] = useState<API.RoleListItem[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [currentSelectedRowKeys, setCurrentSelectedRowKeys] = useState<React.ReactText[]>([]);
   const [addUserModalVisible, setAddUserModalVisible] = useState<boolean>(false);
   const [editUserModalVisible, setEditUserModalVisible] = useState<boolean>(false);
+  const [setUserRoleModalVisible, setSetUserRoleModalVisible] = useState<boolean>(false);
   const [currentEditUser, setCurrentEditUser] = useState<API.UserListItem>();
 
   // 根据页码和搜索参数获取用户
-  const handleUsers = (params: API.UserSearchParams) => {
+  const handleGetUsers = (params: API.UserSearchParams) => {
     getUsers(params)
       .then((response) => {
         if (response.status !== 200) {
@@ -61,15 +65,33 @@ export default (): React.ReactNode => {
       });
   };
 
+  // 获取所有角色列表
+  const handleGetRoles = () => {
+    getRoles({})
+      .then((response) => {
+        if (response.status !== 200) {
+          throw new Error('出错了!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        }
+        return response.data;
+      })
+      .then((data) => {
+        setRoles(data.content);
+      })
+      .catch((e) => {
+        message.error(`获取角色信息出错!${e}`).then(() => {});
+      });
+  };
+
   // 生命周期钩子, 页面加载时, 自动触发获取用户列表
   useEffect(() => {
-    handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
+    handleGetUsers({ current: currentPage.current, pageSize: sizePerPage.current });
+    handleGetRoles();
   }, []);
 
   // 新建用户弹窗 | 编辑用户弹窗, 关闭或新建时触发
   useEffect(() => {
-    handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
-  }, [addUserModalVisible, editUserModalVisible]);
+    handleGetUsers({ current: currentPage.current, pageSize: sizePerPage.current });
+  }, [addUserModalVisible, editUserModalVisible, setUserRoleModalVisible]);
 
   // 更新用户信息
   const handleUpdateUser = (user: API.UserListItem, index: number) => {
@@ -115,7 +137,7 @@ export default (): React.ReactNode => {
           // const data = [...users];
           // data[index] = user;
           // setUsers(data);
-          handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
+          handleGetUsers({ current: currentPage.current, pageSize: sizePerPage.current });
         } else {
           message.error(`删除用户失败-1: ${response.msg}`).then(() => {});
         }
@@ -156,6 +178,22 @@ export default (): React.ReactNode => {
       align: 'center',
       title: '移动电话',
       dataIndex: 'mobilePhone',
+    },
+    {
+      align: 'center',
+      title: '角色',
+      render: (text: any, record: API.UserListItem) => {
+        if (record.roles && record.roles.length === 0) {
+          return <Tag color={'red'}>{'未分配角色'}</Tag>;
+        }
+        return record.roles.map((role: API.RoleListItem) => {
+          return (
+            <Tag key={role.id} color={'green'}>
+              {role.roleDescript}
+            </Tag>
+          );
+        });
+      },
     },
     {
       align: 'center',
@@ -215,7 +253,14 @@ export default (): React.ReactNode => {
             >
               编辑
             </Button>
-            <Button type="primary" icon={<SettingOutlined />}>
+            <Button
+              type="primary"
+              icon={<SettingOutlined />}
+              onClick={() => {
+                setSetUserRoleModalVisible(true);
+                setCurrentEditUser(record);
+              }}
+            >
               设置
             </Button>
             <Button
@@ -253,7 +298,7 @@ export default (): React.ReactNode => {
           // data[index] = user;
           // setUsers(data);
           setCurrentSelectedRowKeys([]);
-          handleUsers({ current: currentPage.current, pageSize: sizePerPage.current });
+          handleGetUsers({ current: currentPage.current, pageSize: sizePerPage.current });
         } else {
           message.error(`批量删除用户失败: ${response.msg}`).then(() => {});
         }
@@ -281,7 +326,7 @@ export default (): React.ReactNode => {
     currentPage.current = page;
     sizePerPage.current = pageSize;
     // 根据条件获取数据
-    handleUsers({
+    handleGetUsers({
       current: currentPage.current,
       pageSize: sizePerPage.current,
       ...params,
@@ -305,6 +350,14 @@ export default (): React.ReactNode => {
           onCancel={() => setEditUserModalVisible(false)}
           modalVisible={editUserModalVisible}
           currentEditUser={currentEditUser!}
+        />
+      )}
+      {setUserRoleModalVisible && (
+        <SetUserRoleForm
+          onCancel={() => setSetUserRoleModalVisible(false)}
+          modalVisible={setUserRoleModalVisible}
+          currentEditUser={currentEditUser!}
+          roles={roles}
         />
       )}
       {/* ProTable支持Antd Table所有的API, 并且新增了一些API */}
@@ -351,7 +404,7 @@ export default (): React.ReactNode => {
               if (info.file.status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully!`).then();
                 currentPage.current = 1;
-                handleUsers({});
+                handleGetUsers({});
               } else if (info.file.status === 'error') {
                 message.error(`${info.file.name} file upload failed!`).then();
               }
@@ -384,7 +437,7 @@ export default (): React.ReactNode => {
         }}
         // 提交表单(点击"查询")事件处理
         onSubmit={(params) => {
-          handleUsers({
+          handleGetUsers({
             // current: currentPage.current,
             // pageSize: sizePerPage.current,
             ...params,
@@ -392,7 +445,7 @@ export default (): React.ReactNode => {
         }}
         // 重置表单(点击"重置")事件处理
         onReset={() => {
-          handleUsers({
+          handleGetUsers({
             // current: currentPage.current,
             // pageSize: sizePerPage.current,
           });

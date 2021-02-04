@@ -55,3 +55,19 @@ export async function createUser(user: API.UserListItem) {
 export function uploadUserAvatarURL() {
   return 'https://xclass.highspeed.vip:50443/api/v1/admin/users/avatar';
 }
+
+// 增加用户角色
+export async function addUserRole(params: API.AddUserRoleParams) {
+  return request('/admin/users/roles', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+// 删除用户角色
+export async function deleteUserRole(params: API.DeleteUserRoleParams) {
+  return request('/admin/users/roles', {
+    method: 'DELETE',
+    data: params,
+  });
+}

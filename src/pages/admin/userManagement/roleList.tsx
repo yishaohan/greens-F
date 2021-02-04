@@ -45,7 +45,7 @@ export default (): React.ReactNode => {
   const [currentEditRole, setCurrentEditRole] = useState<API.RoleListItem>();
 
   // 根据页码和搜索参数获取用户
-  const handleRoles = (params: API.RoleSearchParams) => {
+  const handleGetRoles = (params: API.RoleSearchParams) => {
     getRoles(params)
       .then((response) => {
         if (response.status !== 200) {
@@ -58,7 +58,7 @@ export default (): React.ReactNode => {
         setTotal(data.totalElements);
       })
       .catch((e) => {
-        message.error(`获取用户信息出错!${e}`).then(() => {});
+        message.error(`获取角色信息出错!${e}`).then(() => {});
       });
   };
 
@@ -96,7 +96,7 @@ export default (): React.ReactNode => {
         if (response.status === 204) {
           intl.formatMessage({ id: 'xxx' });
           message.success('删除角色成功!').then(() => {});
-          handleRoles({ current: currentPage.current, pageSize: sizePerPage.current });
+          handleGetRoles({ current: currentPage.current, pageSize: sizePerPage.current });
         } else {
           message.error(`删除角色失败-1: ${response.msg}`).then(() => {});
         }
@@ -121,7 +121,7 @@ export default (): React.ReactNode => {
         if (response.status === 204) {
           message.success('批量删除角色成功!').then(() => {});
           setCurrentSelectedRowKeys([]);
-          handleRoles({ current: currentPage.current, pageSize: sizePerPage.current });
+          handleGetRoles({ current: currentPage.current, pageSize: sizePerPage.current });
         } else {
           message.error(`批量删除角色失败: ${response.msg}`).then(() => {});
         }
@@ -204,12 +204,12 @@ export default (): React.ReactNode => {
 
   // 生命周期钩子, 页面加载时, 自动触发获取角色列表
   useEffect(() => {
-    handleRoles({ current: currentPage.current, pageSize: sizePerPage.current });
+    handleGetRoles({ current: currentPage.current, pageSize: sizePerPage.current });
   }, []);
 
   // 新建角色弹窗 | 编辑角色弹窗, 关闭或新建时触发
   useEffect(() => {
-    handleRoles({ current: currentPage.current, pageSize: sizePerPage.current });
+    handleGetRoles({ current: currentPage.current, pageSize: sizePerPage.current });
   }, [addRoleModalVisible, editRoleModalVisible]);
 
   // 处理分页请求
@@ -226,7 +226,7 @@ export default (): React.ReactNode => {
     currentPage.current = page;
     sizePerPage.current = pageSize;
     // 根据条件获取数据
-    handleRoles({
+    handleGetRoles({
       current: currentPage.current,
       pageSize: sizePerPage.current,
       ...params,
@@ -290,7 +290,7 @@ export default (): React.ReactNode => {
               if (info.file.status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully!`).then();
                 currentPage.current = 1;
-                handleRoles({});
+                handleGetRoles({});
               } else if (info.file.status === 'error') {
                 message.error(`${info.file.name} file upload failed!`).then();
               }
@@ -323,7 +323,7 @@ export default (): React.ReactNode => {
         }}
         // 提交表单(点击"查询")事件处理
         onSubmit={(params) => {
-          handleRoles({
+          handleGetRoles({
             // current: currentPage.current,
             // pageSize: sizePerPage.current,
             ...params,
@@ -331,7 +331,7 @@ export default (): React.ReactNode => {
         }}
         // 重置表单(点击"重置")事件处理
         onReset={() => {
-          handleRoles({
+          handleGetRoles({
             // current: currentPage.current,
             // pageSize: sizePerPage.current,
           });

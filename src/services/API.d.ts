@@ -18,6 +18,17 @@ declare namespace API {
     createDateTime: Date;
     enabled: boolean;
     locked: boolean;
+    roles: RoleListItem[];
+  }
+
+  export interface AddUserRoleParams {
+    userID: number;
+    roleID: number;
+  }
+
+  export interface DeleteUserRoleParams {
+    userID: number;
+    roleID: number;
   }
 
   // 角色相关
