@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Input, message, Modal, Select, Space, Tag } from 'antd';
 import { useIntl } from 'umi';
 import { addUserRole, deleteUserRole } from '../services/userList';
+import { getRoles } from '../services/roleList';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -11,11 +12,12 @@ interface SetUserRoleFormProps {
   modalVisible: boolean;
   onCancel: () => void;
   currentEditUser: API.UserListItem;
-  roles: API.RoleListItem[];
+  // roles: API.RoleListItem[];
 }
 
 const SetUserRoleForm: React.FC<SetUserRoleFormProps> = (props) => {
-  const { modalVisible, onCancel, currentEditUser, roles } = props;
+  const { modalVisible, onCancel, currentEditUser } = props;
+  const [roles, setRoles] = useState<API.RoleListItem[]>([]);
   const [userRoles, setUserRoles] = useState<API.RoleListItem[]>(currentEditUser.roles);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [prefix, setprefix]: [string, any] = useState('1');
@@ -89,6 +91,28 @@ const SetUserRoleForm: React.FC<SetUserRoleFormProps> = (props) => {
         message.error(`删除用户角色失败-2: ${ee}`).then(() => {});
       });
   };
+
+  // 获取所有角色列表
+  const handleGetRoles = () => {
+    getRoles({})
+      .then((response) => {
+        if (response.status !== 200) {
+          throw new Error('出错了!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        }
+        return response.data;
+      })
+      .then((data) => {
+        setRoles(data.content);
+      })
+      .catch((e) => {
+        message.error(`获取角色信息出错!${e}`).then(() => {});
+      });
+  };
+
+  // 生命周期钩子, 页面加载时, 自动触发获取用户列表
+  useEffect(() => {
+    handleGetRoles();
+  }, []);
 
   // 处理角色选择
   const handleSelectChange = (value: number) => {

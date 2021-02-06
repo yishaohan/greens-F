@@ -49,7 +49,8 @@ export default (): React.ReactNode => {
     getRoles(params)
       .then((response) => {
         if (response.status !== 200) {
-          throw new Error('出错了!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+          console.log(`Error: getRoles - ${response.status}`);
+          throw new Error(`Error: getRoles - ${response.status}`);
         }
         return response.data;
       })
@@ -58,6 +59,7 @@ export default (): React.ReactNode => {
         setTotal(data.totalElements);
       })
       .catch((e) => {
+        console.log(`获取角色信息出错 - ${e}`);
         message.error(`获取角色信息出错!${e}`).then(() => {});
       });
   };
@@ -203,9 +205,9 @@ export default (): React.ReactNode => {
   ];
 
   // 生命周期钩子, 页面加载时, 自动触发获取角色列表
-  useEffect(() => {
-    handleGetRoles({ current: currentPage.current, pageSize: sizePerPage.current });
-  }, []);
+  // useEffect(() => {
+  //   handleGetRoles({ current: currentPage.current, pageSize: sizePerPage.current });
+  // }, []);
 
   // 新建角色弹窗 | 编辑角色弹窗, 关闭或新建时触发
   useEffect(() => {

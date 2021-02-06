@@ -1,7 +1,7 @@
-import {Tag, Space, Menu} from 'antd';
-import {QuestionCircleOutlined} from '@ant-design/icons';
+import { Tag, Space, Menu } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import React from 'react';
-import {useModel, SelectLang} from 'umi';
+import { useModel, SelectLang } from 'umi';
 import Avatar from './AvatarDropdown';
 import HeaderDropdown from '../HeaderDropdown';
 // import HeaderSearch from '../HeaderSearch';
@@ -16,12 +16,12 @@ const ENVTagColor = {
 };
 
 const GlobalHeaderRight: React.FC = () => {
-  const {initialState} = useModel('@@initialState');
+  const { initialState } = useModel('@@initialState');
 
   if (!initialState || !initialState.settings) {
     return null;
   }
-  const {navTheme, layout} = initialState.settings;
+  const { navTheme, layout } = initialState.settings;
   let className = styles.right;
 
   if ((navTheme === 'dark' && layout === 'top') || layout === 'mix') {
@@ -76,16 +76,16 @@ const GlobalHeaderRight: React.FC = () => {
         }
       >
         <span className={styles.action}>
-          <QuestionCircleOutlined/>
+          <QuestionCircleOutlined />
         </span>
       </HeaderDropdown>
-      <Avatar/>
+      <Avatar menu={true} />
       {REACT_APP_ENV && (
         <span>
           <Tag color={ENVTagColor[REACT_APP_ENV]}>{REACT_APP_ENV}</Tag>
         </span>
       )}
-      <SelectLang className={styles.action}/>
+      <SelectLang className={styles.action} />
     </Space>
   );
 };

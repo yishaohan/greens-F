@@ -23,24 +23,41 @@ export default [
   },
   // 只要当前的组件是渲染到Layout布局中,并且指定了name和icon属性,那么会自动作为左侧菜单的内容来显示
   {
-    path: '/welcome',
     name: 'welcome', // antd Pro会根据name指定的KEY到国际化的文件中获取对应的VALUE
+    path: '/welcome',
     icon: 'HomeFilled', // antd Pro会根据icon指定的KEY到antd图标库中获取对应的图标
     component: './Welcome',
   },
   {
-    path: '/admin',
+    name: 'personal-center',
+    path: '/personal',
+    icon: 'UserOutlined',
+    routes: [
+      {
+        name: 'personal-info',
+        path: '/personal/info',
+        component: './Welcome',
+      },
+      {
+        name: 'personal-settings',
+        path: '/personal/settings',
+        component: './Welcome',
+      },
+    ],
+  },
+  {
     name: 'user-management',
+    path: '/admin',
     icon: 'TeamOutlined',
     routes: [
       {
-        path: '/admin/userList',
         name: 'user-list',
+        path: '/admin/userList',
         component: './admin/userManagement/userList',
       },
       {
-        path: '/admin/roleList',
         name: 'role-list',
+        path: '/admin/roleList',
         component: './admin/userManagement/roleList',
       },
     ],

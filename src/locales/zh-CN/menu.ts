@@ -1,4 +1,7 @@
 export default {
+  'menu.personal-center': '个人中心',
+  'menu.personal-center.personal-info': '用户信息',
+  'menu.personal-center.personal-settings': '用户设置',
   'menu.user-management': '用户管理',
   'menu.user-management.user-list': '用户列表',
   'menu.user-management.role-list': '角色列表',

@@ -10,7 +10,6 @@ import {
   importUsers,
   exportUsers,
 } from './services/userList';
-import { getRoles } from './services/roleList';
 import { Switch, Avatar, Space, Button, message, Upload, Tag } from 'antd';
 import {
   PlusOutlined,
@@ -39,7 +38,6 @@ export default (): React.ReactNode => {
 
   // 双向数据绑定(响应式数据)
   const [users, setUsers] = useState<API.UserListItem[]>([]);
-  const [roles, setRoles] = useState<API.RoleListItem[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [currentSelectedRowKeys, setCurrentSelectedRowKeys] = useState<React.ReactText[]>([]);
   const [addUserModalVisible, setAddUserModalVisible] = useState<boolean>(false);
@@ -52,7 +50,8 @@ export default (): React.ReactNode => {
     getUsers(params)
       .then((response) => {
         if (response.status !== 200) {
-          throw new Error('出错了!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+          console.log(`Error: getUsers - ${response.status}`);
+          throw new Error(`Error: getUsers - ${response.status}`);
         }
         return response.data;
       })
@@ -61,32 +60,10 @@ export default (): React.ReactNode => {
         setTotal(data.totalElements);
       })
       .catch((e) => {
+        console.log(`获取用户信息出错 - ${e}`);
         message.error(`获取用户信息出错!${e}`).then(() => {});
       });
   };
-
-  // 获取所有角色列表
-  const handleGetRoles = () => {
-    getRoles({})
-      .then((response) => {
-        if (response.status !== 200) {
-          throw new Error('出错了!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-        }
-        return response.data;
-      })
-      .then((data) => {
-        setRoles(data.content);
-      })
-      .catch((e) => {
-        message.error(`获取角色信息出错!${e}`).then(() => {});
-      });
-  };
-
-  // 生命周期钩子, 页面加载时, 自动触发获取用户列表
-  useEffect(() => {
-    handleGetUsers({ current: currentPage.current, pageSize: sizePerPage.current });
-    handleGetRoles();
-  }, []);
 
   // 新建用户弹窗 | 编辑用户弹窗, 关闭或新建时触发
   useEffect(() => {
@@ -357,7 +334,7 @@ export default (): React.ReactNode => {
           onCancel={() => setSetUserRoleModalVisible(false)}
           modalVisible={setUserRoleModalVisible}
           currentEditUser={currentEditUser!}
-          roles={roles}
+          // roles={roles}
         />
       )}
       {/* ProTable支持Antd Table所有的API, 并且新增了一些API */}

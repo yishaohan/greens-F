@@ -14,6 +14,7 @@ const CodePreview: React.FC = ({ children }) => (
 
 export default (): React.ReactNode => {
   const intl = useIntl();
+  console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXX');
   return (
     <PageContainer>
       <Card>

@@ -31,6 +31,6 @@ export async function getSmsCaptcha(mobilePhone: string) {
   });
 }
 
-export async function outLogin() {
-  return request('/api/login/outLogin');
+export async function logout() {
+  return request('/logout');
 }

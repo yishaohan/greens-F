@@ -47,20 +47,20 @@ declare namespace API {
   }
 
   // 以下为AntD默认的
-  export type CurrentUser = {
-    avatar?: string;
-    name?: string;
-    title?: string;
-    group?: string;
-    signature?: string;
-    tags?: {
-      key: string;
-      label: string;
-    }[];
-    userid?: string;
-    access?: 'user' | 'guest' | 'admin';
-    unreadCount?: number;
-  };
+  // export type CurrentUser = {
+  //   avatar?: string;
+  //   name?: string;
+  //   title?: string;
+  //   group?: string;
+  //   signature?: string;
+  //   tags?: {
+  //     key: string;
+  //     label: string;
+  //   }[];
+  //   userid?: string;
+  //   access?: 'user' | 'guest' | 'admin';
+  //   unreadCount?: number;
+  // };
 
   export type LoginStateType = {
     status?: 'ok' | 'error';
