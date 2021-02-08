@@ -47,18 +47,30 @@ export default [
   },
   {
     name: 'user-management',
-    path: '/admin',
+    path: '/admin/user',
     icon: 'TeamOutlined',
     routes: [
       {
         name: 'user-list',
-        path: '/admin/userList',
-        component: './admin/userManagement/userList',
+        path: '/admin/user/userList',
+        component: './admin/user/userList',
       },
+    ],
+  },
+  {
+    name: 'authorization-management',
+    path: '/admin/auth',
+    icon: 'TeamOutlined',
+    routes: [
       {
         name: 'role-list',
-        path: '/admin/roleList',
-        component: './admin/userManagement/roleList',
+        path: '/admin/auth/roleList',
+        component: './admin/auth/roleList',
+      },
+      {
+        name: 'auth-list',
+        path: '/admin/auth/authList',
+        component: './admin/auth/authList',
       },
     ],
   },

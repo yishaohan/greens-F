@@ -128,9 +128,18 @@ export default (): React.ReactNode => {
   const columns: ProColumns<API.UserListItem>[] = [
     {
       align: 'center',
-      title: 'ID',
+      title: '序号',
+      dataIndex: 'index',
+      valueType: 'index',
       search: false,
+      width: 48,
+    },
+    {
+      align: 'center',
+      title: 'ID',
       dataIndex: 'id',
+      search: false,
+      hideInTable: true,
     },
     {
       align: 'center',

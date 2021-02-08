@@ -46,21 +46,41 @@ declare namespace API {
     enabled: boolean;
   }
 
+  // 权限相关
+  export interface AuthSearchParams {
+    current?: number;
+    pageSize?: number;
+    authName?: string;
+    requestMethod?: string;
+    requestUrl?: string;
+  }
+
+  export interface AuthListItem {
+    id: number;
+    parentId: number;
+    authGrade: number;
+    authName: string;
+    authDescript: string;
+    requestUrl: string;
+    requestMethod: string;
+    enabled: boolean;
+  }
+
   // 以下为AntD默认的
-  // export type CurrentUser = {
-  //   avatar?: string;
-  //   name?: string;
-  //   title?: string;
-  //   group?: string;
-  //   signature?: string;
-  //   tags?: {
-  //     key: string;
-  //     label: string;
-  //   }[];
-  //   userid?: string;
-  //   access?: 'user' | 'guest' | 'admin';
-  //   unreadCount?: number;
-  // };
+  export type CurrentUser = {
+    avatar?: string;
+    name?: string;
+    title?: string;
+    group?: string;
+    signature?: string;
+    tags?: {
+      key: string;
+      label: string;
+    }[];
+    userid?: string;
+    access?: 'user' | 'guest' | 'admin';
+    unreadCount?: number;
+  };
 
   export type LoginStateType = {
     status?: 'ok' | 'error';

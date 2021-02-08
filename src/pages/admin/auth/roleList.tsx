@@ -23,8 +23,8 @@ import {
   importRoles,
   exportRoles,
 } from './services/roleList';
-import AddRoleForm from '@/pages/admin/userManagement/components/addRoleForm';
-import EditRoleForm from '@/pages/admin/userManagement/components/editRoleForm';
+import AddRoleForm from '@/pages/admin/auth/components/addRoleForm';
+import EditRoleForm from '@/pages/admin/auth/components/editRoleForm';
 
 export default (): React.ReactNode => {
   const intl = useIntl();

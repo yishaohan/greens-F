@@ -6,6 +6,7 @@ import { logout } from '@/pages/user/login/services/login';
 import { stringify } from 'querystring';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
+import Cookies from 'js-cookie';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -15,12 +16,14 @@ export type GlobalHeaderRightProps = {
  * 退出登录，并且将当前的 url 保存
  */
 const handleLogout = async () => {
+  Cookies.remove('autoLogin');
   await logout()
     .then((response) => {
       if (response.status !== 200) {
         console.log(`Error: logout - ${response.status}`);
         throw new Error(`Error: logout - ${response.status}`);
       }
+      console.log('用户注销成功!');
       message.success('用户注销成功!');
     })
     .catch((e) => {

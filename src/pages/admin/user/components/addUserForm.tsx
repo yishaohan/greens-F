@@ -87,7 +87,7 @@ const AddUserForm: React.FC<AddUserFormProps> = (props) => {
       return promise.reject('');
     }
     if (value && confirmDirty) {
-      form.validateFields(['confirm']);
+      form.validateFields(['confirm']).then();
     }
     return promise.resolve();
   };

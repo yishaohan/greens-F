@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input, message, Modal, Select, Space, Tag } from 'antd';
 import { useIntl } from 'umi';
 import { addUserRole, deleteUserRole } from '../services/userList';
-import { getRoles } from '../services/roleList';
+import { getRoles } from '../../auth/services/roleList';
 
 const FormItem = Form.Item;
 const { Option } = Select;

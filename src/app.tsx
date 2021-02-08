@@ -24,20 +24,34 @@ export async function getInitialState(): Promise<{
   settings?: LayoutSettings;
   currentUser?: API.UserListItem;
   fetchUserInfo?: () => Promise<API.UserListItem | undefined>;
+  // menuData: MenuDataItem[];
 }> {
   // 获取用户信息
   const fetchUserInfo = async () => {
+    // try {
+    //   let currentUser;
+    //   await getUser().then((response) => {
+    //     if (response.status === 200) {
+    //       currentUser = response.data;
+    //     } else {
+    //       Cookies.remove('autoLogin');
+    //       history.push('/user/login');
+    //     }
+    //   });
+    //   return currentUser;
+    // } catch (error) {
+    //   Cookies.remove('autoLogin');
+    //   history.push('/user/login');
+    // }
+    // return undefined;
     try {
-      let currentUser;
-      await getUser().then((response) => {
-        if (response.status === 200) {
-          currentUser = response.data;
-        } else {
-          Cookies.remove('autoLogin');
-          history.push('/user/login');
-        }
-      });
-      return currentUser;
+      const response = await getUser();
+      if (response.status === 200) {
+        const currentUser: API.UserListItem = response.data;
+        return currentUser;
+      }
+      Cookies.remove('autoLogin');
+      history.push('/user/login');
     } catch (error) {
       Cookies.remove('autoLogin');
       history.push('/user/login');
@@ -49,7 +63,14 @@ export async function getInitialState(): Promise<{
     history.location.pathname !== '/user/login' &&
     history.location.pathname !== '/user/register'
   ) {
+    // 获取当前用户信息
     const currentUser = await fetchUserInfo();
+    // 获取当前用户菜单
+    if (currentUser !== undefined) {
+      // currentUser.roles.forEach((role) => {
+      //
+      // });
+    }
     return {
       fetchUserInfo,
       currentUser,
