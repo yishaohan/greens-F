@@ -163,6 +163,7 @@ export default (): React.ReactNode => {
       align: 'center',
       title: '父权限',
       dataIndex: 'parentId',
+      search: false,
       render: (text: any) => {
         let desc = '';
         allAuths.forEach((auth) => {
@@ -170,6 +171,9 @@ export default (): React.ReactNode => {
             desc = auth.authName;
           }
         });
+        if (desc === '') {
+          return <Tag color={'red'} />;
+        }
         return <Tag color={'green'}>{desc}</Tag>;
       },
     },
@@ -190,7 +194,7 @@ export default (): React.ReactNode => {
       dataIndex: 'requestUrl',
       render: (text: any) => {
         if (text === '-') {
-          return <Tag color={'red'}></Tag>;
+          return <Tag color={'red'} />;
         }
         return <Tag color={'green'}>{text}</Tag>;
       },
@@ -201,7 +205,7 @@ export default (): React.ReactNode => {
       dataIndex: 'requestMethod',
       render: (text: any) => {
         if (text === '-') {
-          return <Tag color={'red'}></Tag>;
+          return <Tag color={'red'} />;
         }
         return <Tag color={'green'}>{text}</Tag>;
       },
@@ -375,7 +379,7 @@ export default (): React.ReactNode => {
         onSubmit={(params) => {
           handleGetAuths({
             // current: currentPage.current,
-            // pageSize: sizePerPage.current,
+            pageSize: sizePerPage.current,
             ...params,
           });
         }}
@@ -383,7 +387,7 @@ export default (): React.ReactNode => {
         onReset={() => {
           handleGetAuths({
             // current: currentPage.current,
-            // pageSize: sizePerPage.current,
+            pageSize: sizePerPage.current,
           });
         }}
         // 行选择处理器
@@ -409,7 +413,7 @@ export default (): React.ReactNode => {
           };
         }}
         */
-      ></ProTable>
+      />
     </PageContainer>
   );
 };

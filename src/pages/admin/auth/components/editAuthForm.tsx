@@ -20,7 +20,7 @@ const EditAuthForm: React.FC<EditAuthFormProps> = (props) => {
   const [form] = Form.useForm(); // 创建用于管理antd表单数据的实例对象,表单中所有数据都会保存于此
   const intl = useIntl();
 
-  const handleOk = () => {
+  const handleSubmit = () => {
     setConfirmLoading(true);
     if (authGrade === 1) {
       form.setFieldsValue({
@@ -63,7 +63,7 @@ const EditAuthForm: React.FC<EditAuthFormProps> = (props) => {
     });
   };
 
-  // 获取所有权限列表
+  // 获取当前权限的上一级权限列表
   const handleGetHigherAuths = (authGradeId: number) => {
     getHigherAuths(authGradeId)
       .then((response) => {
@@ -102,7 +102,7 @@ const EditAuthForm: React.FC<EditAuthFormProps> = (props) => {
       title="编辑权限"
       visible={modalVisible}
       onCancel={() => onCancel()}
-      onOk={handleOk}
+      onOk={handleSubmit}
       confirmLoading={confirmLoading}
     >
       <Form form={form} name="EditAuth" initialValues={currentEditAuth}>

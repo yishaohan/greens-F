@@ -17,7 +17,7 @@ const EditRoleForm: React.FC<EditRoleFormProps> = (props) => {
   const [form] = Form.useForm(); // 创建用于管理antd表单数据的实例对象,表单中所有数据都会保存于此
   const intl = useIntl();
 
-  const handleOk = () => {
+  const handleSubmit = () => {
     setConfirmLoading(true);
     form
       .validateFields()
@@ -54,7 +54,7 @@ const EditRoleForm: React.FC<EditRoleFormProps> = (props) => {
       title="编辑角色"
       visible={modalVisible}
       onCancel={() => onCancel()}
-      onOk={handleOk}
+      onOk={handleSubmit}
       confirmLoading={confirmLoading}
     >
       <Form form={form} name="EditRole" initialValues={currentEditRole}>

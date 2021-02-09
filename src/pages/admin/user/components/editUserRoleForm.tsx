@@ -15,7 +15,7 @@ interface SetUserRoleFormProps {
   // roles: API.RoleListItem[];
 }
 
-const SetUserRoleForm: React.FC<SetUserRoleFormProps> = (props) => {
+const EditUserRoleForm: React.FC<SetUserRoleFormProps> = (props) => {
   const { modalVisible, onCancel, currentEditUser } = props;
   const [roles, setRoles] = useState<API.RoleListItem[]>([]);
   const [userRoles, setUserRoles] = useState<API.RoleListItem[]>(currentEditUser.roles);
@@ -29,7 +29,7 @@ const SetUserRoleForm: React.FC<SetUserRoleFormProps> = (props) => {
   };
 
   // 添加用户角色
-  const handleOk = () => {
+  const handleSubmit = () => {
     setConfirmLoading(true);
     form
       .validateFields()
@@ -126,7 +126,7 @@ const SetUserRoleForm: React.FC<SetUserRoleFormProps> = (props) => {
       title="设置用户权限"
       visible={modalVisible}
       onCancel={() => onCancel()}
-      onOk={handleOk}
+      onOk={handleSubmit}
       confirmLoading={confirmLoading}
     >
       <Form form={form} name="SetUserRole" initialValues={currentEditUser}>
@@ -198,4 +198,4 @@ const SetUserRoleForm: React.FC<SetUserRoleFormProps> = (props) => {
   );
 };
 
-export default SetUserRoleForm;
+export default EditUserRoleForm;

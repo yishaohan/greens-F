@@ -112,7 +112,7 @@ const AddUserForm: React.FC<AddUserFormProps> = (props) => {
     ) : null;
   };
 
-  const handleOk = () => {
+  const handleSubmit = () => {
     setConfirmLoading(true);
     form
       .validateFields()
@@ -176,7 +176,7 @@ const AddUserForm: React.FC<AddUserFormProps> = (props) => {
       title="新建用户"
       visible={modalVisible}
       onCancel={() => onCancel()}
-      onOk={handleOk}
+      onOk={handleSubmit}
       confirmLoading={confirmLoading}
     >
       <Form form={form} name="AddUser">

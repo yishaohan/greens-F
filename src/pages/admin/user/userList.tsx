@@ -25,7 +25,7 @@ import type { FormInstance } from 'antd/lib/form';
 import type { UploadChangeParam } from 'antd/lib/upload';
 import AddUserForm from './components/addUserForm';
 import EditUserForm from './components/editUserForm';
-import SetUserRoleForm from './components/setUserRoleForm';
+import EditUserRoleForm from './components/editUserRoleForm';
 
 // 定义函数式组件
 export default (): React.ReactNode => {
@@ -42,7 +42,7 @@ export default (): React.ReactNode => {
   const [currentSelectedRowKeys, setCurrentSelectedRowKeys] = useState<React.ReactText[]>([]);
   const [addUserModalVisible, setAddUserModalVisible] = useState<boolean>(false);
   const [editUserModalVisible, setEditUserModalVisible] = useState<boolean>(false);
-  const [setUserRoleModalVisible, setSetUserRoleModalVisible] = useState<boolean>(false);
+  const [editUserRoleModalVisible, setEditUserRoleModalVisible] = useState<boolean>(false);
   const [currentEditUser, setCurrentEditUser] = useState<API.UserListItem>();
 
   // 根据页码和搜索参数获取用户
@@ -68,7 +68,7 @@ export default (): React.ReactNode => {
   // 新建用户弹窗 | 编辑用户弹窗, 关闭或新建时触发
   useEffect(() => {
     handleGetUsers({ current: currentPage.current, pageSize: sizePerPage.current });
-  }, [addUserModalVisible, editUserModalVisible, setUserRoleModalVisible]);
+  }, [addUserModalVisible, editUserModalVisible, editUserRoleModalVisible]);
 
   // 更新用户信息
   const handleUpdateUser = (user: API.UserListItem, index: number) => {
@@ -243,7 +243,7 @@ export default (): React.ReactNode => {
               type="primary"
               icon={<SettingOutlined />}
               onClick={() => {
-                setSetUserRoleModalVisible(true);
+                setEditUserRoleModalVisible(true);
                 setCurrentEditUser(record);
               }}
             >
@@ -338,10 +338,10 @@ export default (): React.ReactNode => {
           currentEditUser={currentEditUser!}
         />
       )}
-      {setUserRoleModalVisible && (
-        <SetUserRoleForm
-          onCancel={() => setSetUserRoleModalVisible(false)}
-          modalVisible={setUserRoleModalVisible}
+      {editUserRoleModalVisible && (
+        <EditUserRoleForm
+          onCancel={() => setEditUserRoleModalVisible(false)}
+          modalVisible={editUserRoleModalVisible}
           currentEditUser={currentEditUser!}
           // roles={roles}
         />
@@ -425,7 +425,7 @@ export default (): React.ReactNode => {
         onSubmit={(params) => {
           handleGetUsers({
             // current: currentPage.current,
-            // pageSize: sizePerPage.current,
+            pageSize: sizePerPage.current,
             ...params,
           });
         }}
@@ -433,7 +433,7 @@ export default (): React.ReactNode => {
         onReset={() => {
           handleGetUsers({
             // current: currentPage.current,
-            // pageSize: sizePerPage.current,
+            pageSize: sizePerPage.current,
           });
         }}
         // 行选择处理器
@@ -459,7 +459,7 @@ export default (): React.ReactNode => {
           };
         }}
         */
-      ></ProTable>
+      />
     </PageContainer>
   );
 };

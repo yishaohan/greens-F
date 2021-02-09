@@ -44,6 +44,13 @@ declare namespace API {
     roleName: string;
     roleDescript: string;
     enabled: boolean;
+    auths: AuthListItem[];
+  }
+
+  export interface UpdateRoleAuthParam {
+    roleId: number;
+    addAuthIds: number[];
+    removeAuthIds: number[];
   }
 
   // 权限相关
@@ -64,6 +71,7 @@ declare namespace API {
     requestUrl: string;
     requestMethod: string;
     enabled: boolean;
+    children: AuthListItem[];
   }
 
   // 以下为AntD默认的

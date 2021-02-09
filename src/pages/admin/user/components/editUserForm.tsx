@@ -114,7 +114,7 @@ const EditUserForm: React.FC<EditUserFormProps> = (props) => {
     ) : null;
   };
 
-  const handleOk = () => {
+  const handleSubmit = () => {
     setConfirmLoading(true);
     form
       .validateFields()
@@ -183,7 +183,7 @@ const EditUserForm: React.FC<EditUserFormProps> = (props) => {
       title="编辑用户"
       visible={modalVisible}
       onCancel={() => onCancel()}
-      onOk={handleOk}
+      onOk={handleSubmit}
       confirmLoading={confirmLoading}
     >
       <Form form={form} name="EditUser" initialValues={currentEditUser}>

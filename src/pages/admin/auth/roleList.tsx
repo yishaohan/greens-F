@@ -23,8 +23,9 @@ import {
   importRoles,
   exportRoles,
 } from './services/roleList';
-import AddRoleForm from '@/pages/admin/auth/components/addRoleForm';
-import EditRoleForm from '@/pages/admin/auth/components/editRoleForm';
+import AddRoleForm from './components/addRoleForm';
+import EditRoleForm from './components/editRoleForm';
+import EditRoleAuthForm from './components/editRoleAuthForm';
 
 export default (): React.ReactNode => {
   const intl = useIntl();
@@ -42,6 +43,7 @@ export default (): React.ReactNode => {
   const [currentSelectedRowKeys, setCurrentSelectedRowKeys] = useState<React.ReactText[]>([]);
   const [addRoleModalVisible, setAddRoleModalVisible] = useState<boolean>(false);
   const [editRoleModalVisible, setEditRoleModalVisible] = useState<boolean>(false);
+  const [editRoleAuthsModalVisible, setEditRoleAuthsModalVisible] = useState<boolean>(false);
   const [currentEditRole, setCurrentEditRole] = useState<API.RoleListItem>();
 
   // 根据页码和搜索参数获取用户
@@ -137,9 +139,18 @@ export default (): React.ReactNode => {
   const columns: ProColumns<API.RoleListItem>[] = [
     {
       align: 'center',
-      title: 'ID',
+      title: '序号',
+      dataIndex: 'index',
+      valueType: 'index',
       search: false,
+      width: 48,
+    },
+    {
+      align: 'center',
+      title: 'ID',
       dataIndex: 'id',
+      search: false,
+      hideInTable: true,
     },
     {
       align: 'center',
@@ -185,8 +196,15 @@ export default (): React.ReactNode => {
             >
               编辑
             </Button>
-            <Button type="primary" icon={<SettingOutlined />}>
-              设置
+            <Button
+              type="primary"
+              icon={<SettingOutlined />}
+              onClick={() => {
+                setEditRoleAuthsModalVisible(true);
+                setCurrentEditRole(record);
+              }}
+            >
+              权限
             </Button>
             <Button
               type="primary"
@@ -212,7 +230,7 @@ export default (): React.ReactNode => {
   // 新建角色弹窗 | 编辑角色弹窗, 关闭或新建时触发
   useEffect(() => {
     handleGetRoles({ current: currentPage.current, pageSize: sizePerPage.current });
-  }, [addRoleModalVisible, editRoleModalVisible]);
+  }, [addRoleModalVisible, editRoleModalVisible, editRoleAuthsModalVisible]);
 
   // 处理分页请求
   const handlePagination = (page: number, pageSize: number | undefined) => {
@@ -247,6 +265,15 @@ export default (): React.ReactNode => {
         <EditRoleForm
           onCancel={() => setEditRoleModalVisible(false)}
           modalVisible={editRoleModalVisible}
+          currentEditRole={currentEditRole!}
+        />
+      )}
+      {editRoleAuthsModalVisible && (
+        <EditRoleAuthForm
+          onCancel={() => {
+            setEditRoleAuthsModalVisible(false);
+          }}
+          modalVisible={editRoleAuthsModalVisible}
           currentEditRole={currentEditRole!}
         />
       )}
@@ -327,7 +354,7 @@ export default (): React.ReactNode => {
         onSubmit={(params) => {
           handleGetRoles({
             // current: currentPage.current,
-            // pageSize: sizePerPage.current,
+            pageSize: sizePerPage.current,
             ...params,
           });
         }}
@@ -335,7 +362,7 @@ export default (): React.ReactNode => {
         onReset={() => {
           handleGetRoles({
             // current: currentPage.current,
-            // pageSize: sizePerPage.current,
+            pageSize: sizePerPage.current,
           });
         }}
         // 行选择处理器
@@ -345,7 +372,7 @@ export default (): React.ReactNode => {
             setCurrentSelectedRowKeys([...selectedRowKeys]);
           },
         }}
-      ></ProTable>
+      />
     </PageContainer>
   );
 };
