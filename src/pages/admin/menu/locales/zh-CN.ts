@@ -1,0 +1,18 @@
+export default {
+  'createMenu.sortId.required': '请选择菜单显示顺序!',
+  'createMenu.menuIcon.required': '请选择菜单图标!',
+  'createMenu.menuName.required': '请输入菜单名称!',
+  'createMenu.menuName.placeholder': '请输入菜单名称!',
+  'createMenu.menuDescript.required': '请输入菜单描述!',
+  'createMenu.menuDescript.placeholder': '请输入菜单描述!',
+  'createMenu.menuPath.required': '请输入菜单路径!',
+  'createMenu.menuPath.placeholder': '请输入菜单路径!',
+  'createMenu.menuComponent.required': '请输入菜单对应的组件路径!',
+  'createMenu.menuComponent.placeholder': '请输入菜单对应的组件路径!',
+  'editMenu.menuIcon.required': '请选择菜单图标!',
+  'editMenu.menuName.required': '请输入菜单名称!',
+  'editMenu.menuDescript.required': '请输入菜单描述!',
+  'editMenu.menuPath.required': '请输入菜单路径!',
+  'editMenu.menuComponent.required': '请输入菜单对应的组件路径!',
+  'editMenu.menuComponent.placeholder': '请输入菜单对应的组件路径!',
+};

@@ -26,12 +26,14 @@ import type { UploadChangeParam } from 'antd/lib/upload';
 import AddUserForm from './components/addUserForm';
 import EditUserForm from './components/editUserForm';
 import EditUserRoleForm from './components/editUserRoleForm';
+import { useAccess } from 'umi';
 
 // 定义函数式组件
 export default (): React.ReactNode => {
   // 全局变量
   const currentPage = useRef(1);
   const sizePerPage = useRef<number | undefined>(5);
+  const access = useAccess();
 
   // 获取表单的ref
   const ref = useRef<FormInstance>();
@@ -127,23 +129,23 @@ export default (): React.ReactNode => {
   // 定义界面上ProTable的列信息
   const columns: ProColumns<API.UserListItem>[] = [
     {
-      align: 'center',
       title: '序号',
+      align: 'center',
       dataIndex: 'index',
       valueType: 'index',
       search: false,
       width: 48,
     },
     {
-      align: 'center',
       title: 'ID',
+      align: 'center',
       dataIndex: 'id',
       search: false,
       hideInTable: true,
     },
     {
-      align: 'center',
       title: '头像',
+      align: 'center',
       dataIndex: 'avatarURL',
       search: false,
       render: (text: any, record: any) => {
@@ -151,23 +153,23 @@ export default (): React.ReactNode => {
       },
     },
     {
-      align: 'center',
       title: '昵称',
+      align: 'center',
       dataIndex: 'nickname',
     },
     {
-      align: 'center',
       title: '用户名',
+      align: 'center',
       dataIndex: 'username',
     },
     {
-      align: 'center',
       title: '移动电话',
+      align: 'center',
       dataIndex: 'mobilePhone',
     },
     {
-      align: 'center',
       title: '角色',
+      align: 'center',
       render: (text: any, record: API.UserListItem) => {
         if (record.roles && record.roles.length === 0) {
           return <Tag color={'red'}>{'未分配角色'}</Tag>;
@@ -182,14 +184,14 @@ export default (): React.ReactNode => {
       },
     },
     {
-      align: 'center',
       title: '创建日期',
+      align: 'center',
       dataIndex: 'createDateTime',
       search: false,
     },
     {
-      align: 'center',
       title: '启用',
+      align: 'center',
       dataIndex: 'enabled',
       search: false,
       render: (text: any, record, index) => {
@@ -201,13 +203,14 @@ export default (): React.ReactNode => {
             onChange={(check) => {
               handleUserEnabledStateChange(check, record, index);
             }}
+            disabled={!access['UPDATE_USER']}
           />
         );
       },
     },
     {
-      align: 'center',
       title: '锁定',
+      align: 'center',
       dataIndex: 'locked',
       search: false,
       render: (text: any, record, index) => {
@@ -219,13 +222,14 @@ export default (): React.ReactNode => {
             onChange={(checked) => {
               handleUserLockedStateChange(checked, record, index);
             }}
+            disabled={!access['UPDATE_USER']}
           />
         );
       },
     },
     {
-      align: 'center',
       title: '操作',
+      align: 'center',
       render: (text: any, record) => {
         return (
           <Space>
@@ -236,6 +240,7 @@ export default (): React.ReactNode => {
                 setEditUserModalVisible(true);
                 setCurrentEditUser(record);
               }}
+              disabled={!access['UPDATE_USER']}
             >
               编辑
             </Button>
@@ -246,6 +251,7 @@ export default (): React.ReactNode => {
                 setEditUserRoleModalVisible(true);
                 setCurrentEditUser(record);
               }}
+              disabled={!access['ADD_USER_ROLES'] || !access['DELETE_USER_ROLES']}
             >
               设置
             </Button>
@@ -256,6 +262,7 @@ export default (): React.ReactNode => {
               onClick={() => {
                 handleDeleteUser(record);
               }}
+              disabled={!access['DELETE_USER']}
             >
               删除
             </Button>
@@ -363,6 +370,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               setAddUserModalVisible(true);
             }}
+            disabled={!access['CREATE_USER']}
           >
             新建
           </Button>,
@@ -374,6 +382,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               handleDeleteUsers();
             }}
+            disabled={!access['DELETE_USERS']}
           >
             删除
           </Button>,
@@ -396,7 +405,12 @@ export default (): React.ReactNode => {
               }
             }}
           >
-            <Button key="import" icon={<ImportOutlined />} type="primary">
+            <Button
+              key="import"
+              icon={<ImportOutlined />}
+              type="primary"
+              disabled={!access['IMPORT_USERS']}
+            >
               导入
             </Button>
           </Upload>,
@@ -407,6 +421,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               exportUsers().then(() => {});
             }}
+            disabled={!access['EXPORT_USERS']}
           >
             导出
           </Button>,

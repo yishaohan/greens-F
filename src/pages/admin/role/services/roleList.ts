@@ -58,3 +58,11 @@ export async function updateRoleAuths(roles: API.UpdateRoleAuthParam) {
     data: roles,
   });
 }
+
+// 更新角色菜单
+export async function updateRoleMenus(menus: API.UpdateRoleMenuParam) {
+  return request('/admin/roles/menus', {
+    method: 'PUT',
+    data: menus,
+  });
+}

@@ -2,14 +2,15 @@ import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { getAuths, updateAuth, deleteAuth, deleteAuths } from './services/authList';
+import { getMenus, updateMenu, deleteMenu, deleteMenus } from './services/menuList';
 import { Switch, Space, Button, message, Tag } from 'antd';
 import { PlusOutlined, MinusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useState, useEffect, useRef } from 'react';
 import type { FormInstance } from 'antd/lib/form';
-import AddAuthForm from './components/addAuthForm';
-import EditAuthForm from './components/editAuthForm';
+import AddMenuForm from './components/addMenuForm';
+import EditMenuForm from './components/editMenuForm';
 import { useAccess } from 'umi';
+import * as Icon from '@ant-design/icons/lib/icons';
 
 // 定义函数式组件
 export default (): React.ReactNode => {
@@ -22,46 +23,46 @@ export default (): React.ReactNode => {
   const ref = useRef<FormInstance>();
 
   // 双向数据绑定(响应式数据)
-  const [auths, setAuths] = useState<API.AuthListItem[]>([]);
-  const [allAuths, setAllAuths] = useState<API.AuthListItem[]>([]);
+  const [menus, setMenus] = useState<API.MenuListItem[]>([]);
+  const [allMenus, setAllMenus] = useState<API.MenuListItem[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [currentSelectedRowKeys, setCurrentSelectedRowKeys] = useState<React.ReactText[]>([]);
-  const [addAuthModalVisible, setAddAuthModalVisible] = useState<boolean>(false);
-  const [editAuthModalVisible, setEditAuthModalVisible] = useState<boolean>(false);
-  const [currentEditAuth, setCurrentEditAuth] = useState<API.AuthListItem>();
+  const [addMenuModalVisible, setAddMenuModalVisible] = useState<boolean>(false);
+  const [editMenuModalVisible, setEditMenuModalVisible] = useState<boolean>(false);
+  const [currentEditMenu, setCurrentEditMenu] = useState<API.MenuListItem>();
 
-  // 根据页码和搜索参数获取用户
-  const handleGetAuths = (params: API.AuthSearchParams) => {
-    getAuths(params)
+  // 根据页码和搜索参数获取菜单
+  const handleGetMenus = (params: API.MenuSearchParams) => {
+    getMenus(params)
       .then((response) => {
         if (response.status !== 200) {
-          console.log(`Error: getAuths - ${response.status}`);
-          throw new Error(`Error: getAuths - ${response.status}`);
+          console.log(`Error: getMenus - ${response.status}`);
+          throw new Error(`Error: getMenus - ${response.status}`);
         }
         return response.data;
       })
       .then((data) => {
-        setAuths(data.content);
+        setMenus(data.content);
         setTotal(data.totalElements);
       })
       .catch((e) => {
-        console.log(`获取权限信息出错 - ${e}`);
-        message.error(`获取权限信息出错!${e}`).then(() => {});
+        console.log(`获取菜单信息出错 - ${e}`);
+        message.error(`获取菜单信息出错!${e}`).then(() => {});
       });
   };
 
-  // 根据页码和搜索参数获取用户
-  const handleGetAllAuths = () => {
-    getAuths({ pageSize: 1000 })
+  // 获取所有菜单
+  const handleGetAllMenus = () => {
+    getMenus({ pageSize: 1000 })
       .then((response) => {
         if (response.status !== 200) {
-          console.log(`Error: getAllAuths - ${response.status}`);
-          throw new Error(`Error: getAllAuths - ${response.status}`);
+          console.log(`Error: getAllMenus - ${response.status}`);
+          throw new Error(`Error: getAllMenus - ${response.status}`);
         }
         return response.data;
       })
       .then((data) => {
-        setAllAuths(data.content);
+        setAllMenus(data.content);
       })
       .catch((e) => {
         console.log(`获取所有权限信息出错 - ${e}`);
@@ -69,65 +70,65 @@ export default (): React.ReactNode => {
       });
   };
 
-  // 新建权限弹窗 | 编辑权限弹窗, 关闭或新建时触发
+  // 新建菜单弹窗 | 编辑菜单弹窗, 关闭或新建时触发
   useEffect(() => {
-    handleGetAuths({ current: currentPage.current, pageSize: sizePerPage.current });
-  }, [addAuthModalVisible, editAuthModalVisible]);
+    handleGetMenus({ current: currentPage.current, pageSize: sizePerPage.current });
+  }, [addMenuModalVisible, editMenuModalVisible]);
 
-  // 生命周期钩子, 页面加载时, 自动触发获取所有权限列表
+  // 生命周期钩子, 页面加载时, 自动触发获取所有菜单列表
   useEffect(() => {
-    handleGetAllAuths();
+    handleGetAllMenus();
   }, []);
 
-  // 更新用户信息
-  const handleUpdateAuth = (auth: API.AuthListItem, index: number) => {
+  // 更新菜单信息
+  const handleUpdateMenu = (menu: API.MenuListItem, index: number) => {
     // 修改服务器中的状态
-    updateAuth(auth)
+    updateMenu(menu)
       .then((response) => {
         if (response.status === 201) {
-          message.success('更新权限状态成功!').then(() => {});
+          message.success('更新菜单状态成功!').then(() => {});
           // 修改本地状态
-          const data = [...auths];
-          data[index] = auth;
-          setAuths(data);
+          const data = [...menus];
+          data[index] = menu;
+          setMenus(data);
         } else {
-          message.error(`更新权限状态失败: ${response.msg}`).then(() => {});
+          message.error(`更新菜单状态失败: ${response.msg}`).then(() => {});
         }
       })
       .catch((e) => {
-        message.error(`更新权限状态失败: ${e}`).then(() => {});
+        message.error(`更新菜单状态失败: ${e}`).then(() => {});
       });
   };
 
-  // 更新用户[enabled]属性
-  const handleAuthEnabledStateChange = (check: boolean, auth: API.AuthListItem, index: number) => {
+  // 更新菜单[enabled]属性
+  const handleMenuEnabledStateChange = (check: boolean, menu: API.MenuListItem, index: number) => {
     // eslint-disable-next-line no-param-reassign
-    auth.enabled = check;
-    handleUpdateAuth(auth, index);
+    menu.enabled = check;
+    handleUpdateMenu(menu, index);
   };
 
-  // 删除单个用户
-  const handleDeleteAuth = (auth: API.AuthListItem) => {
-    deleteAuth(auth)
+  // 删除单个菜单
+  const handleDeleteMenu = (menu: API.MenuListItem) => {
+    deleteMenu(menu)
       .then((response) => {
         if (response.status === 204) {
-          message.success('删除权限成功!').then(() => {});
+          message.success('删除菜单成功!').then(() => {});
           // 修改本地状态
           // const data = [...users];
           // data[index] = user;
           // setUsers(data);
-          handleGetAuths({ current: currentPage.current, pageSize: sizePerPage.current });
+          handleGetMenus({ current: currentPage.current, pageSize: sizePerPage.current });
         } else {
-          message.error(`删除权限失败-1: ${response.msg}`).then(() => {});
+          message.error(`删除菜单失败-1: ${response.msg}`).then(() => {});
         }
       })
       .catch((e) => {
-        message.error(`删除权限失败-2: ${e}`).then(() => {});
+        message.error(`删除菜单失败-2: ${e}`).then(() => {});
       });
   };
 
   // 定义界面上ProTable的列信息
-  const columns: ProColumns<API.AuthListItem>[] = [
+  const columns: ProColumns<API.MenuListItem>[] = [
     {
       title: '序号',
       align: 'center',
@@ -146,31 +147,28 @@ export default (): React.ReactNode => {
     {
       title: '等级',
       align: 'center',
-      dataIndex: 'authGrade',
+      dataIndex: 'menuGrade',
       search: false,
       render: (text: any) => {
         if (text === 1) {
-          return <Tag color={'red'}>一级权限</Tag>;
+          return <Tag color={'red'}>一级菜单</Tag>;
         }
         if (text === 2) {
-          return <Tag color={'green'}>二级权限</Tag>;
+          return <Tag color={'green'}>二级菜单</Tag>;
         }
-        if (text === 3) {
-          return <Tag color={'green'}>三级权限</Tag>;
-        }
-        return <Tag color={'red'}>权限错误</Tag>;
+        return <Tag color={'red'}>菜单错误</Tag>;
       },
     },
     {
-      title: '父权限',
+      title: '父菜单',
       align: 'center',
       dataIndex: 'parentId',
       search: false,
       render: (text: any) => {
         let desc = '';
-        allAuths.forEach((auth) => {
-          if (text === auth.id) {
-            desc = auth.authName;
+        allMenus.forEach((menu) => {
+          if (text === menu.id) {
+            desc = menu.menuName;
           }
         });
         if (desc === '') {
@@ -180,33 +178,46 @@ export default (): React.ReactNode => {
       },
     },
     {
+      title: '图标',
+      align: 'center',
+      dataIndex: 'menuIcon',
+      search: false,
+      render: (text: any) => {
+        return React.createElement(Icon[text]);
+      },
+    },
+    {
       title: '名称',
       align: 'center',
-      dataIndex: 'authName',
+      dataIndex: 'menuName',
     },
     {
       title: '描述',
+      align: 'left',
+      dataIndex: 'menuDescript',
+    },
+    {
+      title: '显示顺序',
       align: 'center',
-      dataIndex: 'authDescript',
+      dataIndex: 'sortId',
+      search: false,
     },
     {
       title: '路径',
-      align: 'center',
-      dataIndex: 'requestUrl',
+      align: 'left',
+      dataIndex: 'menuPath',
       render: (text: any) => {
-        if (text === '-') {
-          return <Tag color={'red'} />;
-        }
         return <Tag color={'green'}>{text}</Tag>;
       },
     },
     {
-      title: '请求方法',
-      align: 'center',
-      dataIndex: 'requestMethod',
+      title: '国际化',
+      align: 'left',
+      dataIndex: 'menuComponent',
+      search: false,
       render: (text: any) => {
         if (text === '-') {
-          return <Tag color={'red'} />;
+          return <Tag color={'red'}></Tag>;
         }
         return <Tag color={'green'}>{text}</Tag>;
       },
@@ -223,9 +234,9 @@ export default (): React.ReactNode => {
             unCheckedChildren="启用"
             checked={text}
             onChange={(check) => {
-              handleAuthEnabledStateChange(check, record, index);
+              handleMenuEnabledStateChange(check, record, index);
             }}
-            disabled={!access['UPDATE_AUTH']}
+            disabled={!access['UPDATE_MENU']}
           />
         );
       },
@@ -240,10 +251,10 @@ export default (): React.ReactNode => {
               type="primary"
               icon={<EditOutlined />}
               onClick={() => {
-                setEditAuthModalVisible(true);
-                setCurrentEditAuth(record);
+                setEditMenuModalVisible(true);
+                setCurrentEditMenu(record);
               }}
-              disabled={!access['UPDATE_AUTH']}
+              disabled={!access['UPDATE_MENU']}
             >
               编辑
             </Button>
@@ -252,9 +263,9 @@ export default (): React.ReactNode => {
               danger={true}
               icon={<DeleteOutlined />}
               onClick={() => {
-                handleDeleteAuth(record);
+                handleDeleteMenu(record);
               }}
-              disabled={!access['DELETE_AUTH']}
+              disabled={!access['DELETE_MENU']}
             >
               删除
             </Button>
@@ -265,7 +276,7 @@ export default (): React.ReactNode => {
   ];
 
   // 批量删除用户
-  const handleDeleteAuths = () => {
+  const handleDeleteMenus = () => {
     const ids: (string | number | undefined)[] = [];
     const values = currentSelectedRowKeys.values();
     let i = 0;
@@ -274,48 +285,44 @@ export default (): React.ReactNode => {
       // eslint-disable-next-line no-plusplus
       ids[i++] = value;
     }
-    deleteAuths(ids)
+    deleteMenus(ids)
       .then((response) => {
         if (response.status === 204) {
-          message.success('批量删除权限成功!').then(() => {});
+          message.success('批量删除菜单成功!').then(() => {});
           // 修改本地状态
           // const data = [...users];
           // data[index] = user;
           // setUsers(data);
           setCurrentSelectedRowKeys([]);
-          handleGetAuths({ current: currentPage.current, pageSize: sizePerPage.current });
+          handleGetMenus({ current: currentPage.current, pageSize: sizePerPage.current });
         } else {
-          message.error(`批量删除权限失败: ${response.msg}`).then(() => {});
+          message.error(`批量删除菜单失败: ${response.msg}`).then(() => {});
         }
       })
       .catch((e) => {
-        message.error(`批量删除权限失败: ${e}`).then(() => {});
+        message.error(`批量删除菜单失败: ${e}`).then(() => {});
       });
   };
 
   // 处理分页请求
   const handlePagination = (page: number, pageSize: number | undefined) => {
-    const authName = ref.current!.getFieldValue('authName');
-    const authDescript = ref.current!.getFieldValue('authDescript');
-    const requestUrl = ref.current!.getFieldValue('requestUrl');
-    const requestMethod = ref.current!.getFieldValue('requestMethod');
+    const menuName = ref.current!.getFieldValue('menuName');
+    const menuDescript = ref.current!.getFieldValue('menuDescript');
+    const menuPath = ref.current!.getFieldValue('menuPath');
     const params = {};
-    if (authName) {
-      params['authName'] = authName;
+    if (menuName) {
+      params['menuName'] = menuName;
     }
-    if (authDescript) {
-      params['authDescript'] = authDescript;
+    if (menuDescript) {
+      params['menuDescript'] = menuDescript;
     }
-    if (requestUrl) {
-      params['requestUrl'] = requestUrl;
-    }
-    if (requestMethod) {
-      params['requestMethod'] = requestMethod;
+    if (menuPath) {
+      params['menuPath'] = menuPath;
     }
     currentPage.current = page;
     sizePerPage.current = pageSize;
     // 根据条件获取数据
-    handleGetAuths({
+    handleGetMenus({
       current: currentPage.current,
       pageSize: sizePerPage.current,
       ...params,
@@ -328,17 +335,17 @@ export default (): React.ReactNode => {
     PageContainer会根据当前的路由填入title和breadcrumb
      */
     <PageContainer>
-      {addAuthModalVisible && (
-        <AddAuthForm
-          onCancel={() => setAddAuthModalVisible(false)}
-          modalVisible={addAuthModalVisible}
+      {addMenuModalVisible && (
+        <AddMenuForm
+          onCancel={() => setAddMenuModalVisible(false)}
+          modalVisible={addMenuModalVisible}
         />
       )}
-      {editAuthModalVisible && (
-        <EditAuthForm
-          onCancel={() => setEditAuthModalVisible(false)}
-          modalVisible={editAuthModalVisible}
-          currentEditAuth={currentEditAuth!}
+      {editMenuModalVisible && (
+        <EditMenuForm
+          onCancel={() => setEditMenuModalVisible(false)}
+          modalVisible={editMenuModalVisible}
+          currentEditMenu={currentEditMenu!}
         />
       )}
       {/* ProTable支持Antd Table所有的API, 并且新增了一些API */}
@@ -346,7 +353,7 @@ export default (): React.ReactNode => {
       <ProTable
         rowKey={'id'}
         columns={columns}
-        dataSource={auths}
+        dataSource={menus}
         // 表单引用
         formRef={ref}
         // 工具栏
@@ -356,9 +363,9 @@ export default (): React.ReactNode => {
             icon={<PlusOutlined />}
             type="primary"
             onClick={() => {
-              setAddAuthModalVisible(true);
+              setAddMenuModalVisible(true);
             }}
-            disabled={!access['CREATE_AUTH']}
+            disabled={!access['CREATE_MENU']}
           >
             新建
           </Button>,
@@ -368,9 +375,9 @@ export default (): React.ReactNode => {
             type="primary"
             danger={true}
             onClick={() => {
-              handleDeleteAuths();
+              handleDeleteMenus();
             }}
-            disabled={!access['DELETE_AUTHS']}
+            disabled={!access['DELETE_MENUS']}
           >
             删除
           </Button>,
@@ -387,7 +394,7 @@ export default (): React.ReactNode => {
         }}
         // 提交表单(点击"查询")事件处理
         onSubmit={(params) => {
-          handleGetAuths({
+          handleGetMenus({
             // current: currentPage.current,
             pageSize: sizePerPage.current,
             ...params,
@@ -395,7 +402,7 @@ export default (): React.ReactNode => {
         }}
         // 重置表单(点击"重置")事件处理
         onReset={() => {
-          handleGetAuths({
+          handleGetMenus({
             // current: currentPage.current,
             pageSize: sizePerPage.current,
           });

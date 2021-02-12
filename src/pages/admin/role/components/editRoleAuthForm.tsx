@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { message, Modal, Tree } from 'antd';
 // import {useIntl} from 'umi';
-import { getAuths } from '../services/authList';
+import { getAuths } from '../../auth/services/authList';
 import { updateRoleAuths } from '../services/roleList';
 import { generatorAuthTree } from '@/utils/utils';
 

@@ -18,8 +18,9 @@ import type { LoginParamsType } from './services/login';
 import { doLogin, getSmsCaptcha } from './services/login';
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
-
 import styles from './index.less';
+import { generatorMenuTree } from '@/utils/utils';
+import { generatorMenuData } from '@/utils/utils';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -61,10 +62,37 @@ const Login: React.FC = () => {
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
-      setInitialState({
-        ...initialState,
-        currentUser: userInfo,
-      });
+      // ?????????????????????????????????????????????????????
+      // 登录成功后,获取用户菜单
+      let menus: API.MenuListItem[] = [];
+      if (userInfo !== undefined) {
+        userInfo.roles.forEach((role) => {
+          menus = [...menus, ...role.menus];
+        });
+        menus = generatorMenuTree(menus);
+        // 根据获取到的菜单生成AntD Pro MenuDataItem[]
+        const menuData = generatorMenuData(menus);
+
+        setInitialState({
+          ...initialState,
+          currentUser: userInfo,
+          menuData,
+          // settings: {
+          //   menu: {
+          //     loading: false,
+          //   },
+          // },
+        });
+        console.log('登录成功后,获取用户菜单');
+        console.log(menuData);
+      }
+      console.log(initialState!.currentUser);
+      // ?????????????????????????????????????????????????????
+
+      // setInitialState({
+      //   ...initialState,
+      //   currentUser: userInfo,
+      // });
     }
   };
 
@@ -85,6 +113,7 @@ const Login: React.FC = () => {
       if (msg.status === 200) {
         message.success('登录成功！');
         await fetchUserInfo();
+        console.log(msg);
         Cookies.set('autoLogin', `${values.autoLogin}`, { expires: 7 });
         goto(); // 登录成功后跳转
         return;
@@ -94,6 +123,7 @@ const Login: React.FC = () => {
       // 如果失败去设置用户错误信息
       setUserLoginState(msg);
     } catch (error) {
+      console.log(`登录失败，请重试!${error}`);
       message.error(`登录失败，请重试!${error}`);
     }
     setSubmitting(false);

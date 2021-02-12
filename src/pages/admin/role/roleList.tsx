@@ -3,7 +3,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { useIntl } from 'umi';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Button, message, Space, Switch, Upload } from 'antd';
+import { Button, message, Space, Switch, Upload, Row, Col, Tag } from 'antd';
 import {
   DeleteOutlined,
   EditOutlined,
@@ -26,6 +26,11 @@ import {
 import AddRoleForm from './components/addRoleForm';
 import EditRoleForm from './components/editRoleForm';
 import EditRoleAuthForm from './components/editRoleAuthForm';
+import EditRoleMenuForm from './components/editRoleMenuForm';
+import { generatorAuthTree } from '@/utils/utils';
+import { generatorMenuTree } from '@/utils/utils';
+import { useAccess } from 'umi';
+import Style from './roleList.less';
 
 export default (): React.ReactNode => {
   const intl = useIntl();
@@ -33,6 +38,7 @@ export default (): React.ReactNode => {
   // 全局变量
   const currentPage = useRef(1);
   const sizePerPage = useRef<number | undefined>(5);
+  const access = useAccess();
 
   // 获取表单的ref
   const ref = useRef<FormInstance>();
@@ -44,6 +50,7 @@ export default (): React.ReactNode => {
   const [addRoleModalVisible, setAddRoleModalVisible] = useState<boolean>(false);
   const [editRoleModalVisible, setEditRoleModalVisible] = useState<boolean>(false);
   const [editRoleAuthsModalVisible, setEditRoleAuthsModalVisible] = useState<boolean>(false);
+  const [editRoleMenusModalVisible, setEditRoleMenusModalVisible] = useState<boolean>(false);
   const [currentEditRole, setCurrentEditRole] = useState<API.RoleListItem>();
 
   // 根据页码和搜索参数获取用户
@@ -138,33 +145,33 @@ export default (): React.ReactNode => {
   // 定义界面上ProTable的列信息
   const columns: ProColumns<API.RoleListItem>[] = [
     {
-      align: 'center',
       title: '序号',
+      align: 'center',
       dataIndex: 'index',
       valueType: 'index',
       search: false,
       width: 48,
     },
     {
-      align: 'center',
       title: 'ID',
+      align: 'center',
       dataIndex: 'id',
       search: false,
       hideInTable: true,
     },
     {
+      title: '名称',
       align: 'center',
-      title: '角色名称',
       dataIndex: 'roleName',
     },
     {
+      title: '描述',
       align: 'center',
-      title: '角色描述',
       dataIndex: 'roleDescript',
     },
     {
-      align: 'center',
       title: '启用',
+      align: 'center',
       dataIndex: 'enabled',
       search: false,
       render: (text: any, record, index) => {
@@ -176,13 +183,14 @@ export default (): React.ReactNode => {
             onChange={(check) => {
               handleRoleEnabledStateChange(check, record, index);
             }}
+            disabled={!access['UPDATE_ROLE']}
           />
         );
       },
     },
     {
-      align: 'center',
       title: '操作',
+      align: 'center',
       render: (text: any, record) => {
         return (
           <Space>
@@ -193,6 +201,7 @@ export default (): React.ReactNode => {
                 setEditRoleModalVisible(true);
                 setCurrentEditRole(record);
               }}
+              disabled={!access['UPDATE_ROLE']}
             >
               编辑
             </Button>
@@ -203,8 +212,20 @@ export default (): React.ReactNode => {
                 setEditRoleAuthsModalVisible(true);
                 setCurrentEditRole(record);
               }}
+              disabled={!access['ADD_ROLE_AUTHS'] || !access['DELETE_ROLE_AUTHS']}
             >
               权限
+            </Button>
+            <Button
+              type="primary"
+              icon={<SettingOutlined />}
+              onClick={() => {
+                setEditRoleMenusModalVisible(true);
+                setCurrentEditRole(record);
+              }}
+              disabled={!access['ADD_ROLE_MENUS'] || !access['DELETE_ROLE_MENUS']}
+            >
+              菜单
             </Button>
             <Button
               type="primary"
@@ -213,6 +234,7 @@ export default (): React.ReactNode => {
               onClick={() => {
                 handleDeleteRole(record);
               }}
+              disabled={!access['DELETE_ROLE']}
             >
               删除
             </Button>
@@ -230,7 +252,12 @@ export default (): React.ReactNode => {
   // 新建角色弹窗 | 编辑角色弹窗, 关闭或新建时触发
   useEffect(() => {
     handleGetRoles({ current: currentPage.current, pageSize: sizePerPage.current });
-  }, [addRoleModalVisible, editRoleModalVisible, editRoleAuthsModalVisible]);
+  }, [
+    addRoleModalVisible,
+    editRoleModalVisible,
+    editRoleAuthsModalVisible,
+    editRoleMenusModalVisible,
+  ]);
 
   // 处理分页请求
   const handlePagination = (page: number, pageSize: number | undefined) => {
@@ -251,6 +278,96 @@ export default (): React.ReactNode => {
       pageSize: sizePerPage.current,
       ...params,
     });
+  };
+
+  // 处理表格展开渲染
+  const expandedRowRender = (record: API.RoleListItem) => {
+    return (
+      <>
+        {record.auths && record.auths.length !== 0 && (
+          <Row className={Style.normal} align={'middle'}>
+            <Col span={6} style={{ textAlign: 'center' }}>
+              <Tag color="orange" style={{ width: '120px' }}>
+                权限
+              </Tag>
+            </Col>
+            <Col span={18}>
+              {generatorAuthTree(record.auths).map((auth, index) => {
+                return (
+                  <Row
+                    key={index}
+                    className={index === 0 ? Style.special : Style.normal}
+                    align={'middle'}
+                  >
+                    <Col span={6} style={{ textAlign: 'center' }}>
+                      <Tag color="orange" style={{ width: '120px' }}>
+                        {auth.authDescript}
+                      </Tag>
+                    </Col>
+                    <Col span={18}>
+                      {auth.children &&
+                        auth.children.length !== 0 &&
+                        auth.children.map((children) => {
+                          return (
+                            <Tag
+                              key={`authDescript${children.id}`}
+                              color="green"
+                              style={{ textAlign: 'center', minWidth: '120px' }}
+                            >
+                              {children.authDescript}
+                            </Tag>
+                          );
+                        })}
+                    </Col>
+                  </Row>
+                );
+              })}
+            </Col>
+          </Row>
+        )}
+        {record.menus && record.menus.length !== 0 && (
+          <Row className={Style.normal} align={'middle'} style={{ borderBottom: '1px solid #ccc' }}>
+            <Col span={6} style={{ textAlign: 'center' }}>
+              <Tag color="orange" style={{ width: '120px' }}>
+                菜单
+              </Tag>
+            </Col>
+            <Col span={18}>
+              {generatorMenuTree(record.menus).map((menu, index) => {
+                return (
+                  <Row
+                    key={index}
+                    className={index === 0 ? Style.special : Style.normal}
+                    align={'middle'}
+                  >
+                    <Col span={6} style={{ textAlign: 'center' }}>
+                      <Tag color="orange" style={{ width: '120px' }}>
+                        {menu.menuName}
+                      </Tag>
+                    </Col>
+                    <Col span={18}>
+                      {menu.children &&
+                        menu.children.length !== 0 &&
+                        menu.children.map((children) => {
+                          return (
+                            <Tag
+                              key={`menuDescript${children.id}`}
+                              color="green"
+                              style={{ textAlign: 'center', minWidth: '120px' }}
+                            >
+                              {children.menuName}
+                            </Tag>
+                          );
+                        })}
+                    </Col>
+                  </Row>
+                );
+              })}
+            </Col>
+          </Row>
+        )}
+      </>
+    );
   };
 
   return (
@@ -277,6 +394,15 @@ export default (): React.ReactNode => {
           currentEditRole={currentEditRole!}
         />
       )}
+      {editRoleMenusModalVisible && (
+        <EditRoleMenuForm
+          onCancel={() => {
+            setEditRoleMenusModalVisible(false);
+          }}
+          modalVisible={editRoleMenusModalVisible}
+          currentEditRole={currentEditRole!}
+        />
+      )}
       <ProTable
         rowKey={'id'}
         columns={columns}
@@ -292,6 +418,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               setAddRoleModalVisible(true);
             }}
+            disabled={!access['CREATE_ROLE']}
           >
             新建
           </Button>,
@@ -303,6 +430,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               handleDeleteRoles();
             }}
+            disabled={!access['DELETE_ROLES']}
           >
             删除
           </Button>,
@@ -325,7 +453,12 @@ export default (): React.ReactNode => {
               }
             }}
           >
-            <Button key="import" icon={<ImportOutlined />} type="primary">
+            <Button
+              key="import"
+              icon={<ImportOutlined />}
+              type="primary"
+              disabled={!access['IMPORT_ROLES']}
+            >
               导入
             </Button>
           </Upload>,
@@ -336,6 +469,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               exportRoles().then(() => {});
             }}
+            disabled={!access['EXPORT_ROLES']}
           >
             导出
           </Button>,
@@ -370,6 +504,14 @@ export default (): React.ReactNode => {
           selectedRowKeys: currentSelectedRowKeys,
           onChange: (selectedRowKeys) => {
             setCurrentSelectedRowKeys([...selectedRowKeys]);
+          },
+        }}
+        expandable={{
+          expandedRowRender: (record) => {
+            return expandedRowRender(record);
+          },
+          rowExpandable: () => {
+            return true;
           },
         }}
       />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input, message, Modal, Select, Space, Tag } from 'antd';
 import { useIntl } from 'umi';
 import { addUserRole, deleteUserRole } from '../services/userList';
-import { getRoles } from '../../auth/services/roleList';
+import { getRoles } from '../../role/services/roleList';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -123,7 +123,7 @@ const EditUserRoleForm: React.FC<SetUserRoleFormProps> = (props) => {
   return (
     <Modal
       destroyOnClose
-      title="设置用户权限"
+      title="设置用户角色"
       visible={modalVisible}
       onCancel={() => onCancel()}
       onOk={handleSubmit}

@@ -6,11 +6,13 @@ import type { RunTimeLayoutConfig } from 'umi';
 import { history } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-// import type {ResponseError} from 'umi-request';
 import { getUser } from './services/user';
 import defaultSettings from '../config/defaultSettings';
 import logo from '../public/resources/Y192.png';
 import Cookies from 'js-cookie';
+import { MenuDataItem } from '@ant-design/pro-layout';
+import { generatorMenuTree } from '@/utils/utils';
+import { generatorMenuData } from '@/utils/utils';
 
 /**
  * 获取用户信息比较慢的时候会展示一个 loading
@@ -24,10 +26,11 @@ export async function getInitialState(): Promise<{
   settings?: LayoutSettings;
   currentUser?: API.UserListItem;
   fetchUserInfo?: () => Promise<API.UserListItem | undefined>;
-  // menuData: MenuDataItem[];
+  menuData?: MenuDataItem[];
 }> {
   // 获取用户信息
   const fetchUserInfo = async () => {
+    // 异步调用: 获取当前用户信息
     // try {
     //   let currentUser;
     //   await getUser().then((response) => {
@@ -44,6 +47,8 @@ export async function getInitialState(): Promise<{
     //   history.push('/user/login');
     // }
     // return undefined;
+
+    // 同步调用: 获取当前用户信息
     try {
       const response = await getUser();
       if (response.status === 200) {
@@ -65,16 +70,23 @@ export async function getInitialState(): Promise<{
   ) {
     // 获取当前用户信息
     const currentUser = await fetchUserInfo();
+    console.log(currentUser);
     // 获取当前用户菜单
+    let menus: API.MenuListItem[] = [];
     if (currentUser !== undefined) {
-      // currentUser.roles.forEach((role) => {
-      //
-      // });
+      currentUser.roles.forEach((role) => {
+        menus = [...menus, ...role.menus];
+      });
+      menus = generatorMenuTree(menus);
     }
+
+    // 根据获取到的菜单生成AntD Pro MenuDataItem[]
+    const menuData: MenuDataItem[] = generatorMenuData(menus);
     return {
       fetchUserInfo,
       currentUser,
       settings: defaultSettings,
+      menuData,
     };
   }
   return {
@@ -91,6 +103,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     disableContentMargin: false,
     footerRender: () => <Footer />,
     onPageChange: () => {
+      // const {currentUser} = initialState;
       const { location } = history;
       // 如果没有登录，重定向到 login  ?????????????????????????????????????????????????????
       if (
@@ -103,55 +116,14 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       }
     },
     menuHeaderRender: undefined,
+    menuDataRender: (menuData) => {
+      // console.log(initialState!.menuData);
+      // console.log(menuData);
+      return initialState!.menuData || menuData;
+    },
+    // menuDataRender: (menuData) => initialState.menuData || menuData,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     ...initialState?.settings,
   };
 };
-
-// const codeMessage = {
-//   200: '服务器成功返回请求的数据。',
-//   201: '新建或修改数据成功。',
-//   202: '一个请求已经进入后台排队（异步任务）。',
-//   204: '删除数据成功。',
-//   400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-//   401: '用户没有权限（令牌、用户名、密码错误）。',
-//   403: '用户得到授权，但是访问是被禁止的。',
-//   404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-//   405: '请求方法不被允许。',
-//   406: '请求的格式不可得。',
-//   410: '请求的资源被永久删除，且不会再得到的。',
-//   422: '当创建一个对象时，发生一个验证错误。',
-//   500: '服务器发生错误，请检查服务器。',
-//   502: '网关错误。',
-//   503: '服务不可用，服务器暂时过载或维护。',
-//   504: '网关超时。',
-// };
-
-/**
- * 异常处理程序
- */
-// const errorHandler = (error: ResponseError) => {
-//   const {response} = error;
-//   if (response && response.status) {
-//     const errorText = codeMessage[response.status] || response.statusText;
-//     const {status, url} = response;
-//
-//     notification.error({
-//       message: `请求错误 ${status}: ${url}`,
-//       description: errorText,
-//     });
-//   }
-//
-//   if (!response) {
-//     notification.error({
-//       description: '您的网络发生异常，无法连接服务器',
-//       message: '网络异常',
-//     });
-//   }
-//   throw error;
-// };
-
-// export const request: RequestConfig = {
-//   errorHandler,
-// };

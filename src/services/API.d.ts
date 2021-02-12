@@ -45,12 +45,19 @@ declare namespace API {
     roleDescript: string;
     enabled: boolean;
     auths: AuthListItem[];
+    menus: MenuListItem[];
   }
 
   export interface UpdateRoleAuthParam {
     roleId: number;
     addAuthIds: number[];
     removeAuthIds: number[];
+  }
+
+  export interface UpdateRoleMenuParam {
+    roleId: number;
+    addMenuIds: number[];
+    removeMenuIds: number[];
   }
 
   // 权限相关
@@ -74,21 +81,44 @@ declare namespace API {
     children: AuthListItem[];
   }
 
+  // 菜单相关
+  export interface MenuSearchParams {
+    current?: number;
+    pageSize?: number;
+    menuName?: string;
+    menuDescript?: string;
+    menuPath?: string;
+  }
+
+  export interface MenuListItem {
+    id: number;
+    parentId: number;
+    menuGrade: number;
+    sortId: number;
+    menuIcon: string;
+    menuName: string;
+    menuDescript: string;
+    menuPath: string;
+    menuComponent: string;
+    enabled: boolean;
+    children: MenuListItem[];
+  }
+
   // 以下为AntD默认的
-  export type CurrentUser = {
-    avatar?: string;
-    name?: string;
-    title?: string;
-    group?: string;
-    signature?: string;
-    tags?: {
-      key: string;
-      label: string;
-    }[];
-    userid?: string;
-    access?: 'user' | 'guest' | 'admin';
-    unreadCount?: number;
-  };
+  // export type CurrentUser = {
+  //   avatar?: string;
+  //   name?: string;
+  //   title?: string;
+  //   group?: string;
+  //   signature?: string;
+  //   tags?: {
+  //     key: string;
+  //     label: string;
+  //   }[];
+  //   userid?: string;
+  //   access?: 'user' | 'guest' | 'admin';
+  //   unreadCount?: number;
+  // };
 
   export type LoginStateType = {
     status?: 'ok' | 'error';

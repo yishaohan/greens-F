@@ -24,9 +24,22 @@ export default [
   // 只要当前的组件是渲染到Layout布局中,并且指定了name和icon属性,那么会自动作为左侧菜单的内容来显示
   {
     name: 'welcome', // antd Pro会根据name指定的KEY到国际化的文件中获取对应的VALUE
-    path: '/welcome',
+    path: '/info',
     icon: 'HomeFilled', // antd Pro会根据icon指定的KEY到antd图标库中获取对应的图标
-    component: './Welcome',
+    routes: [
+      {
+        name: 'dashboard',
+        path: '/info/dashboard',
+        component: '@/pages/Welcome',
+        access: 'canDashboardPage',
+      },
+      {
+        name: 'school',
+        path: '/info/schools',
+        component: './Welcome',
+        access: 'canSchoolsPage',
+      },
+    ],
   },
   {
     name: 'personal-center',
@@ -37,11 +50,13 @@ export default [
         name: 'personal-info',
         path: '/personal/info',
         component: './Welcome',
+        access: 'canPersonalInfoPage',
       },
       {
         name: 'personal-settings',
         path: '/personal/settings',
         component: './Welcome',
+        access: 'canPersonalSettingsPage',
       },
     ],
   },
@@ -54,29 +69,38 @@ export default [
         name: 'user-list',
         path: '/admin/user/userList',
         component: './admin/user/userList',
+        access: 'canUserListPage',
       },
     ],
   },
   {
     name: 'authorization-management',
-    path: '/admin/auth',
-    icon: 'TeamOutlined',
+    path: '/admin/',
+    icon: 'SafetyCertificateOutlined',
     routes: [
       {
         name: 'role-list',
-        path: '/admin/auth/roleList',
-        component: './admin/auth/roleList',
+        path: '/admin/role/roleList',
+        component: './admin/role/roleList',
+        access: 'canRoleListPage',
       },
       {
         name: 'auth-list',
         path: '/admin/auth/authList',
         component: './admin/auth/authList',
+        access: 'canAuthListPage',
+      },
+      {
+        name: 'menu-list',
+        path: '/admin/menu/menuList',
+        component: './admin/menu/menuList',
+        access: 'canMenuListPage',
       },
     ],
   },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/info/dashboard',
   },
   {
     component: './404',

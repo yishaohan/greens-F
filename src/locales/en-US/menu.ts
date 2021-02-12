@@ -1,5 +1,17 @@
 export default {
   'menu.welcome': 'Welcome',
+  'menu.welcome.dashboard': 'dashboard',
+  'menu.welcome.school': 'school info',
+  'menu.personal-center': 'personal center',
+  'menu.personal-center.personal-info': 'personal info',
+  'menu.personal-center.personal-settings': 'personal settings',
+  'menu.user-management': 'user management',
+  'menu.user-management.user-list': 'user list',
+  'menu.authorization-management': 'authorization management',
+  'menu.authorization-management.role-list': 'role list',
+  'menu.authorization-management.auth-list': 'auth list',
+  'menu.authorization-management.menu-list': 'menu list',
+  // /////////////////////////////////////////////////////////
   'menu.more-blocks': 'More Blocks',
   'menu.home': 'Home',
   'menu.admin': 'Admin',
