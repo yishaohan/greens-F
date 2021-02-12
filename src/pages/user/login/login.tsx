@@ -19,8 +19,7 @@ import { doLogin, getSmsCaptcha } from './services/login';
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import styles from './index.less';
-import { generatorMenuTree } from '@/utils/utils';
-import { generatorMenuData } from '@/utils/utils';
+import { generatorMenuTree, generatorMenuData, getUserMenus } from '@/utils/utils';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -66,13 +65,10 @@ const Login: React.FC = () => {
       // 登录成功后,获取用户菜单
       let menus: API.MenuListItem[] = [];
       if (userInfo !== undefined) {
-        userInfo.roles.forEach((role) => {
-          menus = [...menus, ...role.menus];
-        });
+        menus = getUserMenus(userInfo);
         menus = generatorMenuTree(menus);
         // 根据获取到的菜单生成AntD Pro MenuDataItem[]
         const menuData = generatorMenuData(menus);
-
         setInitialState({
           ...initialState,
           currentUser: userInfo,
@@ -83,8 +79,6 @@ const Login: React.FC = () => {
           //   },
           // },
         });
-        console.log('登录成功后,获取用户菜单');
-        console.log(menuData);
       }
       console.log(initialState!.currentUser);
       // ?????????????????????????????????????????????????????
@@ -369,5 +363,4 @@ const Login: React.FC = () => {
     </div>
   );
 };
-
 export default Login;

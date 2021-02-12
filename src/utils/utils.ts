@@ -1,5 +1,5 @@
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
-import { MenuDataItem } from '@ant-design/pro-layout';
+import type { MenuDataItem } from '@ant-design/pro-layout';
 import React from 'react';
 import * as Icon from '@ant-design/icons/lib/icons';
 
@@ -72,6 +72,30 @@ export const generatorMenuData = (menus: API.MenuListItem[]): MenuDataItem[] => 
     }
   });
   return menuData;
+};
+
+// 获取当前用户所有菜单
+export const getUserMenus = (user: API.UserListItem): API.MenuListItem[] => {
+  // 获取当前用户菜单
+  const menus: API.MenuListItem[] = [];
+  if (user !== undefined) {
+    let include = false;
+    user.roles.forEach((role) => {
+      role.menus.forEach((menu) => {
+        menus.forEach((includeMenu) => {
+          if (includeMenu.menuName === menu.menuName) {
+            include = true;
+          }
+        });
+        if (!include) {
+          menus.push(menu);
+        }
+        include = false;
+      });
+    });
+    return menus;
+  }
+  return [];
 };
 
 // 给官方演示站点用，用于关闭真实开发环境不需要使用的特性

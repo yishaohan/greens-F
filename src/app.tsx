@@ -10,9 +10,8 @@ import { getUser } from './services/user';
 import defaultSettings from '../config/defaultSettings';
 import logo from '../public/resources/Y192.png';
 import Cookies from 'js-cookie';
-import { MenuDataItem } from '@ant-design/pro-layout';
-import { generatorMenuTree } from '@/utils/utils';
-import { generatorMenuData } from '@/utils/utils';
+import type { MenuDataItem } from '@ant-design/pro-layout';
+import { generatorMenuTree, generatorMenuData, getUserMenus } from '@/utils/utils';
 
 /**
  * 获取用户信息比较慢的时候会展示一个 loading
@@ -70,15 +69,12 @@ export async function getInitialState(): Promise<{
   ) {
     // 获取当前用户信息
     const currentUser = await fetchUserInfo();
-    console.log(currentUser);
     // 获取当前用户菜单
     let menus: API.MenuListItem[] = [];
     if (currentUser !== undefined) {
-      currentUser.roles.forEach((role) => {
-        menus = [...menus, ...role.menus];
-      });
-      menus = generatorMenuTree(menus);
+      menus = getUserMenus(currentUser);
     }
+    menus = generatorMenuTree(menus);
 
     // 根据获取到的菜单生成AntD Pro MenuDataItem[]
     const menuData: MenuDataItem[] = generatorMenuData(menus);

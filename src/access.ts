@@ -8,14 +8,15 @@ export default function access(initialState: { currentUser?: API.UserListItem | 
   if (currentUser !== undefined) {
     currentUser.roles.forEach((role) => {
       role.menus.forEach((menu) => {
-        paths.push(menu.menuPath);
+        if (!paths.includes(menu.menuPath)) {
+          paths.push(menu.menuPath);
+        }
       });
       role.auths.forEach((auth) => {
         auths[auth.authName] = true;
       });
     });
   }
-
   return {
     canDashboardPage: paths.includes('/info/dashboard'),
     canSchoolsPage: paths.includes('/info/schools'),

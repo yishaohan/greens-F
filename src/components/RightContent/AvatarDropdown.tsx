@@ -56,7 +56,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       const { key } = event;
       if (key === 'logout' && initialState) {
         // ????????清除已缓存的菜单项
-        // initialState.menuData = [];
+        initialState.menuData = [];
         setInitialState({ ...initialState, currentUser: undefined });
         handleLogout().then();
         return;
