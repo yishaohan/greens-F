@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import request, { BASE_PATH } from '@/utils/request';
 
 // 根据指定条件获取角色信息
 export async function getRoles(params: API.RoleSearchParams) {
@@ -33,13 +33,13 @@ export async function deleteRoles(ids: (string | number | undefined)[]) {
 
 // 导入角色列表
 export function importRoles() {
-  return 'https://xclass.highspeed.vip:50443/api/v1/admin/roles/import';
+  return `${BASE_PATH}/admin/roles/import`;
 }
 
 // 导出角色列表
 export async function exportRoles() {
   const oA = document.createElement('a');
-  oA.setAttribute('href', 'https://xclass.highspeed.vip:50443/api/v1/admin/roles/export');
+  oA.setAttribute('href', `${BASE_PATH}/admin/roles/export`);
   oA.click();
 }
 

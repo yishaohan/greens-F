@@ -53,8 +53,15 @@ const errorHandler = (error: ResponseError) => {
   throw error;
 };
 
+let path = 'https://projecty.highspeed.vip/api/v1';
+if (process.env.NODE_ENV === 'development') {
+  path = 'https://xclass.highspeed.vip:50080/api/v1';
+}
+
+export const BASE_PATH = path;
+
 const request = extend({
-  prefix: 'https://xclass.highspeed.vip:50443/api/v1',
+  prefix: path,
   timeout: 3000,
   credentials: 'include', // 默认请求是否带上cookie
   errorHandler,
