@@ -104,6 +104,37 @@ declare namespace API {
     children: MenuListItem[];
   }
 
+  // BS Schools COVID19相关
+  export interface BCSchoolsCOVID19SearchParams {
+    current?: number;
+    pageSize?: number;
+    schoolName?: string;
+    districtName?: string;
+    cityName?: string;
+    healthRegionName?: string;
+    notificationDate?: string;
+    notificationMethod?: string;
+  }
+
+  export interface BCSchoolsCOVID19ListItem {
+    id: number;
+    schoolId: string;
+    schoolName: string;
+    districtId: string;
+    districtName: string;
+    districtAbb: string;
+    cityId: string;
+    cityName: string;
+    healthId: string;
+    healthRegionName: string;
+    notificationDate: string;
+    notificationMethod: string;
+    exposureDate: string;
+    exposureNumber: number;
+    extraInfo: string;
+    documentation: string;
+  }
+
   // 以下为AntD默认的
   // export type CurrentUser = {
   //   avatar?: string;

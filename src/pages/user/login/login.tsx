@@ -42,7 +42,7 @@ const goto = () => {
   setTimeout(() => {
     const { query } = history.location;
     const { redirect } = query as { redirect: string };
-    history.push(redirect || '/info/dashboard');
+    history.push(redirect || '/info/schools');
   }, 10);
 };
 

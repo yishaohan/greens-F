@@ -36,7 +36,7 @@ export default [
       {
         name: 'school',
         path: '/info/schools',
-        component: './Welcome',
+        component: './covid19/school/schoolsDashBoard.tsx',
         access: 'canSchoolsPage',
       },
     ],
@@ -100,7 +100,7 @@ export default [
   },
   {
     path: '/',
-    redirect: '/info/dashboard',
+    redirect: '/info/schools',
   },
   {
     component: './404',

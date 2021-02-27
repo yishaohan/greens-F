@@ -4,14 +4,15 @@ const Settings: LayoutSettings & {
   pwa?: boolean;
   logo?: string;
 } = {
-  navTheme: 'light',
+  navTheme: 'realDark',
   // 拂晓蓝
   primaryColor: '#1890ff',
-  layout: 'mix',
+  // primaryColor: '#FF8800',
   contentWidth: 'Fluid',
-  fixedHeader: false,
+  layout: 'top',
+  fixedHeader: true,
   fixSiderbar: true,
-  colorWeak: false,
+  colorWeak: true,
   title: 'Project Y',
   pwa: false,
   // Pro5通过此配置文件指定logo有Bug

@@ -134,7 +134,8 @@ export default (): React.ReactNode => {
       dataIndex: 'index',
       valueType: 'index',
       search: false,
-      width: 48,
+      // width: 64,
+      tooltip: '[序号]',
     },
     {
       title: 'ID',
@@ -142,12 +143,14 @@ export default (): React.ReactNode => {
       dataIndex: 'id',
       search: false,
       hideInTable: true,
+      // width: 64,
     },
     {
       title: '头像',
       align: 'center',
       dataIndex: 'avatarURL',
       search: false,
+      // width: 64,
       render: (text: any, record: any) => {
         return <Avatar shape={'square'} src={record.avatarURL} />;
       },
@@ -156,20 +159,28 @@ export default (): React.ReactNode => {
       title: '昵称',
       align: 'center',
       dataIndex: 'nickname',
+      // ellipsis: false,
+      // width: 64,
     },
     {
       title: '用户名',
       align: 'center',
       dataIndex: 'username',
+      // ellipsis: false,
+      // width: 80,
     },
     {
       title: '移动电话',
       align: 'center',
       dataIndex: 'mobilePhone',
+      // ellipsis: false,
+      // width: 80,
     },
     {
       title: '角色',
       align: 'center',
+      // ellipsis: false,
+      // width: 100,
       render: (text: any, record: API.UserListItem) => {
         if (record.roles && record.roles.length === 0) {
           return <Tag color={'red'}>{'未分配角色'}</Tag>;
@@ -188,12 +199,17 @@ export default (): React.ReactNode => {
       align: 'center',
       dataIndex: 'createDateTime',
       search: false,
+      // ellipsis: true,
+      // width: 180,
+      valueType: 'date',
     },
     {
       title: '启用',
       align: 'center',
       dataIndex: 'enabled',
       search: false,
+      // ellipsis: true,
+      // width: 64,
       render: (text: any, record, index) => {
         return (
           <Switch
@@ -213,6 +229,8 @@ export default (): React.ReactNode => {
       align: 'center',
       dataIndex: 'locked',
       search: false,
+      // ellipsis: true,
+      // width: 64,
       render: (text: any, record, index) => {
         return (
           <Switch
@@ -230,6 +248,8 @@ export default (): React.ReactNode => {
     {
       title: '操作',
       align: 'center',
+      // ellipsis: true,
+      // width: 300,
       render: (text: any, record) => {
         return (
           <Space>
