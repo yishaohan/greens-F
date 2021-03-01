@@ -31,9 +31,9 @@ export interface RadarData {
 export interface AnalysisData {
   visitData: VisitDataType[];
   visitData2: VisitDataType[];
-  salesData: VisitDataType[];
+  // salesData: VisitDataType[];
   // searchData: SearchDataType[];
-  bcSchoolsCOVID19Data: API.BCSchoolsCOVID19DataType;
+  // bcSchoolsCOVID19Data: API.BCSchoolsCOVID19DataType;
   offlineData: OfflineDataType[];
   offlineChartData: OfflineChartData[];
   salesTypeData: VisitDataType[];

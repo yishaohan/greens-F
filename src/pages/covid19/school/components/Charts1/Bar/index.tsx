@@ -11,8 +11,10 @@ export interface BarProps {
   padding?: [number, number, number, number];
   height?: number;
   data: {
-    x: string;
-    y: number;
+    districtAbb?: string;
+    districtName?: string;
+    healthName?: string;
+    count: number;
   }[];
   forceFit?: boolean;
   autoLabel?: boolean;
@@ -95,8 +97,16 @@ class Bar extends Component<
       },
     };
 
-    const tooltip: [string, (...args: any[]) => { name?: string; value: string }] = [
-      'x*y',
+    const tooltipDistricts: [string, (...args: any[]) => { name?: string; value: string }] = [
+      'districtName*count',
+      (x: string, y: string) => ({
+        name: x,
+        value: y,
+      }),
+    ];
+
+    const tooltipHealths: [string, (...args: any[]) => { name?: string; value: string }] = [
+      'healthName*count',
       (x: string, y: string) => ({
         name: x,
         value: y,
@@ -106,7 +116,7 @@ class Bar extends Component<
     return (
       <div className={styles.chart} style={{ height }} ref={this.handleRoot}>
         <div ref={this.handleRef}>
-          {title && <h4 style={{ marginBottom: 20 }}>{title}</h4>}
+          {title && <h4 style={{ marginBottom: 20 }} />}
           <Chart
             scale={scale}
             height={title ? height - 41 : height}
@@ -122,7 +132,22 @@ class Bar extends Component<
             />
             <Axis name="y" min={0} />
             <Tooltip showTitle={false} crosshairs={false} />
-            <Geom type="interval" position="x*y" color={color} tooltip={tooltip} />
+            {title === 'districtsSummary' && (
+              <Geom
+                type="interval"
+                position="districtAbb*count"
+                color={color}
+                tooltip={tooltipDistricts}
+              />
+            )}
+            {title === 'healthsSummary' && (
+              <Geom
+                type="interval"
+                position="healthName*count"
+                color={color}
+                tooltip={tooltipHealths}
+              />
+            )}
           </Chart>
         </div>
       </div>

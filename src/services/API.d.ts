@@ -135,6 +135,40 @@ declare namespace API {
     documentation: string;
   }
 
+  export interface BCSchoolsSummarySearchParams {
+    startDate?: string;
+    endDate?: string;
+  }
+
+  export interface BCSchoolsSummaryListItem {
+    schoolName: string;
+    count: number;
+  }
+
+  // BS District COVID19统计相关
+  export interface BCDistrictSummarySearchParams {
+    startDate?: string;
+    endDate?: string;
+  }
+
+  //
+  export interface BCDistrictsSummaryListItem {
+    districtAbb: string;
+    districtName: string;
+    count: number;
+  }
+
+  // BC Health COVID19统计相关
+  export interface BCHealthsSummarySearchParams {
+    startDate?: string;
+    endDate?: string;
+  }
+
+  export interface BCHealthsSummaryListItem {
+    healthName: string;
+    count: number;
+  }
+
   // 以下为AntD默认的
   // export type CurrentUser = {
   //   avatar?: string;

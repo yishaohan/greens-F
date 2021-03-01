@@ -19,9 +19,9 @@ export interface ModelType {
 const initState = {
   visitData: [],
   visitData2: [],
-  salesData: [],
-  searchData: [],
-  bcSchoolsCOVID19DataType: {},
+  // salesData: [],
+  // searchData: [],
+  // bcSchoolsCOVID19DataType: {},
   offlineData: [],
   offlineChartData: [],
   salesTypeData: [],
@@ -40,7 +40,7 @@ const Model: ModelType = {
       const response = yield call(fakeChartData);
       yield put({
         type: 'save',
-        payload: response.data,
+        payload: response,
       });
     },
     *fetchSalesData(_, { call, put }) {
@@ -56,13 +56,9 @@ const Model: ModelType = {
 
   reducers: {
     save(state, { payload }) {
-      console.log('==========================');
-      console.log(state);
-      console.log(payload);
       return {
         ...state,
-        // ...payload,
-        bcSchoolsCOVID19DataType: payload.bcSchoolsCOVID19DataType,
+        ...payload,
       };
     },
     clear() {

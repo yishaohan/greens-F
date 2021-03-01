@@ -58,7 +58,8 @@
 
       &.active {
         color: #fff;
-        background-color: #314659;
+        //background-color: #314659;
+        background-color: rgb(255, 136, 0);
       }
     }
 
@@ -91,12 +92,16 @@
 }
 
 .salesCard {
+  margin-top: 0;
+
   .salesBar {
-    padding: 0 0 32px 32px;
+    padding: 0 0 0 0;
   }
 
   .salesRank {
+    height: 292px;
     padding: 0 32px 32px 72px;
+    overflow: auto;
   }
 
   :global {
@@ -167,9 +172,18 @@
   }
 }
 
-.trendText {
+.trendTextUp {
   margin-left: 8px;
   color: @heading-color;
+  color: #f5222d;
+  font-size: large;
+}
+
+.trendTextDown {
+  margin-left: 8px;
+  color: @heading-color;
+  color: #52c41a;
+  font-size: large;
 }
 
 @media screen and (max-width: @screen-lg) {

@@ -33,10 +33,15 @@ const columns: ProColumns<API.BCSchoolsCOVID19ListItem>[] = [
     dataIndex: 'schoolName',
     key: 'schoolName',
     copyable: true,
-    width: 180,
+    ellipsis: true,
+    width: 205,
     render(text: any, record: API.BCSchoolsCOVID19ListItem) {
       const url = `/info/schools/${record.schoolId}`;
-      return <a href={url}>{text}</a>;
+      return (
+        <a href={url} style={{ textDecoration: 'underline' }}>
+          {text}
+        </a>
+      );
     },
   },
   {
@@ -62,7 +67,7 @@ const columns: ProColumns<API.BCSchoolsCOVID19ListItem>[] = [
     dataIndex: 'exposureNumber',
     key: 'exposureNumber',
     valueType: 'digit',
-    width: 75,
+    width: 100,
     search: false,
     sorter: (a: { exposureNumber: number }, b: { exposureNumber: number }) =>
       a.exposureNumber - b.exposureNumber,
@@ -84,7 +89,7 @@ const columns: ProColumns<API.BCSchoolsCOVID19ListItem>[] = [
     dataIndex: 'exposureDate',
     key: 'exposureDate',
     width: 180,
-    ellipsis: true,
+    // ellipsis: true,
     search: false,
   },
   {
@@ -99,10 +104,14 @@ const columns: ProColumns<API.BCSchoolsCOVID19ListItem>[] = [
     key: 'districtAbb',
     // sorter: (a: { count: number }, b: { count: number }) => a.count - b.count,
     // className: styles.alignRight,
-    width: 180,
+    width: 60,
     render(text: any, record: API.BCSchoolsCOVID19ListItem) {
       return (
-        <a href={record.districtId} title={record.districtName}>
+        <a
+          href={record.districtId}
+          title={record.districtName}
+          style={{ textDecoration: 'underline' }}
+        >
           {record.districtAbb}
         </a>
       );
@@ -119,7 +128,7 @@ const columns: ProColumns<API.BCSchoolsCOVID19ListItem>[] = [
     dataIndex: 'notificationMethod',
     key: 'notificationMethod',
     width: 120,
-    ellipsis: true,
+    // ellipsis: true,
     render(text) {
       return (
         <Tag color="green" style={{ width: '120px' }}>
@@ -141,7 +150,11 @@ const columns: ProColumns<API.BCSchoolsCOVID19ListItem>[] = [
     search: false,
     width: 80,
     render(text: any, record: API.BCSchoolsCOVID19ListItem) {
-      return <a href={record.documentation}>{record.id}</a>;
+      return (
+        <a href={record.documentation} style={{ textDecoration: 'underline' }}>
+          {record.id}
+        </a>
+      );
     },
   },
   {
@@ -153,7 +166,7 @@ const columns: ProColumns<API.BCSchoolsCOVID19ListItem>[] = [
     key: 'extraInfo',
     search: false,
     width: 180,
-    ellipsis: true,
+    // ellipsis: true,
   },
   {
     title: (
@@ -165,8 +178,8 @@ const columns: ProColumns<API.BCSchoolsCOVID19ListItem>[] = [
     align: 'right',
     dataIndex: 'healthRegionName',
     key: 'healthRegionName',
-    copyable: true,
-    width: 180,
+    // copyable: true,
+    width: 200,
     filters: true,
     onFilter: true,
     valueEnum: {
@@ -190,7 +203,11 @@ const columns: ProColumns<API.BCSchoolsCOVID19ListItem>[] = [
       },
     },
     render(text: any, record: API.BCSchoolsCOVID19ListItem) {
-      return <a href={record.healthId}>{text}</a>;
+      return (
+        <a href={record.healthId} style={{ textDecoration: 'underline' }}>
+          {text}
+        </a>
+      );
     },
   },
   {
@@ -198,10 +215,14 @@ const columns: ProColumns<API.BCSchoolsCOVID19ListItem>[] = [
     align: 'right',
     dataIndex: 'cityName',
     key: 'cityName',
-    copyable: true,
-    width: 120,
+    // copyable: true,
+    width: 140,
     render(text: any, record: API.BCSchoolsCOVID19ListItem) {
-      return <a href={record.cityId}>{text}</a>;
+      return (
+        <a href={record.cityId} style={{ textDecoration: 'underline' }}>
+          {text}
+        </a>
+      );
     },
   },
 ];
@@ -284,7 +305,7 @@ const BCSchoolsCOVID19 = ({
     });
   };
 
-  // 新建用户弹窗 | 编辑用户弹窗, 关闭或新建时触发
+  //
   useEffect(() => {
     handleGetBCSchoolsCOVID19({ current: currentPage.current, pageSize: sizePerPage.current });
   }, []);
@@ -303,7 +324,7 @@ const BCSchoolsCOVID19 = ({
         // headerTitle="表头"
         // footer={() => "Here is footer"}
         columns={columns}
-        // scroll={{x: false}}
+        scroll={{ x: true }}
         dataSource={bcSchoolsCOVID19}
         // 表单引用
         formRef={ref}

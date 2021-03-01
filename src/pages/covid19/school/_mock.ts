@@ -51,7 +51,7 @@ for (let i = 0; i < 10; i += 1) {
     documentation: 'documentation',
   });
 }
-const bcSchoolsCOVID19Data = {};
+
 const salesTypeData = [
   {
     x: '家用电器',
@@ -195,9 +195,9 @@ radarOriginData.forEach((item) => {
 const getFakeChartData: AnalysisData = {
   visitData,
   visitData2,
-  salesData,
+  // salesData,
   // searchData,
-  bcSchoolsCOVID19Data,
+  // bcSchoolsCOVID19Data,
   offlineData,
   offlineChartData,
   salesTypeData,
