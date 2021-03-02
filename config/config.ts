@@ -46,7 +46,7 @@ export default defineConfig({
     'primary-color': defaultSettings.primaryColor,
     'highlight-color': '#FF8800',
     // 'link-color': '#FF8800', // 链接色
-    // 'normal-color': '#FF8800',
+    'normal-color': '#FF8800',
     // successColor: '#52c41a', // 成功色
     // warningColor: '#faad14', // 警告色
     // errorColor: '#f5222d', // 错误色
