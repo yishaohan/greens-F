@@ -1,5 +1,5 @@
 // import {CaretDownOutlined} from '@ant-design/icons';
-import { Card, Col, Row, Tooltip } from 'antd';
+import { Card, Col, Row } from 'antd';
 import React, { Component, Suspense } from 'react';
 import { GridContent } from '@ant-design/pro-layout';
 // import type {RadioChangeEvent} from 'antd/es/radio';
@@ -7,6 +7,7 @@ import { GridContent } from '@ant-design/pro-layout';
 // import type moment from 'moment';
 import type { Dispatch } from 'umi';
 import { FormattedMessage, connect } from 'umi';
+import PageLoading from './components/PageLoading';
 
 // import {getTimeDistance} from './utils/utils';
 import type { AnalysisData } from './data.d';
@@ -14,16 +15,18 @@ import styles from './style.less';
 
 import { Map } from './components/Charts2';
 // import ActiveChart from './components/ActiveChart';
-import { ChartCard, Field } from '@/pages/covid19/school/components/Charts1';
-import { InfoCircleOutlined } from '@ant-design/icons';
+// import {ChartCard, Field} from '@/pages/covid19/school/components/Charts1';
+// import {InfoCircleOutlined} from '@ant-design/icons';
 // import Yuan from "@/pages/covid19/school/utils/Yuan";
-import numeral from 'numeral';
-import Trend from './components/Trend';
+// import numeral from 'numeral';
+// import Trend from './components/Trend';
 
-// const IntroduceRow = React.lazy(() => import('./components/IntroduceRow'));
-const DistrictsHealthsSummary = React.lazy(() => import('./components/DistrictsHealthsSummary'));
+const COVID19Summary = React.lazy(() => import('./components/BCSchoolsCOVID19TotalSummary'));
+const DistrictsHealthsSummary = React.lazy(
+  () => import('./components/BCSchoolsDistrictsHealthsSummary'),
+);
 const BCSchoolsCOVID19 = React.lazy(() => import('./components/BCSchoolsCOVID19'));
-const DistrictSummary = React.lazy(() => import('./components/DistrictSummary'));
+const DistrictSummary = React.lazy(() => import('./components/BCSchoolsDistrictSummary'));
 // const OfflineData = React.lazy(() => import('./components/OfflineData'));
 
 // type RangePickerValue = RangePickerProps<moment.Moment>['value'];
@@ -86,13 +89,16 @@ class DashboardAnalysis extends Component<DashboardAnalysisProps, DashboardAnaly
   };
 
   render() {
-    // const {salesType} = this.state;
+    // const {currentTabKey} = this.state;
     const { loading } = this.props;
     // const {
+    //   offlineData,
+    //   offlineChartData,
+    //   // visitData,
     //   // salesData,
-    //   salesTypeData,
-    //   salesTypeDataOnline,
-    //   salesTypeDataOffline,
+    //   // salesTypeData,
+    //   // salesTypeDataOnline,
+    //   // salesTypeDataOffline,
     // } = dashboardAnalysis;
 
     // 销售额类别占比(饼图)
@@ -116,8 +122,8 @@ class DashboardAnalysis extends Component<DashboardAnalysisProps, DashboardAnaly
                 bordered={false}
                 title={
                   <FormattedMessage
-                    id="dashboardmonitor.monitor.trading-activity"
-                    defaultMessage="Real-Time Trading Activity"
+                    id="bc-covid19-summary"
+                    defaultMessage="Real-Time COVID19 Summary"
                   />
                 }
               >
@@ -127,60 +133,10 @@ class DashboardAnalysis extends Component<DashboardAnalysisProps, DashboardAnaly
               </Card>
             </Col>
             <Col xl={8} lg={24} md={24} sm={24} xs={24}>
-              <ChartCard
-                style={{ marginBottom: 24 }}
-                bordered={false}
-                title={
-                  <FormattedMessage
-                    id="dashboardanalysis.analysis.total-sales"
-                    defaultMessage="Total Sales"
-                  />
-                }
-                action={
-                  <Tooltip
-                    title={
-                      <FormattedMessage
-                        id="dashboardanalysis.analysis.introduce"
-                        defaultMessage="Introduce"
-                      />
-                    }
-                  >
-                    <InfoCircleOutlined />
-                  </Tooltip>
-                }
-                loading={loading}
-                total={() => {
-                  return `${numeral(3148).format('0,0')}`;
-                }}
-                footer={
-                  <Field
-                    label={
-                      <FormattedMessage
-                        id="dashboardanalysis.analysis.day-sales"
-                        defaultMessage="Daily Sales"
-                      />
-                    }
-                    value={`${numeral(12423).format('0,0')}`}
-                  />
-                }
-                contentHeight={64}
-              >
-                <Trend flag="up" style={{ marginRight: 16 }}>
-                  <FormattedMessage
-                    id="dashboardanalysis.analysis.week"
-                    defaultMessage="Weekly Changes"
-                  />
-                  <span className={styles.trendTextUp}>12%</span>
-                </Trend>
-                <Trend flag="down">
-                  <FormattedMessage
-                    id="dashboardanalysis.analysis.day"
-                    defaultMessage="Daily Changes"
-                  />
-                  <span className={styles.trendTextDown}>11%</span>
-                </Trend>
-              </ChartCard>
-              <Suspense fallback={null}>
+              <Suspense fallback={<PageLoading />}>
+                <COVID19Summary loading={loading} />
+              </Suspense>
+              <Suspense fallback={<PageLoading />}>
                 <DistrictSummary loading={loading} />
               </Suspense>
             </Col>
@@ -189,51 +145,30 @@ class DashboardAnalysis extends Component<DashboardAnalysisProps, DashboardAnaly
           {/* SalesCard自定义组件: 第二行的一个信息块 */}
           <Row gutter={24} style={{ marginTop: 24 }}>
             <Col xl={24} lg={24} md={24} sm={24} xs={24}>
-              <Suspense fallback={null}>
+              <Suspense fallback={<PageLoading />}>
                 <DistrictsHealthsSummary loading={loading} />
               </Suspense>
             </Col>
           </Row>
           {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-          <Row
-            gutter={24}
-            style={{
-              marginTop: 24,
-            }}
-          >
+          <Row gutter={24} style={{ marginTop: 24 }}>
             {/* TopSearch自定义组件: 第三行第一个信息块 */}
             <Col xl={24} lg={24} md={24} sm={24} xs={24}>
-              <Suspense fallback={null}>
+              <Suspense fallback={<PageLoading />}>
                 <BCSchoolsCOVID19 loading={loading} />
               </Suspense>
             </Col>
-            <>
-              {/* ProportionSales自定义组件: 第三行第二个信息块 */}
-              {/* <Col xl={6} lg={24} md={24} sm={24} xs={24}> */}
-              {/*  <Suspense fallback={null}> */}
-              {/*    <DistrictSummary */}
-              {/*      dropdownGroup={dropdownGroup} */}
-              {/*      salesType={salesType} */}
-              {/*      loading={loading} */}
-              {/*      salesPieData={salesPieData} */}
-              {/*      handleChangeSalesType={this.handleChangeSalesType} */}
-              {/*    /> */}
-              {/*  </Suspense> */}
-              {/* </Col> */}
-            </>
           </Row>
-          <>
-            {/* OfflineData自定义组件: 第四行一个信息块 */}
-            {/* <Suspense fallback={null}> */}
-            {/*  <OfflineData */}
-            {/*    activeKey={activeKey} */}
-            {/*    loading={loading} */}
-            {/*    offlineData={offlineData} */}
-            {/*    offlineChartData={offlineChartData} */}
-            {/*    handleTabChange={this.handleTabChange} */}
-            {/*  /> */}
-            {/* </Suspense> */}
-          </>
+          {/* OfflineData自定义组件: 第四行一个信息块 */}
+          {/* <Suspense fallback={PageLoading}> */}
+          {/*  <OfflineData */}
+          {/*    activeKey={activeKey} */}
+          {/*    loading={loading} */}
+          {/*    offlineData={offlineData} */}
+          {/*    offlineChartData={offlineChartData} */}
+          {/*    handleTabChange={this.handleTabChange} */}
+          {/*  /> */}
+          {/* </Suspense> */}
         </React.Fragment>
       </GridContent>
     );

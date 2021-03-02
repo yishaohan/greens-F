@@ -9,9 +9,9 @@ import { Bar } from './Charts1';
 import styles from '../style.less';
 import { getTimeDistance } from '@/utils/utils';
 import {
-  getBCDistrictsCOVID19Summary,
+  getBCSchoolsDistrictsCOVID19Summary,
   getBCSchoolsCOVID19Summary,
-  getBCHealthsCOVID19Summary,
+  getBCSchoolsHealthsCOVID19Summary,
 } from '../services/schoolsDashBoard';
 import ProTable, { ProColumns } from '@ant-design/pro-table';
 
@@ -58,11 +58,13 @@ const columns: ProColumns<API.BCSchoolsSummaryListItem>[] = [
 
 type RangePickerValue = RangePickerProps<moment.Moment>['value'];
 
-const DistrictsHealthsSummary = ({ loading }: { loading: boolean }) => {
+const BCSchoolsDistrictsHealthsSummary = ({ loading }: { loading: boolean }) => {
   // 双向数据绑定(响应式数据)
-  const [districtsSummary, setDistrictsSummary] = useState<API.BCDistrictsSummaryListItem[]>([]);
+  const [districtsSummary, setDistrictsSummary] = useState<API.BCSchoolsDistrictsSummaryListItem[]>(
+    [],
+  );
   const [schoolsSummary, setSchoolsSummary] = useState<API.BCSchoolsSummaryListItem[]>([]);
-  const [healthsSummary, setHealrhsSummary] = useState<API.BCHealthsSummaryListItem[]>([]);
+  const [healthsSummary, setHealrhsSummary] = useState<API.BCSchoolsHealthsSummaryListItem[]>([]);
   // const [rangePicker, setRangePicker] = useState<RangePickerValue>(getTimeDistance('week'));
   const rangePicker = useRef<RangePickerValue>(getTimeDistance('year'));
 
@@ -78,7 +80,7 @@ const DistrictsHealthsSummary = ({ loading }: { loading: boolean }) => {
     // @ts-ignore
     endDate = rangePicker.current[1].format('YYYY-MM-DD');
     console.log(startDate, endDate);
-    getBCDistrictsCOVID19Summary({ startDate, endDate })
+    getBCSchoolsDistrictsCOVID19Summary({ startDate, endDate })
       .then((response) => {
         if (response.status !== 200) {
           console.log(`Error: GetBCDistrictCOVID19BySelectDate - ${response.status}`);
@@ -108,7 +110,7 @@ const DistrictsHealthsSummary = ({ loading }: { loading: boolean }) => {
         console.log(`获取BC省教育局COVID19统计信息(1)出错 - ${e}`);
         message.error(`获取BC省教育局COVID19统计信息(1)出错!${e}`).then(() => {});
       });
-    getBCHealthsCOVID19Summary({ startDate, endDate })
+    getBCSchoolsHealthsCOVID19Summary({ startDate, endDate })
       .then((response) => {
         if (response.status !== 200) {
           console.log(`Error: getBCHealthsCOVID19Summary - ${response.status}`);
@@ -137,7 +139,7 @@ const DistrictsHealthsSummary = ({ loading }: { loading: boolean }) => {
     // @ts-ignore
     endDate = rangePicker.current[1].format('YYYY-MM-DD');
     console.log(startDate, endDate);
-    getBCDistrictsCOVID19Summary({ startDate, endDate })
+    getBCSchoolsDistrictsCOVID19Summary({ startDate, endDate })
       .then((response) => {
         if (response.status !== 200) {
           console.log(`Error: GetBCDistrictCOVID19ByRangePickerChange - ${response.status}`);
@@ -167,7 +169,7 @@ const DistrictsHealthsSummary = ({ loading }: { loading: boolean }) => {
         console.log(`获取BC省教育局COVID19统计信息(1)出错 - ${e}`);
         message.error(`获取BC省教育局COVID19统计信息(1)出错!${e}`).then(() => {});
       });
-    getBCHealthsCOVID19Summary({ startDate, endDate })
+    getBCSchoolsHealthsCOVID19Summary({ startDate, endDate })
       .then((response) => {
         if (response.status !== 200) {
           console.log(`Error: getBCHealthsCOVID19Summary - ${response.status}`);
@@ -213,7 +215,7 @@ const DistrictsHealthsSummary = ({ loading }: { loading: boolean }) => {
   }, []);
 
   return (
-    <Card loading={loading} bordered={false} bodyStyle={{ padding: 0 }}>
+    <Card loading={loading} bordered={false} bodyStyle={{ paddingLeft: 25, paddingRight: 25 }}>
       <div className={styles.salesCard}>
         <Tabs
           tabBarExtraContent={
@@ -276,6 +278,7 @@ const DistrictsHealthsSummary = ({ loading }: { loading: boolean }) => {
               </Col>
               <Col xl={8} lg={12} md={12} sm={24} xs={24}>
                 <ProTable
+                  style={{ paddingLeft: 0 }}
                   rowKey={(record) => record.schoolName}
                   size="small"
                   search={false}
@@ -388,4 +391,4 @@ const DistrictsHealthsSummary = ({ loading }: { loading: boolean }) => {
   );
 };
 
-export default DistrictsHealthsSummary;
+export default BCSchoolsDistrictsHealthsSummary;

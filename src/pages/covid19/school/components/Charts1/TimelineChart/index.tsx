@@ -80,7 +80,8 @@ const TimelineChart: React.FC<TimelineChartProps> = (props) => {
   const timeScale = {
     type: 'time',
     tickInterval: 60 * 60 * 1000,
-    mask: 'HH:mm',
+    // mask: 'HH:mm',
+    mask: 'YYYY-MM-DD',
     range: [0, 1],
   };
 

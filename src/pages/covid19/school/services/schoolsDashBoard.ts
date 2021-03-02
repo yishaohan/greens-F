@@ -9,8 +9,10 @@ export async function getBCSchoolsCOVID19(params: API.BCSchoolsCOVID19SearchPara
 }
 
 // 根据起始时间获取BC省教育局COVID9统计信息
-export async function getBCDistrictsCOVID19Summary(params: API.BCDistrictSummarySearchParams) {
-  return request('/public/bcDistrictsCOVID19Summary', {
+export async function getBCSchoolsDistrictsCOVID19Summary(
+  params: API.BCSchoolsDistrictSummarySearchParams,
+) {
+  return request('/public/bcSchoolsDistrictsCOVID19Summary', {
     method: 'GET',
     params,
   });
@@ -25,9 +27,18 @@ export async function getBCSchoolsCOVID19Summary(params: API.BCSchoolsSummarySea
 }
 
 // 根据起始时间获取BC省卫生局COVID9统计信息
-export async function getBCHealthsCOVID19Summary(params: API.BCHealthsSummarySearchParams) {
-  return request('/public/bcHealthsCOVID19Summary', {
+export async function getBCSchoolsHealthsCOVID19Summary(
+  params: API.BCSchoolsHealthsSummarySearchParams,
+) {
+  return request('/public/bcSchoolsHealthsCOVID19Summary', {
     method: 'GET',
     params,
+  });
+}
+
+// 获取所有BC省学校COVID9统计信息
+export async function getBCSchoolsCOVID19TotalSummary() {
+  return request('/public/bcSchoolsCOVID19TotalSummary', {
+    method: 'GET',
   });
 }

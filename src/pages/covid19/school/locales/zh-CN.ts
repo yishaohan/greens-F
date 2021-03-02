@@ -17,6 +17,13 @@ export default {
   'bc-healths-covid19.statistics.summary': '卫生局',
   'bc-healths-covid19.statistics.percentage': '卫生局占比',
   'bc-healths-covid19.statistics.total': '共有',
+  'bc-covid19-summary': 'BC省学校COVID9实时统计',
+  'bc-covid19-summary.introduce-week': '上上周和上周比较',
+  'bc-covid19-summary.introduce-day': '前天和昨天比较',
+  'bc-covid19-summary.total': '共计',
+  'bc-covid19-summary.updateDateTime': '最后更新时间: ',
+  'bc-covid19-summary.analysis.week': '周同比 ',
+  'bc-covid19-summary.analysis.day': '日同比 ',
   // ///////////////////////////////////////////////////////////////////////////////////
   'dashboardanalysis.analysis.test': '工专路 {no} 号店',
   'dashboardanalysis.analysis.introduce': '同周: 上上周和上周比较 同日: 前天和昨天比较',

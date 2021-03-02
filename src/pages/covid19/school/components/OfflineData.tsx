@@ -13,36 +13,37 @@ const CustomTab = ({
 }: {
   data: OfflineDataType;
   currentTabKey: string;
-}) => (
-  <Row gutter={8} style={{ width: 138, margin: '8px 0' }}>
-    {' '}
-    // type="flex"
-    <Col span={12}>
-      <NumberInfo
-        title={data.name}
-        subTitle={
-          <FormattedMessage
-            id="dashboardanalysis.analysis.conversion-rate"
-            defaultMessage="Conversion Rate"
-          />
-        }
-        gap={2}
-        total={`${data.cvr * 100}%`}
-        theme={currentKey !== data.name ? 'light' : undefined}
-      />
-    </Col>
-    <Col span={12} style={{ paddingTop: 36 }}>
-      <Pie
-        animate={false}
-        inner={0.55}
-        tooltip={false}
-        margin={[0, 0, 0, 0]}
-        percent={data.cvr * 100}
-        height={64}
-      />
-    </Col>
-  </Row>
-);
+}) => {
+  return (
+    <Row gutter={8} style={{ width: 138, margin: '8px 0' }}>
+      {' '}
+      <Col span={12}>
+        <NumberInfo
+          title={data.name}
+          subTitle={
+            <FormattedMessage
+              id="dashboardanalysis.analysis.conversion-rate"
+              defaultMessage="Conversion Rate"
+            />
+          }
+          gap={2}
+          total={`${data.cvr * 100}`}
+          theme={currentKey !== data.name ? 'light' : undefined}
+        />
+      </Col>
+      <Col span={12} style={{ paddingTop: 36 }}>
+        <Pie
+          animate={false}
+          inner={0.55}
+          tooltip={false}
+          margin={[0, 0, 0, 0]}
+          percent={data.cvr * 100}
+          height={64}
+        />
+      </Col>
+    </Row>
+  );
+};
 
 const { TabPane } = Tabs;
 

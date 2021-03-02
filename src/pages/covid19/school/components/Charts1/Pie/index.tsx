@@ -69,17 +69,13 @@ class Pie extends Component<PieProps, PieState> {
     if (
       this.root &&
       this.root.parentNode &&
-      (this.root.parentNode as HTMLElement).clientWidth <= 380
+      (this.root.parentNode as HTMLElement).clientWidth <= 320
     ) {
       if (!legendBlock) {
-        this.setState({
-          legendBlock: true,
-        });
+        this.setState({ legendBlock: true });
       }
     } else if (legendBlock) {
-      this.setState({
-        legendBlock: false,
-      });
+      this.setState({ legendBlock: false });
     }
   }, 400);
 

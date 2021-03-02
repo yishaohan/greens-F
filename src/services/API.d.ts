@@ -145,28 +145,36 @@ declare namespace API {
     count: number;
   }
 
-  // BS District COVID19统计相关
-  export interface BCDistrictSummarySearchParams {
+  // BS Schools District COVID19统计相关
+  export interface BCSchoolsDistrictSummarySearchParams {
     startDate?: string;
     endDate?: string;
   }
 
   //
-  export interface BCDistrictsSummaryListItem {
+  export interface BCSchoolsDistrictsSummaryListItem {
     districtAbb: string;
     districtName: string;
     count: number;
   }
 
-  // BC Health COVID19统计相关
-  export interface BCHealthsSummarySearchParams {
+  // BC Schools Health COVID19统计相关
+  export interface BCSchoolsHealthsSummarySearchParams {
     startDate?: string;
     endDate?: string;
   }
 
-  export interface BCHealthsSummaryListItem {
+  export interface BCSchoolsHealthsSummaryListItem {
     healthName: string;
     count: number;
+  }
+
+  // BC Schools COVID19 Total
+  export interface BCSchoolsTotalSummary {
+    total: number;
+    updateDateTime: string;
+    weeklyChanges: number;
+    dailyChanges: number;
   }
 
   // 以下为AntD默认的

@@ -130,16 +130,48 @@ const salesTypeDataOffline = [
 ];
 
 const offlineData = [];
-for (let i = 0; i < 10; i += 1) {
+
+for (let i = 0; i < 9; i += 1) {
   offlineData.push({
     name: `Stores ${i}`,
     cvr: Math.ceil(Math.random() * 9) / 10,
   });
 }
 const offlineChartData = [];
-for (let i = 0; i < 20; i += 1) {
+// offlineChartData.push({x: 1614668029743, y1: 12, y2: 13});
+// offlineChartData.push({x: 1617346429743, y1: 39, y2: 72});
+// offlineChartData.push({x: 1620024829743, y1: 28, y2: 31});
+// offlineChartData.push({x: 1622703229743, y1: 10, y2: 67});
+// offlineChartData.push({x: 1625381629743, y1: 108, y2: 72});
+// offlineChartData.push({x: 1628060029743, y1: 90, y2: 38});
+// offlineChartData.push({x: 1630738429743, y1: 33, y2: 48});
+// offlineChartData.push({x: 1633416829743, y1: 21, y2: 71});
+// offlineChartData.push({x: 1636095229743, y1: 59, y2: 80});
+// offlineChartData.push({x: 1638773629743, y1: 11, y2: 64});
+// offlineChartData.push({x: 1641452029743, y1: 50, y2: 82});
+// offlineChartData.push({x: 1644130429743, y1: 80, y2: 56});
+// offlineChartData.push({x: 1646808829743, y1: 50, y2: 60});
+// offlineChartData.push({x: 1649487229743, y1: 55, y2: 86});
+// offlineChartData.push({x: 1652165629743, y1: 101, y2: 60});
+// offlineChartData.push({x: 1654844029743, y1: 81, y2: 74});
+// offlineChartData.push({x: 1657522429743, y1: 84, y2: 48});
+// offlineChartData.push({x: 1660200829743, y1: 43, y2: 27});
+// offlineChartData.push({x: 1662879229743, y1: 11, y2: 33});
+// offlineChartData.push({x: 1665557629743, y1: 63, y2: 34});
+// offlineChartData.push({x: 1668236029743, y1: 14, y2: 102});
+// offlineChartData.push({x: 1670914429743, y1: 109, y2: 70});
+// offlineChartData.push({x: 1673592829743, y1: 37, y2: 65});
+// offlineChartData.push({x: 1676271229743, y1: 59, y2: 55});
+// offlineChartData.push({x: 1678949629743, y1: 11, y2: 104});
+// offlineChartData.push({x: 1681628029743, y1: 57, y2: 52});
+// offlineChartData.push({x: 1684306429743, y1: 88, y2: 105});
+// offlineChartData.push({x: 1686984829743, y1: 28, y2: 78});
+// offlineChartData.push({x: 1689663229743, y1: 82, y2: 91});
+// offlineChartData.push({x: 1692341629743, y1: 57, y2: 26});
+// offlineChartData.push({x: 1695020029743, y1: 82, y2: 94});
+for (let i = 0; i < 31; i += 1) {
   offlineChartData.push({
-    x: new Date().getTime() + 1000 * 60 * 30 * i,
+    x: new Date().getTime() + 1000 * 60 * i,
     y1: Math.floor(Math.random() * 100) + 10,
     y2: Math.floor(Math.random() * 100) + 10,
   });

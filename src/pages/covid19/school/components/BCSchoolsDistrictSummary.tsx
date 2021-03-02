@@ -7,9 +7,9 @@ import React, { useEffect, useState } from 'react';
 import { Pie } from './Charts1';
 // import Yuan from '../utils/Yuan';
 import styles from '../style.less';
-import { getBCHealthsCOVID19Summary } from '@/pages/covid19/school/services/schoolsDashBoard';
+import { getBCSchoolsHealthsCOVID19Summary } from '@/pages/covid19/school/services/schoolsDashBoard';
 
-const DistrictSummary = ({
+const BCSchoolsDistrictSummary = ({
   loading,
 }: // dropdownGroup,
 // salesType,
@@ -32,11 +32,11 @@ const DistrictSummary = ({
 
   // 双向数据绑定(响应式数据)
   const [bcHealthsCOVID19Summary, setBCHealthsCOVID19Summary] = useState<
-    API.BCHealthsSummaryListItem[]
+    API.BCSchoolsHealthsSummaryListItem[]
   >([]);
 
-  const handleGetBCHealthsCOVID19Summary = (params: API.BCHealthsSummarySearchParams) => {
-    getBCHealthsCOVID19Summary(params)
+  const handleGetBCHealthsCOVID19Summary = (params: API.BCSchoolsHealthsSummarySearchParams) => {
+    getBCSchoolsHealthsCOVID19Summary(params)
       .then((response) => {
         if (response.status !== 200) {
           console.log(`Error: getBCHealthsCOVID19Summary - ${response.status}`);
@@ -118,4 +118,4 @@ const DistrictSummary = ({
 //   salesType: Number,
 // }
 
-export default DistrictSummary;
+export default BCSchoolsDistrictSummary;
