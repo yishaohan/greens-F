@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { Spin } from 'antd';
 
 // loading components from code split

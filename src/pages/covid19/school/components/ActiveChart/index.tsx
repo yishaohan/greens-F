@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 // import {Statistic} from 'antd';
 import { MiniArea } from '../Charts2';
