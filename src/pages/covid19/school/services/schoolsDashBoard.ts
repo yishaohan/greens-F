@@ -42,3 +42,33 @@ export async function getBCSchoolsCOVID19TotalSummary() {
     method: 'GET',
   });
 }
+
+// 根据起始时间获取所有BC省学校COVID9按天统计信息
+export async function getBCSchoolsCOVID19DailySummary(
+  params: API.BCSchoolsDailySummarySearchParams,
+) {
+  return request('/public/bcSchoolsCOVID19DailySummary', {
+    method: 'GET',
+    params,
+  });
+}
+
+// 根据起始时间获取BC省卫生局,城市COVID9统计信息
+export async function getBCSchoolsHealthsCitiesCOVID19Summary(
+  params: API.BCSchoolsHealthsCitiesSummarySearchParams,
+) {
+  return request('/public/bcSchoolsHealthsCitiesCOVID19Summary', {
+    method: 'GET',
+    params,
+  });
+}
+
+// 根据起始时间获取所有BC省学校COVID9按月统计信息
+export async function getBCSchoolsCOVID19MonthlySummary(
+  params: API.BCSchoolsMonthlySummarySearchParams,
+) {
+  return request('/public/bcSchoolsCOVID19MonthlySummary', {
+    method: 'GET',
+    params,
+  });
+}

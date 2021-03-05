@@ -24,6 +24,7 @@ export default {
   'bc-covid19-summary.updateDateTime': '最后更新时间: ',
   'bc-covid19-summary.analysis.week': '周同比 ',
   'bc-covid19-summary.analysis.day': '日同比 ',
+  'bc-districts-covid19.statistics.dailySummary': '按天统计',
   // ///////////////////////////////////////////////////////////////////////////////////
   'dashboardanalysis.analysis.test': '工专路 {no} 号店',
   'dashboardanalysis.analysis.introduce': '同周: 上上周和上周比较 同日: 前天和昨天比较',

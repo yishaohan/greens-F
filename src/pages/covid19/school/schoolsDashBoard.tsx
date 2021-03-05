@@ -21,12 +21,16 @@ import { Map } from './components/Charts2';
 // import numeral from 'numeral';
 // import Trend from './components/Trend';
 
-const COVID19Summary = React.lazy(() => import('./components/BCSchoolsCOVID19TotalSummary'));
-const DistrictsHealthsSummary = React.lazy(
+const BCSchoolsCOVID19TotalSummary = React.lazy(
+  () => import('./components/BCSchoolsCOVID19TotalSummary'),
+);
+const BCSchoolsDistrictsHealthsSummary = React.lazy(
   () => import('./components/BCSchoolsDistrictsHealthsSummary'),
 );
 const BCSchoolsCOVID19 = React.lazy(() => import('./components/BCSchoolsCOVID19'));
-const DistrictSummary = React.lazy(() => import('./components/BCSchoolsDistrictSummary'));
+const BCSchoolsCOVID19MonthlySummary = React.lazy(
+  () => import('./components/BCSchoolsCOVID19MonthlySummary'),
+);
 // const OfflineData = React.lazy(() => import('./components/OfflineData'));
 
 // type RangePickerValue = RangePickerProps<moment.Moment>['value'];
@@ -134,10 +138,10 @@ class DashboardAnalysis extends Component<DashboardAnalysisProps, DashboardAnaly
             </Col>
             <Col xl={8} lg={24} md={24} sm={24} xs={24}>
               <Suspense fallback={<PageLoading />}>
-                <COVID19Summary loading={loading} />
+                <BCSchoolsCOVID19TotalSummary loading={loading} />
               </Suspense>
               <Suspense fallback={<PageLoading />}>
-                <DistrictSummary loading={loading} />
+                <BCSchoolsCOVID19MonthlySummary loading={loading} />
               </Suspense>
             </Col>
           </Row>
@@ -146,7 +150,7 @@ class DashboardAnalysis extends Component<DashboardAnalysisProps, DashboardAnaly
           <Row gutter={24} style={{ marginTop: 24 }}>
             <Col xl={24} lg={24} md={24} sm={24} xs={24}>
               <Suspense fallback={<PageLoading />}>
-                <DistrictsHealthsSummary loading={loading} />
+                <BCSchoolsDistrictsHealthsSummary loading={loading} />
               </Suspense>
             </Col>
           </Row>

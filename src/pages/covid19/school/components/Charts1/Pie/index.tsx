@@ -20,7 +20,7 @@ export interface PieProps {
   padding?: [number, number, number, number];
   percent?: number;
   data?: {
-    healthName: string;
+    healthRegionName: string;
     count: number;
   }[];
   inner?: number;
@@ -38,7 +38,7 @@ export interface PieProps {
 interface PieState {
   legendData: {
     checked: boolean;
-    healthName: string;
+    healthRegionName: string;
     color: string;
     percent: number;
     count: string;
@@ -147,10 +147,10 @@ class Pie extends Component<PieProps, PieState> {
     const { legendData } = this.state;
     legendData[i] = newItem;
 
-    const filteredLegendData = legendData.filter((l) => l.checked).map((l) => l.healthName);
+    const filteredLegendData = legendData.filter((l) => l.checked).map((l) => l.healthRegionName);
 
     if (this.chart) {
-      this.chart.filter('healthName', (val) => filteredLegendData.indexOf(`${val}`) > -1);
+      this.chart.filter('healthRegionName', (val) => filteredLegendData.indexOf(`${val}`) > -1);
     }
 
     this.setState({
@@ -220,18 +220,18 @@ class Pie extends Component<PieProps, PieState> {
 
       data = [
         {
-          healthName: '占比',
+          healthRegionName: '占比',
           count: parseFloat(`${percent}`),
         },
         {
-          healthName: '反比',
+          healthRegionName: '反比',
           count: 100 - parseFloat(`${percent}`),
         },
       ];
     }
 
     const tooltipFormat: [string, (...args: any[]) => { name?: string; value: string }] = [
-      'healthName*percent',
+      'healthRegionName*percent',
       (x: string, p: number) => ({
         name: x,
         value: `${(p * 100).toFixed(2)}%`,
@@ -244,7 +244,7 @@ class Pie extends Component<PieProps, PieState> {
     dv.source(data).transform({
       type: 'percent',
       field: 'count',
-      dimension: 'healthName',
+      dimension: 'healthRegionName',
       as: 'percent',
     });
 
@@ -269,7 +269,10 @@ class Pie extends Component<PieProps, PieState> {
                 type="intervalStack"
                 position="percent"
                 color={
-                  ['healthName', percent || percent === 0 ? formatColor : defaultColors] as any
+                  [
+                    'healthRegionName',
+                    percent || percent === 0 ? formatColor : defaultColors,
+                  ] as any
                 }
                 selected={selected}
               />
@@ -290,12 +293,12 @@ class Pie extends Component<PieProps, PieState> {
         {hasLegend && (
           <ul className={styles.legend}>
             {legendData.map((item, i) => (
-              <li key={item.healthName} onClick={() => this.handleLegendClick(item, i)}>
+              <li key={item.healthRegionName} onClick={() => this.handleLegendClick(item, i)}>
                 <span
                   className={styles.dot}
                   style={{ backgroundColor: !item.checked ? '#aaa' : item.color }}
                 />
-                <span className={styles.legendTitle}>{item.healthName}</span>
+                <span className={styles.legendTitle}>{item.healthRegionName}</span>
                 <Divider type="vertical" />
                 <span className={styles.percent}>{`${(Number.isNaN(item.percent)
                   ? 0

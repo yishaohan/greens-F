@@ -116,8 +116,52 @@ declare namespace API {
     notificationMethod?: string;
   }
 
+  export interface BCSchoolDistrictListItem {
+    districtName: string;
+    districtAbb: string;
+    districtWebAddress: string;
+    districtPhone: string;
+    districtFax: string;
+    postalCode: string;
+    address: string;
+    courierPostalCode: string;
+    courierAddress: string;
+  }
+
+  export interface BCSchoolInfoListItem {
+    schoolName: string;
+    schoolDistrict: BCSchoolDistrictListItem;
+    schoolCategory: string;
+    schoolType: string;
+    gradeRange: string;
+    enrolmentTotal: number;
+    principalFirstName: string;
+    principalLastName: string;
+    principalTitle: string;
+    postalCode: string;
+    city: string;
+    province: string;
+    schoolAddress: string;
+    schoolPhone: string;
+    schoolEmail: string;
+    schoolFax: string;
+    grade1Enrolment: number;
+    grade2Enrolment: number;
+    grade3Enrolment: number;
+    grade4Enrolment: number;
+    grade5Enrolment: number;
+    grade6Enrolment: number;
+    grade7Enrolment: number;
+    grade8Enrolment: number;
+    grade9Enrolment: number;
+    grade10Enrolment: number;
+    grade11Enrolment: number;
+    grade12Enrolment: number;
+  }
+
   export interface BCSchoolsCOVID19ListItem {
     id: number;
+    schoolsInfo: BCSchoolInfoListItem;
     schoolId: string;
     schoolName: string;
     districtId: string;
@@ -165,7 +209,7 @@ declare namespace API {
   }
 
   export interface BCSchoolsHealthsSummaryListItem {
-    healthName: string;
+    healthRegionName: string;
     count: number;
   }
 
@@ -175,6 +219,40 @@ declare namespace API {
     updateDateTime: string;
     weeklyChanges: number;
     dailyChanges: number;
+  }
+
+  // BC Schools COVID19 Daily Summary
+  export interface BCSchoolsDailySummarySearchParams {
+    startDate?: string;
+    endDate?: string;
+  }
+
+  export interface BCSchoolsDailySummaryListItem {
+    day: string;
+    count: number;
+  }
+
+  // BC Schools Health Cities COVID19统计相关
+  export interface BCSchoolsHealthsCitiesSummarySearchParams {
+    startDate?: string;
+    endDate?: string;
+  }
+
+  export interface BCSchoolsHealthsCitiesSummaryListItem {
+    healthRegionName: string;
+    cityName: string;
+    count: number;
+  }
+
+  // BC Schools COVID19 Monthly Summary
+  export interface BCSchoolsMonthlySummarySearchParams {
+    startDate?: string;
+    endDate?: string;
+  }
+
+  export interface BCSchoolsMonthlySummaryListItem {
+    month: string;
+    count: number;
   }
 
   // 以下为AntD默认的

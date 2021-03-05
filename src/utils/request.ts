@@ -62,7 +62,7 @@ export const BASE_PATH = path;
 
 const request = extend({
   prefix: path,
-  timeout: 3000,
+  timeout: 10000,
   credentials: 'include', // 默认请求是否带上cookie
   errorHandler,
 });
