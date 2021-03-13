@@ -1,5 +1,5 @@
 import request from '@/utils/request';
-import { UserRegisterParams } from '../register';
+import type { UserRegisterParams } from '../register';
 
 // 请求验证码
 export async function getSmsCaptcha(mobilePhone: string) {

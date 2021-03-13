@@ -1,6 +1,6 @@
-import {Effect, Reducer} from 'umi';
+import type { Effect, Reducer } from 'umi';
 
-import {userRegister} from './register';
+import { userRegister } from './register';
 
 export interface StateType {
   // status?: 'ok' | 'error';
@@ -29,7 +29,7 @@ const Model: ModelType = {
   },
 
   effects: {
-    * submit({payload}, {call, put}) {
+    *submit({ payload }, { call, put }) {
       const response = yield call(userRegister, payload);
       yield put({
         type: 'registerHandle',
@@ -39,7 +39,7 @@ const Model: ModelType = {
   },
 
   reducers: {
-    registerHandle(state, {payload}) {
+    registerHandle(state, { payload }) {
       console.log(state);
       return {
         ...state,

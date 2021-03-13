@@ -104,155 +104,85 @@ declare namespace API {
     children: MenuListItem[];
   }
 
-  // BS Schools COVID19相关
-  export interface BCSchoolsCOVID19SearchParams {
+  export interface ReceiverInfoItem {
+    name: string;
+    telePhone: string;
+    email: string;
+    postcode: string;
+    address: string;
+    remark?: string;
+  }
+
+  export interface OrderInfoItem {
+    quantity: number;
+    item1: boolean;
+    item2: boolean;
+    item3: boolean;
+    item4: boolean;
+    item5: boolean;
+    item6: boolean;
+  }
+
+  export interface SubmitOrder {
+    orderId?: string;
+    name: string;
+    telePhone: string;
+    email: string;
+    postcode: string;
+    address: string;
+    remark?: string;
+    quantity: number;
+    item1: boolean;
+    item2: boolean;
+    item3: boolean;
+    item4: boolean;
+    item5: boolean;
+    item6: boolean;
+    error?: string;
+  }
+
+  export interface OrderListItem {
+    id: number;
+    name: string;
+    telePhone: string;
+    email: string;
+    status: boolean;
+    clientQuantity: number;
+    item1: boolean;
+    item2: boolean;
+    item3: boolean;
+    item4: boolean;
+    item5: boolean;
+    item6: boolean;
+    remark: string;
+    postcode: string;
+    address: string;
+    orderID: string;
+    amountValue: string;
+    payerFullName: string;
+    payerGivenName: string;
+    payerSurname: string;
+    payerPhoneNumber: string;
+    payerEmail: string;
+    payerPostalCode: string;
+    payerAdminArea1: string;
+    payerAdminArea2: string;
+    payerAdminArea3: string;
+    payerAdminArea4: string;
+    payerAddressLine1: string;
+    payerAddressLine2: string;
+    payerAddressLine3: string;
+    payeeEmail: string;
+  }
+
+  export interface OrderListItemSearchParams {
     current?: number;
     pageSize?: number;
-    schoolName?: string;
-    districtName?: string;
-    cityName?: string;
-    healthRegionName?: string;
-    notificationDate?: string;
-    notificationMethod?: string;
-  }
-
-  export interface BCSchoolDistrictListItem {
-    districtName: string;
-    districtAbb: string;
-    districtWebAddress: string;
-    districtPhone: string;
-    districtFax: string;
-    postalCode: string;
-    address: string;
-    courierPostalCode: string;
-    courierAddress: string;
-  }
-
-  export interface BCSchoolInfoListItem {
-    schoolName: string;
-    schoolDistrict: BCSchoolDistrictListItem;
-    schoolCategory: string;
-    schoolType: string;
-    gradeRange: string;
-    enrolmentTotal: number;
-    principalFirstName: string;
-    principalLastName: string;
-    principalTitle: string;
-    postalCode: string;
-    city: string;
-    province: string;
-    schoolAddress: string;
-    schoolPhone: string;
-    schoolEmail: string;
-    schoolFax: string;
-    grade1Enrolment: number;
-    grade2Enrolment: number;
-    grade3Enrolment: number;
-    grade4Enrolment: number;
-    grade5Enrolment: number;
-    grade6Enrolment: number;
-    grade7Enrolment: number;
-    grade8Enrolment: number;
-    grade9Enrolment: number;
-    grade10Enrolment: number;
-    grade11Enrolment: number;
-    grade12Enrolment: number;
-  }
-
-  export interface BCSchoolsCOVID19ListItem {
-    id: number;
-    schoolsInfo: BCSchoolInfoListItem;
-    schoolId: string;
-    schoolName: string;
-    districtId: string;
-    districtName: string;
-    districtAbb: string;
-    cityId: string;
-    cityName: string;
-    healthId: string;
-    healthRegionName: string;
-    notificationDate: string;
-    notificationMethod: string;
-    exposureDate: string;
-    exposureNumber: number;
-    extraInfo: string;
-    documentation: string;
-  }
-
-  export interface BCSchoolsSummarySearchParams {
-    startDate?: string;
-    endDate?: string;
-  }
-
-  export interface BCSchoolsSummaryListItem {
-    schoolName: string;
-    count: number;
-  }
-
-  // BS Schools District COVID19统计相关
-  export interface BCSchoolsDistrictSummarySearchParams {
-    startDate?: string;
-    endDate?: string;
-  }
-
-  //
-  export interface BCSchoolsDistrictsSummaryListItem {
-    districtAbb: string;
-    districtName: string;
-    count: number;
-  }
-
-  // BC Schools Health COVID19统计相关
-  export interface BCSchoolsHealthsSummarySearchParams {
-    startDate?: string;
-    endDate?: string;
-  }
-
-  export interface BCSchoolsHealthsSummaryListItem {
-    healthRegionName: string;
-    count: number;
-  }
-
-  // BC Schools COVID19 Total
-  export interface BCSchoolsTotalSummary {
-    total: number;
-    updateDateTime: string;
-    weeklyChanges: number;
-    dailyChanges: number;
-  }
-
-  // BC Schools COVID19 Daily Summary
-  export interface BCSchoolsDailySummarySearchParams {
-    startDate?: string;
-    endDate?: string;
-  }
-
-  export interface BCSchoolsDailySummaryListItem {
-    day: string;
-    count: number;
-  }
-
-  // BC Schools Health Cities COVID19统计相关
-  export interface BCSchoolsHealthsCitiesSummarySearchParams {
-    startDate?: string;
-    endDate?: string;
-  }
-
-  export interface BCSchoolsHealthsCitiesSummaryListItem {
-    healthRegionName: string;
-    cityName: string;
-    count: number;
-  }
-
-  // BC Schools COVID19 Monthly Summary
-  export interface BCSchoolsMonthlySummarySearchParams {
-    startDate?: string;
-    endDate?: string;
-  }
-
-  export interface BCSchoolsMonthlySummaryListItem {
-    month: string;
-    count: number;
+    name?: string;
+    telePhone?: string;
+    email?: string;
+    // status?: boolean;
+    orderId?: string;
   }
 
   // 以下为AntD默认的

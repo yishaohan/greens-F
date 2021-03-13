@@ -25,19 +25,27 @@ export default [
   {
     name: 'welcome', // antd Pro会根据name指定的KEY到国际化的文件中获取对应的VALUE
     path: '/info',
+    layout: false,
     icon: 'HomeFilled', // antd Pro会根据icon指定的KEY到antd图标库中获取对应的图标
     routes: [
       {
         name: 'dashboard',
         path: '/info/dashboard',
-        component: '@/pages/Welcome',
+        component: '@/pages/shopper/show/show.tsx',
         access: 'canDashboardPage',
       },
+    ],
+  },
+  {
+    name: 'commodity', // antd Pro会根据name指定的KEY到国际化的文件中获取对应的VALUE
+    path: '/commodity',
+    icon: 'HomeFilled', // antd Pro会根据icon指定的KEY到antd图标库中获取对应的图标
+    routes: [
       {
-        name: 'school',
-        path: '/info/schools',
-        component: './covid19/school/schoolsDashBoard.tsx',
-        access: 'canSchoolsPage',
+        name: 'statistics',
+        path: '/commodity/statistics',
+        component: '@/pages/shopper/statistics/statistics',
+        access: 'canStatisticsPage',
       },
     ],
   },
@@ -100,7 +108,7 @@ export default [
   },
   {
     path: '/',
-    redirect: '/info/schools',
+    redirect: '/info/dashboard',
   },
   {
     component: './404',

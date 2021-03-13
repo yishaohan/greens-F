@@ -1,6 +1,6 @@
 import { Form, Button, Col, Input, Popover, Progress, Row, Select, message } from 'antd';
 import type { FC } from 'react';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import type { Dispatch } from 'umi';
 import { Link, connect, history, FormattedMessage, useIntl } from 'umi';
 import type { StateType } from './services/model';

@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
 // import {notification} from 'antd';
@@ -55,17 +54,18 @@ export async function getInitialState(): Promise<{
         return currentUser;
       }
       Cookies.remove('autoLogin');
-      history.push('/user/login');
+      history.push('/info/dashboard');
     } catch (error) {
       Cookies.remove('autoLogin');
-      history.push('/user/login');
+      history.push('/info/dashboard');
     }
     return undefined;
   };
   // 如果是登录页面，不执行 ??????????????????????????????????????????????????????????????/
   if (
     history.location.pathname !== '/user/login' &&
-    history.location.pathname !== '/user/register'
+    history.location.pathname !== '/user/register' &&
+    history.location.pathname !== '/info/dashboard'
   ) {
     // 获取当前用户信息
     const currentUser = await fetchUserInfo();
@@ -98,19 +98,19 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     footerRender: () => <Footer />,
-    onPageChange: () => {
-      // const {currentUser} = initialState;
-      const { location } = history;
-      // 如果没有登录，重定向到 login  ?????????????????????????????????????????????????????
-      if (
-        !initialState?.currentUser &&
-        location.pathname !== '/user/login' &&
-        location.pathname !== '/user/register'
-      ) {
-        Cookies.remove('autoLogin');
-        history.push('/user/login');
-      }
-    },
+    // onPageChange: () => {
+    //   // const {currentUser} = initialState;
+    //   const {location} = history;
+    //   // 如果没有登录，重定向到 login  ?????????????????????????????????????????????????????
+    //   if (
+    //     !initialState?.currentUser &&
+    //     location.pathname !== '/user/login' &&
+    //     location.pathname !== '/user/register'
+    //   ) {
+    //     Cookies.remove('autoLogin');
+    //     history.push('/user/login');
+    //   }
+    // },
     menuHeaderRender: undefined,
     menuDataRender: (menuData) => {
       // console.log(initialState!.menuData);

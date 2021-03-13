@@ -1,7 +1,6 @@
 export default {
   'menu.welcome': '欢迎',
   'menu.welcome.dashboard': 'dashboard',
-  'menu.welcome.school': '学校信息',
   'menu.personal-center': '个人中心',
   'menu.personal-center.personal-info': '用户信息',
   'menu.personal-center.personal-settings': '用户设置',
@@ -11,6 +10,8 @@ export default {
   'menu.authorization-management.role-list': '角色列表',
   'menu.authorization-management.auth-list': '权限列表',
   'menu.authorization-management.menu-list': '菜单列表',
+  'menu.commodity': '统计',
+  'menu.commodity.statistics': '订单统计',
   // /////////////////////////////////////////////////////////
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',

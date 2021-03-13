@@ -1,17 +1,14 @@
 import {
-  AlipayCircleOutlined,
   LockTwoTone,
   MailTwoTone,
   MobileTwoTone,
   // TaobaoCircleOutlined,
   UserOutlined,
   // WeiboCircleOutlined,
-  GoogleOutlined,
-  GithubOutlined,
 } from '@ant-design/icons';
-import { Alert, Space, message, Tabs } from 'antd';
+import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
-import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
+import ProForm, { ProFormCaptcha, ProFormText } from '@ant-design/pro-form';
 import { useIntl, Link, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import type { LoginParamsType } from './services/login';
@@ -40,9 +37,10 @@ const LoginMessage: React.FC<{
 const goto = () => {
   if (!history) return;
   setTimeout(() => {
-    const { query } = history.location;
-    const { redirect } = query as { redirect: string };
-    history.push(redirect || '/info/schools');
+    // const {query} = history.location;
+    // const {redirect} = query as { redirect: string };
+    // history.push(redirect || '/commodity/statistics');
+    history.push('/personal/info');
   }, 10);
 };
 
@@ -337,26 +335,26 @@ const Login: React.FC = () => {
                 marginBottom: 24,
               }}
             >
-              <ProFormCheckbox noStyle name="autoLogin">
-                <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
-              </ProFormCheckbox>
-              <a
-                style={{
-                  float: 'right',
-                }}
-              >
-                <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
-              </a>
+              {/* <ProFormCheckbox noStyle name="autoLogin"> */}
+              {/*  <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录"/> */}
+              {/* </ProFormCheckbox> */}
+              {/* <a */}
+              {/*  style={{ */}
+              {/*    float: 'right', */}
+              {/*  }} */}
+              {/* > */}
+              {/*  <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码"/> */}
+              {/* </a> */}
             </div>
           </ProForm>
-          <Space className={styles.other}>
-            <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式" />
-            {/* <TaobaoCircleOutlined className={styles.icon}/> */}
-            {/* <WeiboCircleOutlined className={styles.icon}/> */}
-            <GoogleOutlined className={styles.icon} />
-            <GithubOutlined className={styles.icon} />
-            <AlipayCircleOutlined className={styles.icon} />
-          </Space>
+          {/* <Space className={styles.other}> */}
+          {/*  <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式"/> */}
+          {/*  /!* <TaobaoCircleOutlined className={styles.icon}/> *!/ */}
+          {/*  /!* <WeiboCircleOutlined className={styles.icon}/> *!/ */}
+          {/*  <GoogleOutlined className={styles.icon}/> */}
+          {/*  <GithubOutlined className={styles.icon}/> */}
+          {/*  <AlipayCircleOutlined className={styles.icon}/> */}
+          {/* </Space> */}
         </div>
       </div>
       <Footer />

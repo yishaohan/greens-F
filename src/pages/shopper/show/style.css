@@ -1,0 +1,169 @@
+@font-face {
+    font-family: 'title-font';
+    src: url("./webfonts/title-font.woff2");
+}
+
+@font-face {
+    font-family: 'text-font';
+    src: url("./webfonts/text-font.woff2");
+}
+
+ul {
+    list-style: none;
+    padding: 0 0!important;
+    margin: 0 0!important;
+}
+
+body {
+    padding: 20px 100px;
+    background-color: #EDEDEE!important;
+
+}
+
+header {
+    height: 792px;
+    background-image: url("/images/background.webp");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: white;
+    font-family: title-font;
+    letter-spacing: 5px;
+}
+
+.title h2 {
+    font-weight: bold;
+    letter-spacing: 20px;
+}
+
+.subtitle {
+    padding-top: 150px;
+    font-size: 30px;
+}
+
+.subtitle span {
+    padding-bottom: 3px;
+    border-bottom: 2px solid white;
+    /*font-weight: lighter;*/
+}
+
+.subtitle2 h4 {
+    padding-top: 20px;
+    font-size: 20px;
+}
+
+.title h2 {
+    font-size: 100px;
+}
+
+.order {
+    margin-top: 50px;
+    background-color: white;
+    color: #A05841;
+}
+
+.order img {
+    margin-left: 70px;
+    margin-bottom: 50px;
+}
+
+.order .text-block {
+    margin: 50px 100px;
+    padding: 50px 50px;
+    font-family: text-font;
+}
+
+.order .text-block p {
+    margin-top: 50px;
+}
+
+.order .text-block button {
+    border-color: #A05841;
+    color: #A05841;
+}
+
+.order .text-block button:hover {
+    background-color: #A05841;
+    color: #ffffff;
+}
+
+.carousel {
+    z-index: 2;
+}
+
+.carousel-item {
+    margin-right: 0!important;
+}
+
+.title-2 {
+    font-size: 20px;
+    font-weight: lighter!important;
+    letter-spacing: 5px;
+}
+
+.intro {
+    background-color: #fff;
+    margin-top: 50px;
+}
+
+.intro .text-block {
+    padding: 80px 50px;
+    padding-bottom: 0px;
+    color: #A05841;
+    font-family: text-font;
+}
+
+.intro .text-block p {
+    margin-top: 25px;
+    padding: 0px 150px;
+}
+
+.intro .text-block .title-2 {
+    font-size: 18px;
+    letter-spacing: 10px;
+    margin-bottom: 25px;
+}
+
+.intro .slash {
+    width: 20px;
+    height: 3px;
+    margin-top: 80px;
+    background-color: #A05841;
+    margin: 0 auto;
+}
+
+footer {
+    margin-top: 50px;
+    font-family: text-font;
+}
+
+footer .info {
+    background-color: #123132;
+    color: white;
+
+    padding: 50px 350px;
+}
+
+footer .info .col-4 {
+    margin: 50px 0px;
+    text-align: center;
+}
+
+footer .info .title {
+    margin-bottom: 20px;
+    font-size: 18px;
+    letter-spacing: 5px;
+}
+
+footer .info .list {
+    font-size: 15px;
+}
+
+footer .info .socialMedia img {
+    margin: 0px 10px;
+}
+
+.copyright .col {
+    margin: 20px 0px;
+    color: #A05841;
+    height: 20px;
+}

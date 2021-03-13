@@ -219,7 +219,7 @@ export default (): React.ReactNode => {
             onChange={(check) => {
               handleUserEnabledStateChange(check, record, index);
             }}
-            disabled={!access['UPDATE_USER']}
+            disabled={!access.UPDATE_USER}
           />
         );
       },
@@ -240,7 +240,7 @@ export default (): React.ReactNode => {
             onChange={(checked) => {
               handleUserLockedStateChange(checked, record, index);
             }}
-            disabled={!access['UPDATE_USER']}
+            disabled={!access.UPDATE_USER}
           />
         );
       },
@@ -260,7 +260,7 @@ export default (): React.ReactNode => {
                 setEditUserModalVisible(true);
                 setCurrentEditUser(record);
               }}
-              disabled={!access['UPDATE_USER']}
+              disabled={!access.UPDATE_USER}
             >
               编辑
             </Button>
@@ -271,7 +271,7 @@ export default (): React.ReactNode => {
                 setEditUserRoleModalVisible(true);
                 setCurrentEditUser(record);
               }}
-              disabled={!access['ADD_USER_ROLES'] || !access['DELETE_USER_ROLES']}
+              disabled={!access.ADD_USER_ROLES || !access.DELETE_USER_ROLES}
             >
               设置
             </Button>
@@ -282,7 +282,7 @@ export default (): React.ReactNode => {
               onClick={() => {
                 handleDeleteUser(record);
               }}
-              disabled={!access['DELETE_USER']}
+              disabled={!access.DELETE_USER}
             >
               删除
             </Button>
@@ -328,13 +328,13 @@ export default (): React.ReactNode => {
     const mobilePhone = ref.current!.getFieldValue('mobilePhone');
     const params = {};
     if (nickname) {
-      params['nickname'] = nickname;
+      params.nickname = nickname;
     }
     if (username) {
-      params['username'] = username;
+      params.username = username;
     }
     if (mobilePhone) {
-      params['mobilePhone'] = mobilePhone;
+      params.mobilePhone = mobilePhone;
     }
     currentPage.current = page;
     sizePerPage.current = pageSize;
@@ -390,7 +390,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               setAddUserModalVisible(true);
             }}
-            disabled={!access['CREATE_USER']}
+            disabled={!access.CREATE_USER}
           >
             新建
           </Button>,
@@ -402,7 +402,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               handleDeleteUsers();
             }}
-            disabled={!access['DELETE_USERS']}
+            disabled={!access.DELETE_USERS}
           >
             删除
           </Button>,
@@ -429,7 +429,7 @@ export default (): React.ReactNode => {
               key="import"
               icon={<ImportOutlined />}
               type="primary"
-              disabled={!access['IMPORT_USERS']}
+              disabled={!access.IMPORT_USERS}
             >
               导入
             </Button>
@@ -441,7 +441,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               exportUsers().then(() => {});
             }}
-            disabled={!access['EXPORT_USERS']}
+            disabled={!access.EXPORT_USERS}
           >
             导出
           </Button>,

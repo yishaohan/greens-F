@@ -236,7 +236,7 @@ export default (): React.ReactNode => {
             onChange={(check) => {
               handleMenuEnabledStateChange(check, record, index);
             }}
-            disabled={!access['UPDATE_MENU']}
+            disabled={!access.UPDATE_MENU}
           />
         );
       },
@@ -254,7 +254,7 @@ export default (): React.ReactNode => {
                 setEditMenuModalVisible(true);
                 setCurrentEditMenu(record);
               }}
-              disabled={!access['UPDATE_MENU']}
+              disabled={!access.UPDATE_MENU}
             >
               编辑
             </Button>
@@ -265,7 +265,7 @@ export default (): React.ReactNode => {
               onClick={() => {
                 handleDeleteMenu(record);
               }}
-              disabled={!access['DELETE_MENU']}
+              disabled={!access.DELETE_MENU}
             >
               删除
             </Button>
@@ -311,13 +311,13 @@ export default (): React.ReactNode => {
     const menuPath = ref.current!.getFieldValue('menuPath');
     const params = {};
     if (menuName) {
-      params['menuName'] = menuName;
+      params.menuName = menuName;
     }
     if (menuDescript) {
-      params['menuDescript'] = menuDescript;
+      params.menuDescript = menuDescript;
     }
     if (menuPath) {
-      params['menuPath'] = menuPath;
+      params.menuPath = menuPath;
     }
     currentPage.current = page;
     sizePerPage.current = pageSize;
@@ -365,7 +365,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               setAddMenuModalVisible(true);
             }}
-            disabled={!access['CREATE_MENU']}
+            disabled={!access.CREATE_MENU}
           >
             新建
           </Button>,
@@ -377,7 +377,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               handleDeleteMenus();
             }}
-            disabled={!access['DELETE_MENUS']}
+            disabled={!access.DELETE_MENUS}
           >
             删除
           </Button>,

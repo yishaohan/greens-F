@@ -19,7 +19,7 @@ export default function access(initialState: { currentUser?: API.UserListItem | 
   }
   return {
     canDashboardPage: true, // paths.includes('/info/dashboard'),
-    canSchoolsPage: true, // paths.includes('/info/schools'),
+    canStatisticsPage: paths.includes('/commodity/statistics'),
     canPersonalInfoPage: paths.includes('/personal/info'),
     canPersonalSettingsPage: paths.includes('/personal/settings'),
     canUserListPage: paths.includes('/admin/user/userList'),

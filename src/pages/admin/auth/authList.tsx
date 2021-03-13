@@ -225,7 +225,7 @@ export default (): React.ReactNode => {
             onChange={(check) => {
               handleAuthEnabledStateChange(check, record, index);
             }}
-            disabled={!access['UPDATE_AUTH']}
+            disabled={!access.UPDATE_AUTH}
           />
         );
       },
@@ -243,7 +243,7 @@ export default (): React.ReactNode => {
                 setEditAuthModalVisible(true);
                 setCurrentEditAuth(record);
               }}
-              disabled={!access['UPDATE_AUTH']}
+              disabled={!access.UPDATE_AUTH}
             >
               编辑
             </Button>
@@ -254,7 +254,7 @@ export default (): React.ReactNode => {
               onClick={() => {
                 handleDeleteAuth(record);
               }}
-              disabled={!access['DELETE_AUTH']}
+              disabled={!access.DELETE_AUTH}
             >
               删除
             </Button>
@@ -301,16 +301,16 @@ export default (): React.ReactNode => {
     const requestMethod = ref.current!.getFieldValue('requestMethod');
     const params = {};
     if (authName) {
-      params['authName'] = authName;
+      params.authName = authName;
     }
     if (authDescript) {
-      params['authDescript'] = authDescript;
+      params.authDescript = authDescript;
     }
     if (requestUrl) {
-      params['requestUrl'] = requestUrl;
+      params.requestUrl = requestUrl;
     }
     if (requestMethod) {
-      params['requestMethod'] = requestMethod;
+      params.requestMethod = requestMethod;
     }
     currentPage.current = page;
     sizePerPage.current = pageSize;
@@ -358,7 +358,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               setAddAuthModalVisible(true);
             }}
-            disabled={!access['CREATE_AUTH']}
+            disabled={!access.CREATE_AUTH}
           >
             新建
           </Button>,
@@ -370,7 +370,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               handleDeleteAuths();
             }}
-            disabled={!access['DELETE_AUTHS']}
+            disabled={!access.DELETE_AUTHS}
           >
             删除
           </Button>,

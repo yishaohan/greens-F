@@ -2,9 +2,6 @@
 import type { MenuDataItem } from '@ant-design/pro-layout';
 import React from 'react';
 import * as Icon from '@ant-design/icons/lib/icons';
-import { RangePickerProps } from 'antd/es/date-picker/generatePicker';
-import moment from 'moment';
-import { fixedZero } from '@/pages/covid19/school/utils/utils';
 
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
 
@@ -100,53 +97,6 @@ export const getUserMenus = (user: API.UserListItem): API.MenuListItem[] => {
   }
   return [];
 };
-
-// 日期选择??????
-type RangePickerValue = RangePickerProps<moment.Moment>['value'];
-
-export function getTimeDistance(type: 'today' | 'week' | 'month' | 'year'): RangePickerValue {
-  const now = new Date();
-  const oneDay = 1000 * 60 * 60 * 24;
-
-  if (type === 'today') {
-    now.setHours(0);
-    now.setMinutes(0);
-    now.setSeconds(0);
-    return [moment(now), moment(now.getTime() + (oneDay - 1000))];
-  }
-
-  if (type === 'week') {
-    let day = now.getDay();
-    now.setHours(0);
-    now.setMinutes(0);
-    now.setSeconds(0);
-
-    if (day === 0) {
-      day = 6;
-    } else {
-      day -= 1;
-    }
-
-    const beginTime = now.getTime() - day * oneDay;
-
-    return [moment(beginTime), moment(beginTime + (7 * oneDay - 1000))];
-  }
-  const year = now.getFullYear();
-
-  if (type === 'month') {
-    const month = now.getMonth();
-    const nextDate = moment(now).add(1, 'months');
-    const nextYear = nextDate.year();
-    const nextMonth = nextDate.month();
-
-    return [
-      moment(`${year}-${fixedZero(month + 1)}-01 00:00:00`),
-      moment(moment(`${nextYear}-${fixedZero(nextMonth + 1)}-01 00:00:00`).valueOf() - 1000),
-    ];
-  }
-
-  return [moment(`${year}-01-01 00:00:00`), moment(`${year}-12-31 23:59:59`)];
-}
 
 // 给官方演示站点用，用于关闭真实开发环境不需要使用的特性
 export const isAntDesignProOrDev = (): boolean => {

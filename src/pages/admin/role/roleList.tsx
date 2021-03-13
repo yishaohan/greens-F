@@ -183,7 +183,7 @@ export default (): React.ReactNode => {
             onChange={(check) => {
               handleRoleEnabledStateChange(check, record, index);
             }}
-            disabled={!access['UPDATE_ROLE']}
+            disabled={!access.UPDATE_ROLE}
           />
         );
       },
@@ -201,7 +201,7 @@ export default (): React.ReactNode => {
                 setEditRoleModalVisible(true);
                 setCurrentEditRole(record);
               }}
-              disabled={!access['UPDATE_ROLE']}
+              disabled={!access.UPDATE_ROLE}
             >
               编辑
             </Button>
@@ -212,7 +212,7 @@ export default (): React.ReactNode => {
                 setEditRoleAuthsModalVisible(true);
                 setCurrentEditRole(record);
               }}
-              disabled={!access['ADD_ROLE_AUTHS'] || !access['DELETE_ROLE_AUTHS']}
+              disabled={!access.ADD_ROLE_AUTHS || !access.DELETE_ROLE_AUTHS}
             >
               权限
             </Button>
@@ -223,7 +223,7 @@ export default (): React.ReactNode => {
                 setEditRoleMenusModalVisible(true);
                 setCurrentEditRole(record);
               }}
-              disabled={!access['ADD_ROLE_MENUS'] || !access['DELETE_ROLE_MENUS']}
+              disabled={!access.ADD_ROLE_MENUS || !access.DELETE_ROLE_MENUS}
             >
               菜单
             </Button>
@@ -234,7 +234,7 @@ export default (): React.ReactNode => {
               onClick={() => {
                 handleDeleteRole(record);
               }}
-              disabled={!access['DELETE_ROLE']}
+              disabled={!access.DELETE_ROLE}
             >
               删除
             </Button>
@@ -265,10 +265,10 @@ export default (): React.ReactNode => {
     const roleDescript = ref.current!.getFieldValue('roleDescript');
     const params = {};
     if (roleName) {
-      params['roleName'] = roleName;
+      params.roleName = roleName;
     }
     if (roleDescript) {
-      params['roleDescript'] = roleDescript;
+      params.roleDescript = roleDescript;
     }
     currentPage.current = page;
     sizePerPage.current = pageSize;
@@ -418,7 +418,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               setAddRoleModalVisible(true);
             }}
-            disabled={!access['CREATE_ROLE']}
+            disabled={!access.CREATE_ROLE}
           >
             新建
           </Button>,
@@ -430,7 +430,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               handleDeleteRoles();
             }}
-            disabled={!access['DELETE_ROLES']}
+            disabled={!access.DELETE_ROLES}
           >
             删除
           </Button>,
@@ -457,7 +457,7 @@ export default (): React.ReactNode => {
               key="import"
               icon={<ImportOutlined />}
               type="primary"
-              disabled={!access['IMPORT_ROLES']}
+              disabled={!access.IMPORT_ROLES}
             >
               导入
             </Button>
@@ -469,7 +469,7 @@ export default (): React.ReactNode => {
             onClick={() => {
               exportRoles().then(() => {});
             }}
-            disabled={!access['EXPORT_ROLES']}
+            disabled={!access.EXPORT_ROLES}
           >
             导出
           </Button>,
