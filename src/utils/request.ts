@@ -53,7 +53,7 @@ const errorHandler = (error: ResponseError) => {
   throw error;
 };
 
-let path = 'https://projecty.highspeed.vip/api/v1';
+let path = 'https://greens.highspeed.vip/api/v1';
 if (process.env.NODE_ENV === 'development') {
   path = 'https://xclass.highspeed.vip:50080/api/v1';
 }
