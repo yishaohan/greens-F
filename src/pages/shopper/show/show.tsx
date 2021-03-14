@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { Button, Modal, Divider, Row, Col, Image, Tooltip, Alert } from 'antd';
-import { ShoppingTwoTone, MoneyCollectTwoTone } from '@ant-design/icons';
+import { Button, Modal, Divider, Row, Col, Image, Tooltip, Alert, Slider, Tag } from 'antd';
+import { MoneyCollectTwoTone } from '@ant-design/icons';
 // @ts-ignore
 import CustomPaypalButtons from './components/CustomPaypalButtons';
 import './show.css';
@@ -13,13 +13,12 @@ import {
   ProFormTextArea,
   ProFormCheckbox,
   ProFormField,
-  ProFormSlider,
+  // ProFormSlider,
 } from '@ant-design/pro-form';
-import './style.css';
-import './bootstrap.rtl.css';
+import GreenPage from '@/pages/shopper/show/components/GreenPage';
 
 export default (): React.ReactNode => {
-  const price: number = 3;
+  const price: number = 30;
   const initialOptions = {
     'client-id': 'AYsnjLgEmwy2RIhy0QdO335NCySWCFKnxecxVmVhTVUxLE8hdw_ZNs1LvGD5sH61BErt2JxRuTc7I9Pn',
     currency: 'CAD',
@@ -77,7 +76,7 @@ export default (): React.ReactNode => {
     console.log(value);
     console.log(selectedCountRef.current);
     if (selectedCountRef.current > 4) {
-      setErrorInfo('只能选择 4 件商品');
+      setErrorInfo('you can only select 4 items!');
     } else {
       setErrorInfo('');
     }
@@ -87,165 +86,7 @@ export default (): React.ReactNode => {
   // @ts-ignore
   return (
     <>
-      <header className="container-fluid text-center">
-        <div className="row subtitle">
-          <div className="col w-100 ">
-            <span>ESTB</span>
-            <img src="/images/title.png" height="180" width="180" alt={''} />
-            <span>2021</span>
-          </div>
-        </div>
-        <div className="row title">
-          <h2>PRICKLES & CO</h2>
-        </div>
-        <div className="row subtitle2">
-          <h4>BRING NATURE INDOOR</h4>
-        </div>
-      </header>
-
-      <section className="container-fluid intro">
-        <div className="row">
-          <div className="col-lg-6 col-sm-12 text-center text-block">
-            <h4 className="title-2">ABOUT US</h4>
-            <div className="slash"></div>
-            <p>
-              I'm a paragraph. Click here to add your own text and edit me. It’s easy. Just click
-              “Edit Text” or double click me to add your own content and make changes to the font.
-              Feel free to drag and drop me anywhere you like on your page. I’m a great place for
-              you to tell a story and let your users know a little more about you. his is a great
-              space to write long text about your company and your services.
-            </p>
-          </div>
-          <div className="col-lg-3 col-sm-6 " style={{ height: '456', width: '460' }}>
-            <img src="/images/leave.webp" />
-          </div>
-          <div
-            className="col-lg-3 col-sm-6 overflow-hidden"
-            style={{ height: '456', width: '442' }}
-          >
-            <img src="/images/workspace.webp" />
-          </div>
-        </div>
-      </section>
-
-      <section className="container-fluid order">
-        <div className="row">
-          <div className="col">
-            <div
-              id="carouselExampleFade"
-              className="carousel slide carousel-fade"
-              data-bs-ride="carousel"
-              data-bs-interval="5000"
-            >
-              <div className="carousel-inner">
-                <div className="carousel-item active">
-                  <img src="/images/plant.webp" className="d-block w-80" alt="..." />
-                </div>
-                <div className="carousel-item">
-                  <img src="/images/cacti.webp" className="d-block w-80" alt="..." />
-                </div>
-                <div className="carousel-item">
-                  <img src="/images/succulents.webp" className="d-block w-80" alt="..." />
-                </div>
-              </div>
-              <button
-                className="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselExampleFade"
-                data-bs-slide="prev"
-              >
-                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Previous</span>
-              </button>
-              <button
-                className="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselExampleFade"
-                data-bs-slide="next"
-              >
-                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Next</span>
-              </button>
-            </div>
-          </div>
-          <div className="col text-center text-block">
-            <h4 className="title-2">ABOUT THE KIT</h4>
-            <hr />
-            <p>
-              I'm a paragraph. Click here to add your own text and edit me. It’s easy. Just click
-              “Edit Text” or double click me to add your own content and make changes to the font.
-              Feel free to drag and drop me anywhere you like on your page. I’m a great place for
-              you to tell a story and let your users know a little more about you. his is a great
-              space to write long text about your company and your services. You can use this space
-              to go into a little more detail about your company. Talk about your team and what
-              services you provide.
-            </p>
-            {/* <button type="button" className="btn btn-outline-warning">Order Now</button> */}
-            <Button
-              type="default"
-              onClick={() => setVisibleStepsForm(true)}
-              shape="round"
-              style={{ minWidth: 120 }}
-              icon={<ShoppingTwoTone twoToneColor="#FF8800" />}
-            >
-              Order Now
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <footer className="container-fluid">
-        <div className="row info justify-content-center">
-          <div className="col-4">
-            <div className="title">OUR STORE</div>
-            <div className="list">
-              <ul>
-                <li>Address: 500 Terry Francois</li>
-                <li>Street San Francisco, CA 94158</li>
-                <li>Phone: 123-456-7890</li>
-                <li>Email: info@mysite.com</li>
-              </ul>
-            </div>
-          </div>
-          <div className="col-4">
-            <div className="title">OUR STORE</div>
-            <div className="list">
-              <ul>
-                <li>Address: 500 Terry Francois Street San Francisco, CA 94158</li>
-                <li>Phone: 123-456-7890</li>
-                <li>Email: info@mysite.com</li>
-              </ul>
-            </div>
-          </div>
-          <div className="col-4">
-            <div className="title">OUR STORE</div>
-            <div className="list">
-              <ul>
-                <li>Address: 500 Terry Francois Street San Francisco, CA 94158</li>
-                <li>Phone: 123-456-7890</li>
-                <li>Email: info@mysite.com</li>
-              </ul>
-            </div>
-          </div>
-          <div className="socialMedia text-center">
-            <a href="#">
-              <img src="/images/facebook.webp" height="24" width="24" />
-            </a>
-            <a href="#">
-              <img src="/images/pinterest.webp" height="24" width="24" />
-            </a>
-            <a href="#">
-              <img src="/images/instagram.webp" height="24" width="24" />
-            </a>
-          </div>
-        </div>
-        <div className="row copyright">
-          <div className="col text-center">
-            © 2021 by Prickles & Co. Proudly created by Henry Yi
-          </div>
-        </div>
-      </footer>
-
+      <GreenPage myFunc={setVisibleStepsForm} />
       {/* <section id="two" className="wrapper"> */}
       {/*  <div className="inner alt"> */}
       {/*    <section className="spotlight"> */}
@@ -282,13 +123,13 @@ export default (): React.ReactNode => {
 
         formProps={{
           validateMessages: {
-            required: '此项为必填项',
+            required: 'this is a required field',
           },
         }}
         stepsFormRender={(dom, submitter) => {
           return (
             <Modal
-              title="谢谢购买"
+              title="thank you for your support!"
               width={800}
               onCancel={() => setVisibleStepsForm(false)}
               visible={visibleStepsForm}
@@ -341,7 +182,7 @@ export default (): React.ReactNode => {
       >
         <StepsForm.StepForm
           name="address"
-          title="收件人地址"
+          title="receiver address"
           onFinish={async (values: API.ReceiverInfoItem) => {
             // await waitTime(2000);
             console.log(values);
@@ -353,52 +194,149 @@ export default (): React.ReactNode => {
         >
           <ProFormText
             name="name"
-            width="md"
-            label="姓名"
-            placeholder="请输入姓名"
+            fieldProps={{ addonBefore: 'name', size: 'large' }}
+            width="lg"
+            // label="name"
+            labelAlign="right"
+            placeholder="please enter your name"
             rules={[{ required: true }]}
           />
           <ProFormText
             name="telePhone"
-            width="md"
-            label="电话"
-            placeholder="请输入联系电话"
+            fieldProps={{ addonBefore: 'phone', size: 'large' }}
+            width="lg"
+            // label="phone number"
+            labelAlign="right"
+            placeholder="please enter contact number"
             rules={[{ required: true }]}
           />
           <ProFormText
             name="email"
-            width="md"
-            label="邮件"
-            placeholder="请输入电子邮件"
+            fieldProps={{ addonBefore: 'email', size: 'large' }}
+            width="lg"
+            // label="email"
+            labelAlign="right"
+            placeholder="please enter your email"
             rules={[{ required: true }]}
           />
           <ProFormText
             name="postcode"
-            width="md"
-            label="邮编"
-            placeholder="请输入邮编"
+            fieldProps={{ addonBefore: 'postcode', size: 'large' }}
+            width="lg"
+            // label="postal code"
+            labelAlign="right"
+            placeholder="please enter postal code"
             rules={[{ required: true }]}
           />
           <ProFormText
             name="address"
-            width="md"
-            label="地址"
-            placeholder="请输入邮寄地址"
+            fieldProps={{ addonBefore: 'address', size: 'large' }}
+            width="lg"
+            // label="address"
+            labelAlign="right"
+            placeholder="please enter mailing address"
             rules={[{ required: true }]}
           />
-          <ProFormTextArea name="remark" width="lg" placeholder="请输入备注" />
+          <Divider plain={true} orientation={'left'} style={{ minWidth: '500px' }}>
+            comment
+          </Divider>
+          <ProFormTextArea name="remark" width="lg" placeholder="comment" />
         </StepsForm.StepForm>
-        <StepsForm.StepForm name="" title="确认地址" initialValues={receiverInfo}>
-          <ProFormField width="lg">姓名: {receiverInfo.name}</ProFormField>
-          <ProFormField width="lg">电话: {receiverInfo.telePhone}</ProFormField>
-          <ProFormField width="lg">邮件: {receiverInfo.email}</ProFormField>
-          <ProFormField width="lg">邮编: {receiverInfo.postcode}</ProFormField>
-          <ProFormField width="lg">地址: {receiverInfo.address}</ProFormField>
-          <ProFormField width="lg">备注: {receiverInfo.remark}</ProFormField>
+        <StepsForm.StepForm name="" title="verify address" initialValues={receiverInfo}>
+          <ProFormField width="lg">
+            <Tag
+              style={{
+                textAlign: 'right',
+                minWidth: '120px',
+                border: 'none',
+                backgroundColor: 'rgba(255,255,255,1)',
+              }}
+            >
+              name:
+            </Tag>
+            <Tag color={'green'} style={{ textAlign: 'center', minWidth: '280px' }}>
+              {receiverInfo.name}
+            </Tag>
+          </ProFormField>
+          <ProFormField width="lg">
+            <Tag
+              style={{
+                textAlign: 'right',
+                minWidth: '120px',
+                border: 'none',
+                backgroundColor: 'rgba(255,255,255,1)',
+              }}
+            >
+              phone:
+            </Tag>
+            <Tag color={'green'} style={{ textAlign: 'center', minWidth: '280px' }}>
+              {receiverInfo.telePhone}
+            </Tag>
+          </ProFormField>
+          <ProFormField width="lg">
+            <Tag
+              style={{
+                textAlign: 'right',
+                minWidth: '120px',
+                border: 'none',
+                backgroundColor: 'rgba(255,255,255,1)',
+              }}
+            >
+              email:
+            </Tag>
+            <Tag color={'green'} style={{ textAlign: 'center', minWidth: '280px' }}>
+              {receiverInfo.email}
+            </Tag>
+          </ProFormField>
+          <ProFormField width="lg">
+            <Tag
+              style={{
+                textAlign: 'right',
+                minWidth: '120px',
+                border: 'none',
+                backgroundColor: 'rgba(255,255,255,1)',
+              }}
+            >
+              postcode:
+            </Tag>
+            <Tag color={'green'} style={{ textAlign: 'center', minWidth: '280px' }}>
+              {receiverInfo.postcode}
+            </Tag>
+          </ProFormField>
+          <ProFormField width="lg">
+            <Tag
+              style={{
+                textAlign: 'right',
+                minWidth: '120px',
+                border: 'none',
+                backgroundColor: 'rgba(255,255,255,1)',
+              }}
+            >
+              address:
+            </Tag>
+            <Tag color={'green'} style={{ textAlign: 'center', minWidth: '280px' }}>
+              {receiverInfo.address}
+            </Tag>
+          </ProFormField>
+          <ProFormField width="lg">
+            <Tag
+              style={{
+                textAlign: 'right',
+                minWidth: '120px',
+                border: 'none',
+                backgroundColor: 'rgba(255,255,255,1)',
+              }}
+            >
+              comment:
+            </Tag>
+            <Tag color={'green'} style={{ textAlign: 'center', minWidth: '280px' }}>
+              {receiverInfo.remark}
+            </Tag>
+          </ProFormField>
         </StepsForm.StepForm>
         <StepsForm.StepForm
           name=""
-          title="确认订单"
+          title="verify order"
           initialValues={orderInfo}
           // initialValues={orderInfoRef.current}
           onFinish={async () => {
@@ -410,7 +348,7 @@ export default (): React.ReactNode => {
               return false;
             }
             if (selectedCountRef.current === 0) {
-              setErrorInfo('请选择商品');
+              setErrorInfo('please select your desired item');
               return false;
             }
             setTotal(orderInfo.quantity * price);
@@ -421,16 +359,22 @@ export default (): React.ReactNode => {
           <ProFormField>
             <MoneyCollectTwoTone twoToneColor="#FF8800" /> {total} CAD
           </ProFormField>
-          <ProFormSlider
-            fieldProps={{
-              defaultValue: 1,
-              onChange: (value) => {
-                setOrderInfo({ ...orderInfo, quantity: value });
-                // orderInfoRef.current.quantity = value;
-                setTotal(value * price);
-              },
+          <Slider
+            defaultValue={1}
+            onChange={(value: number) => {
+              setOrderInfo({ ...orderInfo, quantity: value });
+              // orderInfoRef.current.quantity = value;
+              setTotal(value * price);
             }}
-            initialValue={orderInfo.quantity}
+            // fieldProps={{
+            //   defaultValue: 1,
+            //   onChange: (value) => {
+            //     setOrderInfo({...orderInfo, quantity: value});
+            //     // orderInfoRef.current.quantity = value;
+            //     setTotal(value * price);
+            //   },
+            // }}
+            value={orderInfo.quantity}
             // initialValue={orderInfoRef.current.quantity}
             marks={{
               1: '1',
@@ -447,13 +391,13 @@ export default (): React.ReactNode => {
             min={1}
             max={10}
             step={1}
-            width={'xl'}
+            // width={'xl'}
           />
           <Row>
             <Col>
               <Row justify={'center'}>
                 <ProCard style={{}} size="small">
-                  <Tooltip placement="top" title={'西红柿'}>
+                  <Tooltip placement="top" title={'tomato'}>
                     <Image
                       src="/images/1.jpg"
                       className={orderInfo.item1 ? '' : 'gray'}
@@ -487,7 +431,7 @@ export default (): React.ReactNode => {
             <Col>
               <Row justify={'center'}>
                 <ProCard style={{}} size="small">
-                  <Tooltip placement="top" title={'西红柿'}>
+                  <Tooltip placement="top" title={'apple'}>
                     <Image
                       src="/images/2.jpg"
                       className={orderInfo.item2 ? '' : 'gray'}
@@ -520,7 +464,7 @@ export default (): React.ReactNode => {
             <Col>
               <Row justify={'center'}>
                 <ProCard style={{}} size="small">
-                  <Tooltip placement="top" title={'西红柿'}>
+                  <Tooltip placement="top" title={'peach'}>
                     <Image
                       src="/images/3.jpg"
                       className={orderInfo.item3 ? '' : 'gray'}
@@ -553,7 +497,7 @@ export default (): React.ReactNode => {
             <Col>
               <Row justify={'center'}>
                 <ProCard style={{}} size="small">
-                  <Tooltip placement="top" title={'西红柿'}>
+                  <Tooltip placement="top" title={'watermelon'}>
                     <Image
                       src="/images/4.jpg"
                       className={orderInfo.item4 ? '' : 'gray'}
@@ -586,7 +530,7 @@ export default (): React.ReactNode => {
             <Col>
               <Row justify={'center'}>
                 <ProCard style={{}} size="small">
-                  <Tooltip placement="top" title={'西红柿'}>
+                  <Tooltip placement="top" title={'mango'}>
                     <Image
                       src="/images/5.jpg"
                       className={orderInfo.item5 ? '' : 'gray'}
@@ -619,7 +563,7 @@ export default (): React.ReactNode => {
             <Col>
               <Row justify={'center'}>
                 <ProCard style={{}} size="small">
-                  <Tooltip placement="top" title={'西红柿'}>
+                  <Tooltip placement="top" title={'pineapple'}>
                     <Image
                       src="/images/6.jpg"
                       className={orderInfo.item6 ? '' : 'gray'}
@@ -654,7 +598,7 @@ export default (): React.ReactNode => {
             <Col>{errorInfo !== '' && <Alert message={errorInfo} type="error" />}</Col>
           </Row>
         </StepsForm.StepForm>
-        <StepsForm.StepForm name="time" title="支付">
+        <StepsForm.StepForm name="time" title="payment">
           {visiblePaypalFrom && (
             <PayPalScriptProvider options={initialOptions}>
               <CustomPaypalButtons
@@ -676,7 +620,7 @@ export default (): React.ReactNode => {
               history.push('/');
             }}
           >
-            REST
+            RESET
           </Button>
         </StepsForm.StepForm>
       </StepsForm>

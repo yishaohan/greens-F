@@ -40,7 +40,7 @@ const goto = () => {
     // const {query} = history.location;
     // const {redirect} = query as { redirect: string };
     // history.push(redirect || '/commodity/statistics');
-    history.push('/personal/info');
+    history.push('/commodity/statistics');
   }, 10);
 };
 
@@ -103,7 +103,7 @@ const Login: React.FC = () => {
       // 登录
       const msg = await doLogin({ ...values, type });
       if (msg.status === 200) {
-        message.success('登录成功！');
+        message.success('login success！');
         await fetchUserInfo();
         console.log(msg);
         Cookies.set('autoLogin', `${values.autoLogin}`, { expires: 7 });
@@ -115,8 +115,8 @@ const Login: React.FC = () => {
       // 如果失败去设置用户错误信息
       setUserLoginState(msg);
     } catch (error) {
-      console.log(`登录失败，请重试!${error}`);
-      message.error(`登录失败，请重试!${error}`);
+      console.log(`login fained，please try again!${error}`);
+      message.error(`login failed, please try again!${error}`);
     }
     setSubmitting(false);
   };
@@ -133,7 +133,7 @@ const Login: React.FC = () => {
               <span className={styles.title}>Project Y</span>
             </Link>
           </div>
-          <div className={styles.desc}>Project Y 项目描述 ......</div>
+          <div className={styles.desc}>Greens ......</div>
         </div>
 
         <div className={styles.main}>
@@ -146,7 +146,7 @@ const Login: React.FC = () => {
               searchConfig: {
                 submitText: intl.formatMessage({
                   id: 'pages.login.submit',
-                  defaultMessage: '登录',
+                  defaultMessage: 'login',
                 }),
               },
               render: (_, dom) => dom.pop(),
@@ -167,14 +167,14 @@ const Login: React.FC = () => {
                 key="account"
                 tab={intl.formatMessage({
                   id: 'pages.login.accountLogin.tab',
-                  defaultMessage: '账户密码登录',
+                  defaultMessage: 'account password login',
                 })}
               />
               <Tabs.TabPane
                 key="mobile"
                 tab={intl.formatMessage({
                   id: 'pages.login.phoneLogin.tab',
-                  defaultMessage: '手机号登录',
+                  defaultMessage: 'phone number login',
                 })}
               />
             </Tabs>
@@ -183,7 +183,7 @@ const Login: React.FC = () => {
               <LoginMessage
                 content={intl.formatMessage({
                   id: 'pages.login.accountLogin.errorMessage',
-                  defaultMessage: '账户或密码错误（admin/ant.design)',
+                  defaultMessage: 'username or password failed',
                 })}
               />
             )}
@@ -197,7 +197,7 @@ const Login: React.FC = () => {
                   }}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.username.placeholder',
-                    defaultMessage: '用户名: admin or user',
+                    defaultMessage: 'username: admin or user',
                   })}
                   rules={[
                     {
@@ -205,7 +205,7 @@ const Login: React.FC = () => {
                       message: (
                         <FormattedMessage
                           id="pages.login.username.required"
-                          defaultMessage="请输入用户名!"
+                          defaultMessage="please enter username!"
                         />
                       ),
                     },
@@ -219,7 +219,7 @@ const Login: React.FC = () => {
                   }}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.password.placeholder',
-                    defaultMessage: '密码: ant.design',
+                    defaultMessage: 'password: ant.design',
                   })}
                   rules={[
                     {
@@ -227,7 +227,7 @@ const Login: React.FC = () => {
                       message: (
                         <FormattedMessage
                           id="pages.login.password.required"
-                          defaultMessage="请输入密码！"
+                          defaultMessage="please enter password！"
                         />
                       ),
                     },
@@ -247,7 +247,7 @@ const Login: React.FC = () => {
                   name="mobilePhone"
                   placeholder={intl.formatMessage({
                     id: 'pages.login.phoneNumber.placeholder',
-                    defaultMessage: '手机号',
+                    defaultMessage: 'phone number',
                   })}
                   rules={[
                     {
@@ -255,7 +255,7 @@ const Login: React.FC = () => {
                       message: (
                         <FormattedMessage
                           id="pages.login.phoneNumber.required"
-                          defaultMessage="请输入手机号！"
+                          defaultMessage="please enter phone number！"
                         />
                       ),
                     },
@@ -264,7 +264,7 @@ const Login: React.FC = () => {
                       message: (
                         <FormattedMessage
                           id="pages.login.phoneNumber.invalid"
-                          defaultMessage="手机号格式错误！"
+                          defaultMessage="phone number format error！"
                         />
                       ),
                     },
@@ -280,18 +280,18 @@ const Login: React.FC = () => {
                   }}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.captcha.placeholder',
-                    defaultMessage: '请输入验证码',
+                    defaultMessage: 'please enter verification code',
                   })}
                   captchaTextRender={(timing, count) => {
                     if (timing) {
                       return `${count} ${intl.formatMessage({
                         id: 'pages.getCaptchaSecondText',
-                        defaultMessage: '获取验证码',
+                        defaultMessage: 'get verification code',
                       })}`;
                     }
                     return intl.formatMessage({
                       id: 'pages.login.phoneLogin.getVerificationCode',
-                      defaultMessage: '获取验证码',
+                      defaultMessage: 'get verification code',
                     });
                   }}
                   name="smsCaptcha"
@@ -301,7 +301,7 @@ const Login: React.FC = () => {
                       message: (
                         <FormattedMessage
                           id="pages.login.captcha.required"
-                          defaultMessage="请输入验证码！"
+                          defaultMessage="please enter verification code！"
                         />
                       ),
                     },
@@ -310,22 +310,22 @@ const Login: React.FC = () => {
                     console.log('mobilePhone', mobilePhone);
                     const tempMobilePhone = form.getFieldValue('mobilePhone');
                     if (!tempMobilePhone) {
-                      message.error('请输入手机号码!', 10);
+                      message.error('please enter phone number!', 10);
                       return;
                     }
                     const m = form.getFieldsError(['mobilePhone']);
                     if (m[0].errors.length > 0) {
-                      message.error('手机号码格式有错误!', 10);
+                      message.error('phone number format error', 10);
                       return;
                     }
                     const result = await getSmsCaptcha(tempMobilePhone);
                     console.log(result);
                     if (result.status !== 201) {
-                      message.error('获取验证码失败!!!!!!!');
+                      message.error('did not receive verification code!');
                       message.error(result.msg);
                       return;
                     }
-                    message.success('获取验证码成功!');
+                    message.success('received verification code');
                   }}
                 />
               </>

@@ -67,12 +67,12 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
             type: 'success',
             message: 'Thank You !',
             duration: 10,
-            description: 'Thank You ... ...',
+            description: 'Thank you for your support!',
           });
         } else {
           notification.open({
             type: 'error',
-            message: '提交订单失败-1 !',
+            message: 'Order Submission Failed-1 !',
             duration: 0,
             description: response.msg,
           });
@@ -82,11 +82,10 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
       .catch((e) => {
         notification.open({
           type: 'error',
-          message: '提交订单失败-2 !',
+          message: 'Order Submission failed-2 !',
           duration: 0,
           description: e,
         });
-        // message.error(`提交订单失败-2: ${e}`).then(() => {});
       });
   };
 
@@ -95,7 +94,7 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
       type: 'warning',
       message: 'Cancel Order !',
       duration: 3,
-      description: '可以一会重新支付当前订单!',
+      description: 'try repaying in a sec!',
     });
     const order: API.SubmitOrder = {
       address: '',
@@ -112,22 +111,22 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
     cancelOrder(order)
       .then((response) => {
         if (response.status === 201) {
-          console.log('记录取消的订单成功');
+          console.log('cancel order success');
         } else {
-          message.error(`记录取消的订单失败-1: ${response.msg}`).then(() => {});
+          message.error(`cancel order failed-1: ${response.msg}`).then(() => {});
         }
       })
       .catch((e) => {
-        message.error(`记录取消的订单失败-2: ${e}`).then(() => {});
+        message.error(`cancel order failed-2: ${e}`).then(() => {});
       });
   };
 
   const handleErrorOrder = (error: string) => {
     notification.open({
       type: 'error',
-      message: 'anything was wrong !',
+      message: 'something is wrong!',
       duration: 0,
-      description: 'Please try again ! please yishaohan@icloud.com',
+      description: 'Please try again ! please contact yishaohan@icloud.com',
     });
     const order: API.SubmitOrder = {
       address: '',
@@ -144,19 +143,19 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
     errorOrder(order)
       .then((response) => {
         if (response.status === 201) {
-          console.log('记录失败的订单成功');
+          console.log('record fail order success');
         } else {
-          message.error(`记录失败的订单失败-1: ${response.msg}`).then(() => {});
+          message.error(`record unsuccessful order failed-1: ${response.msg}`).then(() => {});
         }
       })
       .catch((e) => {
-        message.error(`记录失败的订单失败-2: ${e}`).then(() => {});
+        message.error(`record unsuccessful order failed-2: ${e}`).then(() => {});
       });
   };
 
   const items = [
     {
-      description: 'YYY',
+      description: 'plant-growing kit',
       amount: {
         currency_code: 'CAD',
         value: total,
@@ -170,32 +169,33 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
     console.log(actions);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onClick = (data: any, actions: any) => {
-    console.log('Into onClick ... ...');
-    console.log(data);
-    console.log(actions);
+    // console.log('Into onClick ... ...');
+    // console.log(data);
+    // console.log(actions);
   };
 
   const createOrder = (data: any, actions: any) => {
-    console.log('Into createOrder ... ...');
-    console.log(data);
-    console.log(actions);
+    // console.log('Into createOrder ... ...');
+    // console.log(data);
+    // console.log(actions);
     return actions.order.create({
       purchase_units: items,
     });
   };
 
   const onShippingChange = () => {
-    console.log('Into onShippingChange');
+    // console.log('Into onShippingChange');
   };
 
   const onApprove = (data: any, actions: { order: { capture: () => Promise<any> } }) => {
-    console.log('Into onApprove ... ...');
-    console.log(data);
-    console.log(actions);
+    // console.log('Into onApprove ... ...');
+    // console.log(data);
+    // console.log(actions);
     actions.order.capture().then((details: any) => {
-      console.log('Into onApprove - capture ...');
-      console.log(details);
+      // console.log('Into onApprove - capture ...');
+      // console.log(details);
       handleSubmitOrder(details.id);
       setVisibleStepsForm();
       history.push('/');
@@ -204,15 +204,15 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
   };
 
   const onCancel = (data: any) => {
-    console.log('Into onCancel ...');
-    console.log(data);
+    // console.log('Into onCancel ...');
+    // console.log(data);
     setVisibleStepsForm();
     handleCancelOrder(data.orderID);
     // reload();
   };
 
   const onError = (err: any) => {
-    console.log('Into onError ...');
+    // console.log('Into onError ...');
     setVisibleStepsForm();
     handleErrorOrder(err.message);
     history.push('/');

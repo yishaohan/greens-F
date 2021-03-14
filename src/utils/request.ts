@@ -25,7 +25,7 @@ const codeMessage = {
 };
 
 const errorHandler = (error: ResponseError) => {
-  message.error('全局request错误处理!', 10).then();
+  message.error('global request handle error!', 10).then();
   const { response } = error;
   console.log(response);
   if (response && response.status) {
@@ -36,7 +36,7 @@ const errorHandler = (error: ResponseError) => {
     //   message: `请求错误 ${status}: ${url}`,
     //   description: errorText,
     // });
-    console.log(`请求错误 ${status}: ${url} - ${errorText}`);
+    console.log(`request error ${status}: ${url} - ${errorText}`);
     if (response.status === 401) {
       Cookies.remove('autoLogin');
       history.push('/user/login');
@@ -48,7 +48,7 @@ const errorHandler = (error: ResponseError) => {
     //   description: '您的网络发生异常，无法连接服务器',
     //   message: '网络异常',
     // });
-    console.log('您的网络发生异常，无法连接服务器');
+    console.log('network connection is unstable, cannot access server');
   }
   throw error;
 };
@@ -62,7 +62,7 @@ export const BASE_PATH = path;
 
 const request = extend({
   prefix: path,
-  timeout: 10000,
+  timeout: 5000,
   credentials: 'include', // 默认请求是否带上cookie
   errorHandler,
 });

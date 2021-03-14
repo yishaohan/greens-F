@@ -3,6 +3,10 @@
     src: url("./webfonts/title-font.woff2");
 }
 
+h1, h2, h3, h4, h5, h6 {
+  color: white;
+}
+
 @font-face {
     font-family: 'text-font';
     src: url("./webfonts/text-font.woff2");
@@ -110,6 +114,14 @@ header {
     padding-bottom: 0px;
     color: #A05841;
     font-family: text-font;
+}
+
+section h4 {
+  color: #A05841;
+}
+
+header {
+  color: white;
 }
 
 .intro .text-block p {

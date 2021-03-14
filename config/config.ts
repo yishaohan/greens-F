@@ -23,7 +23,7 @@ export default defineConfig({
     // plugin-layout开启layout布局(https://beta-pro.ant.design/docs/layout-cn   https://procomponents.ant.design/components/layout)
     name: 'Project Y',
     locale: true,
-    siderWidth: 208,
+    sliderWidth: 208,
     ...defaultSettings,
   },
   locale: {

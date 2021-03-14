@@ -11,7 +11,7 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 const Statistics: React.FC = () => {
   // 全局变量
   const currentPage = useRef(1);
-  const sizePerPage = useRef<number | undefined>(5);
+  const sizePerPage = useRef<number | undefined>(10);
 
   // 获取表单的ref
   const ref = useRef<FormInstance>();
@@ -37,8 +37,8 @@ const Statistics: React.FC = () => {
         setTotal(data.totalElements);
       })
       .catch((e) => {
-        console.log(`获取订单信息出错 - ${e}`);
-        message.error(`获取订单信息出错!${e}`).then(() => {});
+        console.log(`receiving order error - ${e}`);
+        message.error(`receiving order error!${e}`).then(() => {});
       });
   };
 
@@ -52,17 +52,17 @@ const Statistics: React.FC = () => {
     updateOrder(order)
       .then((response) => {
         if (response.status === 201) {
-          message.success('更新订单状态成功!').then(() => {});
+          message.success('update order success!').then(() => {});
           // 修改本地状态
           const data = [...orders];
           data[index] = order;
           setOrders(data);
         } else {
-          message.error(`更新订单状态失败: ${response.msg}`).then(() => {});
+          message.error(`update order error: ${response.msg}`).then(() => {});
         }
       })
       .catch((e) => {
-        message.error(`更新订单状态失败: ${e}`).then(() => {});
+        message.error(`update order error: ${e}`).then(() => {});
       });
   };
 
@@ -106,15 +106,15 @@ const Statistics: React.FC = () => {
       dataIndex: 'email',
     },
     {
-      title: 'status',
+      title: 'shipped',
       align: 'center',
       dataIndex: 'status',
       search: false,
       render: (text: any, record, index) => {
         return (
           <Switch
-            checkedChildren="启用"
-            unCheckedChildren="启用"
+            checkedChildren="true"
+            unCheckedChildren="false"
             checked={text}
             onChange={(check) => {
               handleOrderStateChange(check, record, index);
@@ -139,32 +139,32 @@ const Statistics: React.FC = () => {
           <>
             {record.item1 && (
               <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                西红柿
+                tomato
               </Tag>
             )}
             {record.item2 && (
               <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                苹果
+                apple
               </Tag>
             )}
             {record.item3 && (
               <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                桃子
+                peach
               </Tag>
             )}
             {record.item4 && (
               <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                西瓜
+                watermelon
               </Tag>
             )}
             {record.item5 && (
               <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                芒果
+                mango
               </Tag>
             )}
             {record.item6 && (
               <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                菠萝
+                pineapple
               </Tag>
             )}
           </>
@@ -295,7 +295,7 @@ const Statistics: React.FC = () => {
       <>
         <Row>
           <Col xl={6} lg={6} md={6} sm={6} xs={6}>
-            <ProDescriptions column={1} title={'订单信息'} size={'small'}>
+            <ProDescriptions column={1} title={'order detail'} size={'small'}>
               <ProDescriptions.Item label="ID">{record.orderID}</ProDescriptions.Item>
               <ProDescriptions.Item label="number">
                 <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
@@ -310,7 +310,7 @@ const Statistics: React.FC = () => {
             </ProDescriptions>
           </Col>
           <Col xl={6} lg={6} md={6} sm={6} xs={6}>
-            <ProDescriptions column={1} title={'付款方信息信息'} size={'small'}>
+            <ProDescriptions column={1} title={'payer info'} size={'small'}>
               <ProDescriptions.Item label="name">
                 {/* { */}
                 {/*  record.payerFullName && record.payerFullName */}

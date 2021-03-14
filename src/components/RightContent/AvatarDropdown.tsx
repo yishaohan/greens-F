@@ -23,12 +23,12 @@ const handleLogout = async () => {
         console.log(`Error: logout - ${response.status}`);
         throw new Error(`Error: logout - ${response.status}`);
       }
-      console.log('用户注销成功!');
-      message.success('用户注销成功!');
+      console.log('User logout is successful!');
+      message.success('User logout is successful! ');
     })
     .catch((e) => {
-      console.log(`用户注销失败 - ${e}`);
-      message.error(`用户注销失败 - ${e}`).then(() => {});
+      console.log(`User logout failed!  - ${e}`);
+      message.error(`User logout failed!  - ${e}`).then(() => {});
     });
   const { query, pathname } = history.location;
   // @ts-ignore
@@ -93,20 +93,20 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       {menu && (
         <Menu.Item key="info">
           <UserOutlined />
-          用户信息
+          personal info
         </Menu.Item>
       )}
       {menu && (
         <Menu.Item key="settings">
           <SettingOutlined />
-          用户设置
+          personal settings
         </Menu.Item>
       )}
       {menu && <Menu.Divider />}
 
       <Menu.Item key="logout">
         <LogoutOutlined />
-        退出登录
+        sign out
       </Menu.Item>
     </Menu>
   );

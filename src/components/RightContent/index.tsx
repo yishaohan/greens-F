@@ -60,17 +60,17 @@ const GlobalHeaderRight: React.FC = () => {
           <Menu>
             <Menu.Item
               onClick={() => {
-                window.open('https://projectY.highspeed.vip');
+                window.open('https://greens.highspeed.vip');
               }}
             >
-              文档-1(自定义)
+              customize-1
             </Menu.Item>
             <Menu.Item
               onClick={() => {
-                window.open('https://projectY.highspeed.vip');
+                window.open('https://greens.highspeed.vip');
               }}
             >
-              文档-2(自定义)
+              customize-2
             </Menu.Item>
           </Menu>
         }

@@ -10,8 +10,8 @@ export default {
   'menu.authorization-management.role-list': '角色列表',
   'menu.authorization-management.auth-list': '权限列表',
   'menu.authorization-management.menu-list': '菜单列表',
-  'menu.commodity': '统计',
-  'menu.commodity.statistics': '订单统计',
+  'menu.commodity': '订单',
+  'menu.commodity.statistics': '统计',
   // /////////////////////////////////////////////////////////
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
