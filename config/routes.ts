@@ -42,11 +42,17 @@ export default [
     icon: 'HomeFilled', // antd Pro会根据icon指定的KEY到antd图标库中获取对应的图标
     routes: [
       {
-        name: 'statistics',
-        path: '/commodity/statistics',
-        component: '@/pages/shopper/statistics/statistics',
+        name: 'orderList',
+        path: '/commodity/orderList',
+        component: '@/pages/shopper/statistics/orderList',
         access: 'canStatisticsPage',
       },
+      {
+        name: 'statistic',
+        path: '/commodity/statistic',
+        component: '@/pages/shopper/statistics/statistic',
+        access: 'canStatisticsPage',
+      }
     ],
   },
   {

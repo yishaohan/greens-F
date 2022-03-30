@@ -55,7 +55,7 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
       name: '',
       postcode: '',
       remark: '',
-      telePhone: '',
+      telephone: '',
       orderId,
       ...receiverInfo,
       ...orderInfo,
@@ -103,7 +103,7 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
       name: '',
       postcode: '',
       remark: '',
-      telePhone: '',
+      telephone: '',
       orderId,
       ...receiverInfo,
       ...orderInfo,
@@ -111,7 +111,7 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
     cancelOrder(order)
       .then((response) => {
         if (response.status === 201) {
-          console.log('cancel order success');
+          // console.log('cancel order success');
         } else {
           message.error(`cancel order failed-1: ${response.msg}`).then(() => {});
         }
@@ -135,7 +135,7 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
       orderId: '',
       postcode: '',
       remark: '',
-      telePhone: '',
+      telephone: '',
       error,
       ...receiverInfo,
       ...orderInfo,
@@ -143,7 +143,7 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
     errorOrder(order)
       .then((response) => {
         if (response.status === 201) {
-          console.log('record fail order success');
+          // console.log('record fail order success');
         } else {
           message.error(`record unsuccessful order failed-1: ${response.msg}`).then(() => {});
         }
@@ -163,18 +163,20 @@ const CustomPaypalButtons: React.FC<PaypalProps> = (props) => {
     },
   ];
 
-  const onInit = (data: any, actions: any) => {
-    console.log('Into onInit ... ...');
-    console.log(data);
-    console.log(actions);
-  };
+  // noinspection JSUnusedLocalSymbols
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const onInit = (data: any, actions: any) => {
+    // console.log('Into onInit ... ...');
+    // console.log(data);
+    // console.log(actions);
+  // };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onClick = (data: any, actions: any) => {
+  // const onClick = (data: any, actions: any) => {
     // console.log('Into onClick ... ...');
     // console.log(data);
     // console.log(actions);
-  };
+  // };
 
   const createOrder = (data: any, actions: any) => {
     // console.log('Into createOrder ... ...');

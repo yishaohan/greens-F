@@ -106,7 +106,7 @@ declare namespace API {
 
   export interface ReceiverInfoItem {
     name: string;
-    telePhone: string;
+    telephone: string;
     email: string;
     postcode: string;
     address: string;
@@ -114,46 +114,67 @@ declare namespace API {
   }
 
   export interface OrderInfoItem {
-    quantity: number;
-    item1: boolean;
-    item2: boolean;
-    item3: boolean;
-    item4: boolean;
-    item5: boolean;
-    item6: boolean;
+    quantity1: number;
+    item1_1: number;
+    item1_2: number;
+    item1_3: number;
+    item1_4: number;
+    item1_5: number;
+    item1_6: number;
+    quantity2: number;
+    item2_1: number;
+    item2_2: number;
+    item2_3: number;
+    item2_4: number;
+    item2_5: number;
+    item2_6: number;
   }
 
   export interface SubmitOrder {
     orderId?: string;
     name: string;
-    telePhone: string;
+    telephone: string;
     email: string;
     postcode: string;
     address: string;
     remark?: string;
-    quantity: number;
-    item1: boolean;
-    item2: boolean;
-    item3: boolean;
-    item4: boolean;
-    item5: boolean;
-    item6: boolean;
-    error?: string;
+    error: string;
+    quantity1: number;
+    item1_1: number;
+    item1_2: number;
+    item1_3: number;
+    item1_4: number;
+    item1_5: number;
+    item1_6: number;
+    quantity2: number;
+    item2_1: number;
+    item2_2: number;
+    item2_3: number;
+    item2_4: number;
+    item2_5: number;
+    item2_6: number;
   }
 
   export interface OrderListItem {
     id: number;
     name: string;
-    telePhone: string;
+    telephone: string;
     email: string;
     status: boolean;
-    clientQuantity: number;
-    item1: boolean;
-    item2: boolean;
-    item3: boolean;
-    item4: boolean;
-    item5: boolean;
-    item6: boolean;
+    clientQuantity1: number;
+    item1_1: number;
+    item1_2: number;
+    item1_3: number;
+    item1_4: number;
+    item1_5: number;
+    item1_6: number;
+    clientQuantity2: number;
+    item2_1: number;
+    item2_2: number;
+    item2_3: number;
+    item2_4: number;
+    item2_5: number;
+    item2_6: number;
     remark: string;
     postcode: string;
     address: string;
@@ -183,6 +204,23 @@ declare namespace API {
     email?: string;
     // status?: boolean;
     orderId?: string;
+  }
+
+  export interface Statistics {
+    item1_1: number,
+    item1_2: number,
+    item1_3: number,
+    item1_4: number,
+    item1_5: number,
+    item1_6: number,
+    item2_1: number,
+    item2_2: number,
+    item2_3: number,
+    item2_4: number,
+    item2_5: number,
+    item2_6: number,
+    quantity1: number,
+    quantity2: number
   }
 
   // 以下为AntD默认的

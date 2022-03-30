@@ -12,7 +12,8 @@ export default {
   'menu.authorization-management.auth-list': 'auth list',
   'menu.authorization-management.menu-list': 'menu list',
   'menu.commodity': 'order',
-  'menu.commodity.statistics': 'statistics',
+  'menu.commodity.orderList': 'order list',
+  'menu.commodity.statistic': 'statistic',
   // /////////////////////////////////////////////////////////
   'menu.more-blocks': 'More Blocks',
   'menu.home': 'Home',

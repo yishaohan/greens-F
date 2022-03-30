@@ -15,3 +15,9 @@ export async function updateOrder(params: API.OrderListItem) {
     data: params,
   });
 }
+
+export async function getStatistics() {
+  return request('/user/statistics', {
+    method: 'GET'
+  });
+}

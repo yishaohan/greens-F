@@ -8,7 +8,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { getOrders, updateOrder } from './services/statisics';
 import ProDescriptions from '@ant-design/pro-descriptions';
 
-const Statistics: React.FC = () => {
+const OrderList: React.FC = () => {
   // 全局变量
   const currentPage = useRef(1);
   const sizePerPage = useRef<number | undefined>(10);
@@ -124,12 +124,12 @@ const Statistics: React.FC = () => {
       },
     },
     {
-      title: 'quantity',
+      title: 'quantity1',
       align: 'center',
-      dataIndex: 'clientQuantity',
+      dataIndex: 'clientQuantity1',
       search: false,
     },
-    {
+    /*{
       title: 'items',
       align: 'center',
       dataIndex: '', // item1 - item6
@@ -137,40 +137,91 @@ const Statistics: React.FC = () => {
       render: (text: any, record) => {
         return (
           <>
-            {record.item1 && (
-              <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                tomato
-              </Tag>
-            )}
-            {record.item2 && (
-              <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                apple
-              </Tag>
-            )}
-            {record.item3 && (
-              <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                peach
-              </Tag>
-            )}
-            {record.item4 && (
-              <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                watermelon
-              </Tag>
-            )}
-            {record.item5 && (
-              <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                mango
-              </Tag>
-            )}
-            {record.item6 && (
-              <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                pineapple
-              </Tag>
-            )}
+            {
+              [
+                ...Array(record.item1_1),
+              ].map((value: undefined, index: number) => (
+                <Tag color={'green'} key={index+1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                  basil
+                </Tag>
+              ))
+            }
+            {
+              [
+                ...Array(record.item1_2),
+              ].map((value: undefined, index: number) => (
+                <Tag color={'green'} key={index+1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                  parsley
+                </Tag>
+              ))
+            }
+            {
+              [
+                ...Array(record.item1_3),
+              ].map((value: undefined, index: number) => (
+                <Tag color={'green'} key={index+1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                  mint
+                </Tag>
+              ))
+            }
+            {
+              [
+                ...Array(record.item1_4),
+              ].map((value: undefined, index: number) => (
+                <Tag color={'green'} key={index+1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                  rosemary
+                </Tag>
+              ))
+            }
           </>
         );
       },
+    },*/
+    {
+      title: 'quantity2',
+      align: 'center',
+      dataIndex: 'clientQuantity2',
+      search: false
     },
+    /*{
+      title: 'items',
+      align: 'center',
+      dataIndex: '', // item1 - item6
+      search: false,
+      render: (text: any, record) => {
+        return (
+          <>
+            {
+              [
+                ...Array(record.item2_1),
+              ].map((value: undefined, index: number) => (
+                <Tag color={'green'} key={index+1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                  nantes carrot
+                </Tag>
+              ))
+            }
+            {
+              [
+                ...Array(record.item2_2),
+              ].map((value: undefined, index: number) => (
+                <Tag color={'green'} key={index+1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                  red radish
+                </Tag>
+              ))
+            }
+            {
+              [
+                ...Array(record.item2_3),
+              ].map((value: undefined, index: number) => (
+                <Tag color={'green'} key={index+1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                  lettuce
+                </Tag>
+              ))
+            }
+          </>
+        );
+      },
+    },*/
     {
       title: 'create Date',
       align: 'center',
@@ -297,9 +348,14 @@ const Statistics: React.FC = () => {
           <Col xl={6} lg={6} md={6} sm={6} xs={6}>
             <ProDescriptions column={1} title={'order detail'} size={'small'}>
               <ProDescriptions.Item label="ID">{record.orderID}</ProDescriptions.Item>
-              <ProDescriptions.Item label="number">
+              <ProDescriptions.Item label="kit1_number">
                 <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
-                  {record.clientQuantity}
+                  {record.clientQuantity1}
+                </Tag>
+              </ProDescriptions.Item>
+              <ProDescriptions.Item label="kit2_number">
+                <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>
+                  {record.clientQuantity2}
                 </Tag>
               </ProDescriptions.Item>
               <ProDescriptions.Item label="amount">
@@ -335,6 +391,144 @@ const Statistics: React.FC = () => {
                 {record.payerAddressLine2 !== 'unknown' && `${record.payerAddressLine2}, `}
                 {record.payerAddressLine3 !== 'unknown' && `${record.payerAddressLine3}, `}
               </ProDescriptions.Item>
+            </ProDescriptions>
+          </Col>
+          <Col xl={6} lg={6} md={6} sm={6} xs={6}>
+            <ProDescriptions column={1} title={'herb kit detail'} size={'small'}>
+              {/*<ProDescriptions.Item label="kit1_number">*/}
+              {/*  <Tag color={'green'} style={{ textAlign: 'center', minWidth: '100px' }}>*/}
+              {/*    {record.clientQuantity1}*/}
+              {/*  </Tag>*/}
+              {/*</ProDescriptions.Item>*/}
+              <>
+                {
+                  [
+                    ...Array(record.item1_1),
+                  ].map((value: undefined, index: number) => (
+                    // <ProDescriptions.Item key={index + 1}>
+                      <Tag color={'green'} key={index + 1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                        basil
+                      </Tag>
+                    // </ProDescriptions.Item>
+                  ))
+                }
+                {
+                  [
+                    ...Array(record.item1_2),
+                  ].map((value: undefined, index: number) => (
+                    // <ProDescriptions.Item key={index + 1}>
+                      <Tag color={'green'} key={index + 1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                        parsley
+                      </Tag>
+                    // </ProDescriptions.Item>
+                  ))
+                }
+                {
+                  [
+                    ...Array(record.item1_3),
+                  ].map((value: undefined, index: number) => (
+                    // <ProDescriptions.Item key={index + 1}>
+                      <Tag color={'green'} key={index + 1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                        mint
+                      </Tag>
+                    // </ProDescriptions.Item>
+                  ))
+                }
+                {
+                  [
+                    ...Array(record.item1_4),
+                  ].map((value: undefined, index: number) => (
+                    // <ProDescriptions.Item key={index + 1}>
+                      <Tag color={'green'} key={index + 1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                        thyme
+                      </Tag>
+                    // </ProDescriptions.Item>
+                  ))
+                }
+                {
+                  [
+                    ...Array(record.item1_5),
+                  ].map((value: undefined, index: number) => (
+                    // <ProDescriptions.Item key={index + 1}>
+                    <Tag color={'green'} key={index + 1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                      cilantro
+                    </Tag>
+                    // </ProDescriptions.Item>
+                  ))
+                }
+                {
+                  [
+                    ...Array(record.item1_6),
+                  ].map((value: undefined, index: number) => (
+                    // <ProDescriptions.Item key={index + 1}>
+                    <Tag color={'green'} key={index + 1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                      green onion
+                    </Tag>
+                    // </ProDescriptions.Item>
+                  ))
+                }
+              </>
+            </ProDescriptions>
+          </Col>
+          {console.log(record)}
+          <Col xl={6} lg={6} md={6} sm={6} xs={6}>
+            <ProDescriptions column={1} title={'crunchy kit detail'} size={'small'}>
+              <>
+                {
+                  [
+                    ...Array(record.item2_1),
+                  ].map((value: undefined, index: number) => (
+                    <Tag color={'green'} key={index + 1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                      nantes carrot
+                    </Tag>
+                  ))
+                }
+                {
+                  [
+                    ...Array(record.item2_2),
+                  ].map((value: undefined, index: number) => (
+                    <Tag color={'green'} key={index + 1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                      red radish
+                    </Tag>
+                  ))
+                }
+                {
+                  [
+                    ...Array(record.item2_3),
+                  ].map((value: undefined, index: number) => (
+                    <Tag color={'green'} key={index + 1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                      butter lettuce
+                    </Tag>
+                  ))
+                }
+                {
+                  [
+                    ...Array(record.item2_4),
+                  ].map((value: undefined, index: number) => (
+                    <Tag color={'green'} key={index + 1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                      iceberg lettuce
+                    </Tag>
+                  ))
+                }
+                {
+                  [
+                    ...Array(record.item2_5),
+                  ].map((value: undefined, index: number) => (
+                    <Tag color={'green'} key={index + 1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                      gourmet lettuce
+                    </Tag>
+                  ))
+                }
+                {
+                  [
+                    ...Array(record.item2_6),
+                  ].map((value: undefined, index: number) => (
+                    <Tag color={'green'} key={index + 1} style={{ textAlign: 'center', minWidth: '100px' }}>
+                      red leaf lettuce
+                    </Tag>
+                  ))
+                }
+              </>
             </ProDescriptions>
           </Col>
         </Row>
@@ -394,4 +588,4 @@ const Statistics: React.FC = () => {
     </PageContainer>
   );
 };
-export default Statistics;
+export default OrderList;

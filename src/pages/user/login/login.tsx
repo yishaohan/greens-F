@@ -40,7 +40,7 @@ const goto = () => {
     // const {query} = history.location;
     // const {redirect} = query as { redirect: string };
     // history.push(redirect || '/commodity/statistics');
-    history.push('/commodity/statistics');
+    history.push('/commodity/statistic');
   }, 10);
 };
 
@@ -62,6 +62,7 @@ const Login: React.FC = () => {
       // ?????????????????????????????????????????????????????
       // 登录成功后,获取用户菜单
       let menus: API.MenuListItem[] = [];
+      // noinspection PointlessBooleanExpressionJS
       if (userInfo !== undefined) {
         menus = getUserMenus(userInfo);
         menus = generatorMenuTree(menus);
@@ -78,7 +79,7 @@ const Login: React.FC = () => {
           // },
         });
       }
-      console.log(initialState!.currentUser);
+      // console.log(initialState!.currentUser);
       // ?????????????????????????????????????????????????????
 
       // setInitialState({
@@ -90,7 +91,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     const autoLogin = Cookies.get('autoLogin');
-    console.log('autoLogin', autoLogin);
+    // console.log('autoLogin', autoLogin);
     if (autoLogin === 'true') {
       goto();
     }
@@ -105,7 +106,7 @@ const Login: React.FC = () => {
       if (msg.status === 200) {
         message.success('login success！');
         await fetchUserInfo();
-        console.log(msg);
+        // console.log(msg);
         Cookies.set('autoLogin', `${values.autoLogin}`, { expires: 7 });
         goto(); // 登录成功后跳转
         return;
@@ -115,7 +116,7 @@ const Login: React.FC = () => {
       // 如果失败去设置用户错误信息
       setUserLoginState(msg);
     } catch (error) {
-      console.log(`login fained，please try again!${error}`);
+      // console.log(`login fained，please try again!${error}`);
       message.error(`login failed, please try again!${error}`);
     }
     setSubmitting(false);
@@ -307,7 +308,7 @@ const Login: React.FC = () => {
                     },
                   ]}
                   onGetCaptcha={async (mobilePhone) => {
-                    console.log('mobilePhone', mobilePhone);
+                    // console.log('mobilePhone', mobilePhone);
                     const tempMobilePhone = form.getFieldValue('mobilePhone');
                     if (!tempMobilePhone) {
                       message.error('please enter phone number!', 10);
@@ -319,7 +320,7 @@ const Login: React.FC = () => {
                       return;
                     }
                     const result = await getSmsCaptcha(tempMobilePhone);
-                    console.log(result);
+                    // console.log(result);
                     if (result.status !== 201) {
                       message.error('did not receive verification code!');
                       message.error(result.msg);

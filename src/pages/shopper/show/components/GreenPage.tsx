@@ -23,7 +23,7 @@ class GreenPage extends React.Component {
             </div>
           </div>
           <div className="row title">
-            <h2>PRICKLES & CO</h2>
+            <h2>LITTLE GREEN MIRACLE</h2>
           </div>
           <div className="row subtitle2">
             <h4>BRING NATURE INDOOR</h4>
@@ -32,25 +32,15 @@ class GreenPage extends React.Component {
 
         <section className="container-fluid order">
           <div className="row">
-            <div className="col">
-              <div
-                id="carouselExampleFade"
-                className="carousel slide carousel-fade"
-                data-bs-ride="carousel"
-                data-bs-interval="5000"
-              >
-                <div className="carousel-inner">
-                  <div className="carousel-item active">
-                    <img src="/images/plant.webp" className="d-block w-80" alt="..." />
-                  </div>
-                  <div className="carousel-item">
-                    <img src="/images/cacti.webp" className="d-block w-80" alt="..." />
-                  </div>
-                  <div className="carousel-item">
-                    <img src="/images/succulents.webp" className="d-block w-80" alt="..." />
-                  </div>
-                </div>
-                <button
+            <div className="col-lg-5 col-md-12 text-center">
+              <div>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/x8s8ukbMtxk"
+                        title="YouTube video player" frameBorder="0"
+                        className={'miracleVideo'}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen></iframe>
+                <img src="/images/pot plants.jpeg" alt="..." />
+                {/*<button
                   className="carousel-control-prev"
                   type="button"
                   data-bs-target="#carouselExampleFade"
@@ -67,20 +57,21 @@ class GreenPage extends React.Component {
                 >
                   <span className="carousel-control-next-icon" aria-hidden="true"></span>
                   <span className="visually-hidden">Next</span>
-                </button>
+                </button>*/}
               </div>
             </div>
-            <div className="col text-center text-block">
-              <h4 className="title-2">ABOUT THE KIT</h4>
+            <div className="col-lg-6 col-md-12 text-center text-block">
+              <h4 className="title-2">ABOUT THE KITS</h4>
               <hr />
               <p>
-                I'm a paragraph. Click here to add your own text and edit me. It’s easy. Just click
-                “Edit Text” or double click me to add your own content and make changes to the font.
-                Feel free to drag and drop me anywhere you like on your page. I’m a great place for
-                you to tell a story and let your users know a little more about you. his is a great
-                space to write long text about your company and your services. You can use this
-                space to go into a little more detail about your company. Talk about your team and
-                what services you provide.
+                As a part of the Miracle for Makeda campaign, Impact is selling beautiful and fragrant herb and vegetable boxes for your home garden. Choose a selection of herbs and vegetables to be assembled just for you. We take care of packaging and delivery. And as you watch your little garden grow, you can know that hope has grown for Makeda too, for each leaf that sprouts are an inch towards getting her the clinical trial she needs to save her.
+                <br/><br/>
+                herb kit options: basil, parsley, mint, thyme, cilantro, green onion<br/>
+                crunchy kit options: nantes carrot, red radish, red leaf lettuce, butter lettuce, iceberg lettuce<br/>
+                $30 / kit : 4 pots + blooming manual + plant fertilizer<br/>
+                <br/>
+                To make up your own kit, you are allowed to choose four herbs/vegetables from the collection we offer. Complete the order form below, and we will deliver it to you within two weeks of your order.
+
               </p>
               {/* <button type="button" className="btn btn-outline-warning">Order Now</button> */}
               <Button
@@ -100,62 +91,62 @@ class GreenPage extends React.Component {
 
         <section className="container-fluid intro">
           <div className="row">
-            <div className="col-lg-6 col-sm-12 text-center text-block">
+            <div className="col-lg-6 col-md-12 text-center text-block">
               <h4 className="title-2">ABOUT US</h4>
               <div className="slash"></div>
               <p>
-                I'm a paragraph. Click here to add your own text and edit me. It’s easy. Just click
-                “Edit Text” or double click me to add your own content and make changes to the font.
-                Feel free to drag and drop me anywhere you like on your page. I’m a great place for
-                you to tell a story and let your users know a little more about you. his is a great
-                space to write long text about your company and your services.
+                We are a group of passionate youths who yearn to create change locally and globally. Our mission is to form meaningful
+                relationships while reaching shared objectives. We aspire to use available resources efficiently and to establish an open
+                environment where ideas can be shared and implemented. This way, we can initiate greater change and make the result worthwhile.
               </p>
             </div>
-            <div className="col-lg-3 col-sm-6 " style={{ height: '456', width: '460' }}>
-              <img src="/images/leave.webp" />
+            <div className="col-lg-3 col-md-6 text-center overflow-hidden" style={{ height: '456', width: '460', paddingLeft: '0px'}}>
+              <img src="/images/aboutus1.jpeg" width={'450px'}/>
             </div>
             <div
-              className="col-lg-3 col-sm-6 overflow-hidden"
-              style={{ height: '456', width: '442' }}
+              className="col-lg-3 col-md-6 overflow-hidden text-center"
+              style={{ height: '456', width: '442', paddingLeft: '0px'}}
             >
-              <img src="/images/workspace.webp" />
+              <img src="/images/aboutus2.jpeg" width={'450px'}/>
             </div>
           </div>
         </section>
 
         <footer className="container-fluid">
-          <div className="row info justify-content-center">
-            <div className="col-4">
+          <div className="row info justify-content-center align-content-center text-center">
+            {/*<div className="col-lg-4 col-sm-12">
               <div className="title">OUR STORE</div>
               <div className="list">
                 <ul>
                   <li>Address: 1250 Chartwell Dr</li>
                   <li>Street West Vancouver, BC V7S 2R2</li>
-                  <li>Phone: 604-992-9366</li>
-                  <li>Email: henryyi2005@gmail.com</li>
+                  <li>Phone: 604-368-6927</li>
+                  <li>Email: kristina.m.carroll@gmail.com</li>
+                </ul>
+              </div>
+            </div>*/}
+            <div className="col-lg-4 col-offset-4 col-sm-12">
+              <div className="title">CONTACT US</div>
+              <div className="list">
+                <ul>
+
+                  <li>Email: kristina.m.carroll@gmail.com</li>
+                  <li>Phone: 604-368-6927</li>
+                  <a href={'https://www.impactinitiative.net/herb-package-sale'} target={'_blank'} style={{color: 'white', textDecoration: 'none'}}>impactinitiative.net/herb-package-sale</a>
                 </ul>
               </div>
             </div>
-            <div className="col-4">
+            {/*<div className="col-lg-4 col-sm-12">
               <div className="title">OUR STORE</div>
               <div className="list">
                 <ul>
-                  <li>Address: 1250 Chartwell Dr, West Vancouver, BC V7S 2R2</li>
-                  <li>Phone: 604-992-9366</li>
-                  <li>Email: henryyi2005@gmail.com</li>
+                  <li>Address: 1250 Chartwell Dr</li>
+                  <li>Street West Vancouver, BC V7S 2R2</li>
+                  <li>Phone: 604-368-6927</li>
+                  <li>Email: kristina.m.carroll@gmail.com</li>
                 </ul>
               </div>
-            </div>
-            <div className="col-4">
-              <div className="title">OUR STORE</div>
-              <div className="list">
-                <ul>
-                  <li>Address: 1250 Chartwell Dr, West Vancouver, BC V7S 2R2</li>
-                  <li>Phone: 604-992-9366</li>
-                  <li>Email: henryyi2005@gmail.com</li>
-                </ul>
-              </div>
-            </div>
+            </div>*/}
             <div className="socialMedia text-center">
               <a href="#">
                 <img src="/images/facebook.webp" height="24" width="24" />
